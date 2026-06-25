@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Enregistrer un membre — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0A1F44;
+    --navy-mid:#1B3A6B;
+    --gold:#C9A24B;
+    --gold-soft:#E4CD8C;
+    --cream:#F7F5F0;
+    --ink:#2E2E2E;
+    --error:#B3432B;
+    --success:#2E7D5B;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--cream);
+    min-height:100vh;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* ===== HEADER ===== */
+  .page-header{
+    width:100%;
+    background:var(--navy-deep);
+    padding:24px 28px 22px;
+    text-align:center;
+    border-bottom:3px solid var(--gold);
+    position:relative;
+  }
+
+  .page-header::after{
+    content:"";
+    position:absolute;
+    top:-150px;
+    right:-150px;
+    width:400px;
+    height:400px;
+    background:radial-gradient(circle, rgba(201,162,75,0.15) 0%, transparent 70%);
+    pointer-events:none;
+  }
+
+  .back-link{
+    position:absolute;
+    left:20px;
+    top:20px;
+    z-index:2;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--gold-soft);
+    font-size:13px;
+    font-weight:500;
+    text-decoration:none;
+    letter-spacing:0.02em;
+    padding:6px 10px;
+    border:1px solid rgba(228,205,140,0.4);
+    border-radius:20px;
+    transition:background 0.2s ease;
+  }
+
+  .back-link:hover{background:rgba(255,255,255,0.08);}
+
+  .page-header .seal{
+    width:50px;height:50px;margin:0 auto 10px;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:1;
+  }
+
+  .page-header .seal img{
+    width:100%;height:100%;object-fit:contain;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+  }
+
+  .page-header h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--cream);
+    letter-spacing:0.02em;
+    margin-bottom:4px;
+    position:relative;z-index:1;
+  }
+
+  .page-header p{
+    font-size:11.5px;
+    color:var(--gold-soft);
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    position:relative;z-index:1;
+  }
+
+  .section-title{
+    width:100%;
+    text-align:center;
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:18px;
+    color:var(--navy-deep);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:22px 0 4px;
+  }
+
+  .section-sub{
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    color:#6B6457;
+    padding-bottom:14px;
+  }
+
+  /* ===== FORMULAIRE ===== */
+  .form-wrap{
+    width:100%;
+    max-width:480px;
+    padding:0 24px 32px;
+  }
+
+  .field-group{
+    margin-bottom:16px;
+  }
+
+  .field-label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--navy-mid);
+    margin-bottom:6px;
+    letter-spacing:0.01em;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select{
+    width:100%;
+    padding:13px 14px;
+    border:1.5px solid #D8D2C2;
+    border-radius:3px;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    background:#fff;
+    color:var(--ink);
+    transition:border-color 0.2s ease;
+  }
+
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--navy-mid);
+  }
+
+  /* Sexe : boutons radio stylisés côte à côte */
+  .sexe-group{
+    display:flex;
+    gap:10px;
+  }
+
+  .sexe-option{
+    flex:1;
+    position:relative;
+  }
+
+  .sexe-option input{
+    position:absolute;
+    opacity:0;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+  }
+
+  .sexe-option label{
+    display:block;
+    text-align:center;
+    padding:13px;
+    border:1.5px solid #D8D2C2;
+    border-radius:3px;
+    font-size:14px;
+    font-weight:600;
+    color:#6B6457;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+
+  .sexe-option input:checked + label{
+    border-color:var(--navy-mid);
+    background:#F2F5FA;
+    color:var(--navy-deep);
+  }
+
+  /* ===== BOUTONS D'ACTION ===== */
+  .btn-row{
+    display:flex;
+    gap:12px;
+    margin-top:24px;
+  }
+
+  .btn{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:3px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+
+  .btn:active{transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+  .btn-save{
+    background:var(--success);
+    color:#fff;
+  }
+  .btn-save:hover:not(:disabled){box-shadow:0 8px 20px -8px rgba(46,125,91,0.5);}
+
+  .btn-edit{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .btn-edit:hover:not(:disabled){box-shadow:0 8px 20px -8px rgba(201,162,75,0.5);}
+
+  .btn-back{
+    background:#fff;
+    border:1.5px solid #D8D2C2;
+    color:var(--navy-deep);
+  }
+  .btn-back:hover{border-color:var(--navy-mid);}
+
+  /* ===== MESSAGE DE STATUT ===== */
+  .status-msg{
+    display:none;
+    margin-top:16px;
+    padding:13px 15px;
+    border-radius:3px;
+    font-size:13.5px;
+    font-weight:500;
+  }
+
+  .status-msg.show{display:block;}
+
+  .status-msg.ok{
+    background:#F2F9F5;
+    border-left:3px solid var(--success);
+    color:var(--success);
+  }
+
+  .status-msg.err{
+    background:#FBEDE8;
+    border-left:3px solid var(--error);
+    color:var(--error);
+  }
+
+  .status-msg.info{
+    background:#F2F5FA;
+    border-left:3px solid var(--navy-mid);
+    color:var(--navy-mid);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="membres.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="assets/logo.png" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Enregistrer un membre</p>
+<p class="section-sub" id="modeIndicator">Nouvel enregistrement</p>
+
+<div class="form-wrap">
+  <form id="membreForm" autocomplete="off">
+
+    <div class="field-group">
+      <label class="field-label" for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" required>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" required>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="dateNaissance">Date de naissance</label>
+      <input type="date" id="dateNaissance" name="dateNaissance">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Sexe</label>
+      <div class="sexe-group">
+        <div class="sexe-option">
+          <input type="radio" id="sexeM" name="sexe" value="M" required>
+          <label for="sexeM">M</label>
+        </div>
+        <div class="sexe-option">
+          <input type="radio" id="sexeF" name="sexe" value="F" required>
+          <label for="sexeF">F</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="dateConvention">Date convention</label>
+      <input type="date" id="dateConvention" name="dateConvention">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="dateBapteme">Date du baptême</label>
+      <input type="date" id="dateBapteme" name="dateBapteme">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="fonction">Fonction</label>
+      <input type="text" id="fonction" name="fonction" placeholder="Ex. : Membre, Diacre, Pasteur...">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="conditionMatrimoniale">Condition matrimoniale</label>
+      <select id="conditionMatrimoniale" name="conditionMatrimoniale">
+        <option value="" disabled selected>Sélectionner...</option>
+        <option value="Marié(e)">Marié(e)</option>
+        <option value="Divorcé(e)">Divorcé(e)</option>
+        <option value="Séparé(e)">Séparé(e)</option>
+        <option value="Célibataire">Célibataire</option>
+        <option value="Veuf(ve)">Veuf(ve)</option>
+        <option value="Union libre">Union libre</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="nifCin">NIF/CIN</label>
+      <input type="text" id="nifCin" name="nifCin" placeholder="Numéro NIF ou CIN">
+    </div>
+
+    <input type="hidden" id="membreId" value="">
+
+    <div class="btn-row">
+      <button type="submit" class="btn btn-save" id="btnSave">Enregistrer</button>
+      <button type="button" class="btn btn-edit" id="btnEdit" disabled>Modifier</button>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-back" id="btnBack">Retour</button>
+    </div>
+
+    <div class="status-msg" id="statusMsg"></div>
+  </form>
+</div>
+
+<!-- Firebase SDK (version CDN, compatible fichier HTML simple) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    updateDoc,
+    doc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const form = document.getElementById('membreForm');
+  const btnSave = document.getElementById('btnSave');
+  const btnEdit = document.getElementById('btnEdit');
+  const btnBack = document.getElementById('btnBack');
+  const statusMsg = document.getElementById('statusMsg');
+  const membreIdInput = document.getElementById('membreId');
+  const modeIndicator = document.getElementById('modeIndicator');
+
+  function showStatus(message, type){
+    statusMsg.textContent = message;
+    statusMsg.className = 'status-msg show ' + type;
+  }
+
+  function getFormData(){
+    return {
+      nom: document.getElementById('nom').value.trim(),
+      prenom: document.getElementById('prenom').value.trim(),
+      dateNaissance: document.getElementById('dateNaissance').value || null,
+      sexe: form.querySelector('input[name="sexe"]:checked')?.value || null,
+      dateConvention: document.getElementById('dateConvention').value || null,
+      dateBapteme: document.getElementById('dateBapteme').value || null,
+      fonction: document.getElementById('fonction').value.trim() || null,
+      conditionMatrimoniale: document.getElementById('conditionMatrimoniale').value || null,
+      nifCin: document.getElementById('nifCin').value.trim() || null
+    };
+  }
+
+  function resetFormToNewMode(){
+    membreIdInput.value = '';
+    btnEdit.disabled = true;
+    btnSave.style.display = '';
+    modeIndicator.textContent = 'Nouvel enregistrement';
+  }
+
+  // ENREGISTRER un nouveau membre
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btnSave.disabled = true;
+    showStatus('Enregistrement en cours...', 'info');
+
+    try {
+      const data = getFormData();
+      data.creeLe = serverTimestamp();
+
+      const docRef = await addDoc(collection(db, 'membres'), data);
+
+      membreIdInput.value = docRef.id;
+      btnEdit.disabled = false;
+      modeIndicator.textContent = 'Membre enregistré — vous pouvez le modifier ci-dessous';
+      showStatus('Membre enregistré avec succès.', 'ok');
+    } catch (err) {
+      console.error(err);
+      showStatus("Erreur lors de l'enregistrement : " + err.message, 'err');
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  // MODIFIER le membre qui vient d'être enregistré
+  btnEdit.addEventListener('click', async () => {
+    const id = membreIdInput.value;
+    if (!id) return;
+
+    btnEdit.disabled = true;
+    showStatus('Mise à jour en cours...', 'info');
+
+    try {
+      const data = getFormData();
+      await updateDoc(doc(db, 'membres', id), data);
+      showStatus('Membre modifié avec succès.', 'ok');
+    } catch (err) {
+      console.error(err);
+      showStatus('Erreur lors de la modification : ' + err.message, 'err');
+    } finally {
+      btnEdit.disabled = false;
+    }
+  });
+
+  // RETOUR vers le menu Membres
+  btnBack.addEventListener('click', () => {
+    window.location.href = 'membres.html';
+  });
+</script>
+
+</body>
+</html>
