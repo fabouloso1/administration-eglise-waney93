@@ -8,6 +8,57 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  .photo-wrap{
+    width:100%;
+    max-width:480px;
+    padding:0 24px 8px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .photo-preview{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:2.5px solid var(--gold-soft);
+    background:#F2F0E8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    margin-bottom:12px;
+  }
+
+  .photo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .photo-preview .photo-placeholder{
+    font-size:34px;
+    color:#B8AE94;
+  }
+
+  .photo-input-label{
+    display:inline-block;
+    padding:9px 18px;
+    background:#fff;
+    border:1.5px solid #D8D2C2;
+    border-radius:20px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--navy-mid);
+    cursor:pointer;
+    transition:border-color 0.2s ease;
+  }
+
+  .photo-input-label:hover{border-color:var(--navy-mid);}
+
+  #photoInput{display:none;}
+</style>
 </head>
 <body>
 
@@ -22,6 +73,14 @@
 <p class="section-sub" id="modeIndicator">Nouvel enregistrement</p>
 
 <div class="form-wrap">
+  <div class="photo-wrap">
+    <div class="photo-preview" id="photoPreview">
+      <span class="photo-placeholder">👤</span>
+    </div>
+    <label class="photo-input-label" for="photoInput">Choisir une photo</label>
+    <input type="file" id="photoInput" accept="image/*">
+  </div>
+
   <form id="membreForm" autocomplete="off">
 
     <div class="field-group">
@@ -61,6 +120,11 @@
     <div class="field-group">
       <label class="field-label" for="dateBapteme">Date du baptême</label>
       <input type="date" id="dateBapteme" name="dateBapteme">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="telephone">Téléphone</label>
+      <input type="text" id="telephone" name="telephone" placeholder="Ex. : 3712-3456">
     </div>
 
     <div class="field-group">
@@ -136,6 +200,57 @@
   const statusMsg = document.getElementById('statusMsg');
   const membreIdInput = document.getElementById('membreId');
   const modeIndicator = document.getElementById('modeIndicator');
+  const photoInput = document.getElementById('photoInput');
+  const photoPreview = document.getElementById('photoPreview');
+
+  let photoBase64 = null;
+
+  // Compresse l'image (redimensionne + réduit la qualité) pour qu'elle
+  // tienne facilement dans un document Firestore (limite : 1 Mo par document)
+  function compressImage(file, maxSize = 300, quality = 0.7){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+
+          if (width > height && width > maxSize) {
+            height = Math.round(height * (maxSize / width));
+            width = maxSize;
+          } else if (height > maxSize) {
+            width = Math.round(width * (maxSize / height));
+            height = maxSize;
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  photoInput.addEventListener('change', async () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+
+    try {
+      photoBase64 = await compressImage(file);
+      photoPreview.innerHTML = `<img src="${photoBase64}" alt="Photo du membre">`;
+    } catch (err) {
+      console.error(err);
+      showStatus("Erreur lors du traitement de la photo : " + err.message, 'err');
+    }
+  });
 
   function showStatus(message, type){
     statusMsg.textContent = message;
@@ -150,6 +265,7 @@
       sexe: form.querySelector('input[name="sexe"]:checked')?.value || null,
       dateConvention: document.getElementById('dateConvention').value || null,
       dateBapteme: document.getElementById('dateBapteme').value || null,
+      telephone: document.getElementById('telephone').value.trim() || null,
       fonction: document.getElementById('fonction').value.trim() || null,
       conditionMatrimoniale: document.getElementById('conditionMatrimoniale').value || null,
       nifCin: document.getElementById('nifCin').value.trim() || null
@@ -172,6 +288,7 @@
     try {
       const data = getFormData();
       data.creeLe = serverTimestamp();
+      if (photoBase64) data.photo = photoBase64;
 
       const docRef = await addDoc(collection(db, 'membres'), data);
 
@@ -197,6 +314,7 @@
 
     try {
       const data = getFormData();
+      if (photoBase64) data.photo = photoBase64;
       await updateDoc(doc(db, 'membres', id), data);
       showStatus('Membre modifié avec succès.', 'ok');
     } catch (err) {

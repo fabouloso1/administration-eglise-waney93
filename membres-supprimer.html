@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Supprimer un membre — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Styles spécifiques à la page de suppression */
+  .search-wrap{
+    width:100%;
+    max-width:480px;
+    padding:0 24px 8px;
+  }
+
+  .search-row{
+    display:flex;
+    gap:10px;
+  }
+
+  .search-row input{
+    flex:1;
+  }
+
+  .btn-search-inline{
+    padding:13px 20px;
+    background:var(--navy-deep);
+    color:#fff;
+    border:none;
+    border-radius:3px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    transition:background 0.2s ease;
+    white-space:nowrap;
+  }
+
+  .btn-search-inline:hover{background:var(--navy-mid);}
+
+  .results-wrap{
+    width:100%;
+    max-width:480px;
+    padding:8px 24px 32px;
+  }
+
+  .result-card{
+    background:#fff;
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid #B3432B;
+    border-radius:3px;
+    padding:16px 18px;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .result-info{
+    flex:1;
+  }
+
+  .result-name{
+    font-size:15px;
+    font-weight:700;
+    color:var(--navy-deep);
+    margin-bottom:3px;
+  }
+
+  .result-detail{
+    font-size:12.5px;
+    color:#6B6457;
+  }
+
+  .btn-delete-item{
+    flex-shrink:0;
+    padding:10px 16px;
+    background:#FBEDE8;
+    color:var(--error);
+    border:1.5px solid var(--error);
+    border-radius:3px;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+
+  .btn-delete-item:hover{background:#F6DDD5;}
+  .btn-delete-item:disabled{opacity:0.5;cursor:not-allowed;}
+
+  .empty-state{
+    text-align:center;
+    padding:32px 16px;
+    color:#9A9182;
+    font-size:13.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="membres.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Supprimer un membre</p>
+<p class="section-sub">Recherchez un membre par nom ou prénom</p>
+
+<div class="search-wrap">
+  <form id="searchForm" autocomplete="off">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Nom ou prénom..." required>
+      <button type="submit" class="btn-search-inline">Rechercher</button>
+    </div>
+  </form>
+</div>
+
+<div class="results-wrap" id="resultsWrap">
+  <p class="empty-state">Saisissez un nom ou un prénom pour commencer la recherche.</p>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    deleteDoc,
+    doc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+  const resultsWrap = document.getElementById('resultsWrap');
+
+  function normalize(str){
+    return (str || '').toString().toLowerCase().trim();
+  }
+
+  function renderEmpty(message){
+    resultsWrap.innerHTML = `<p class="empty-state">${message}</p>`;
+  }
+
+  function renderResults(members){
+    resultsWrap.innerHTML = '';
+
+    members.forEach(({ id, data }) => {
+      const card = document.createElement('div');
+      card.className = 'result-card';
+
+      const fonction = data.fonction ? ` · ${data.fonction}` : '';
+
+      card.innerHTML = `
+        <div class="result-info">
+          <div class="result-name">${data.nom || ''} ${data.prenom || ''}</div>
+          <div class="result-detail">${data.sexe || ''}${fonction}</div>
+        </div>
+        <button class="btn-delete-item" type="button">Supprimer</button>
+      `;
+
+      const btn = card.querySelector('.btn-delete-item');
+      btn.addEventListener('click', async () => {
+        const confirmed = confirm(
+          `Voulez-vous vraiment supprimer ${data.nom || ''} ${data.prenom || ''} ? Cette action est irréversible.`
+        );
+        if (!confirmed) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Suppression...';
+
+        try {
+          await deleteDoc(doc(db, 'membres', id));
+          card.remove();
+          if (!resultsWrap.querySelector('.result-card')) {
+            renderEmpty('Aucun membre restant pour cette recherche.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Erreur lors de la suppression : " + err.message);
+          btn.disabled = false;
+          btn.textContent = 'Supprimer';
+        }
+      });
+
+      resultsWrap.appendChild(card);
+    });
+  }
+
+  searchForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const term = normalize(searchInput.value);
+
+    if (!term) return;
+
+    renderEmpty('Recherche en cours...');
+
+    try {
+      // On récupère tous les membres puis on filtre côté client,
+      // car Firestore ne permet pas nativement une recherche "contient" sur du texte.
+      const snapshot = await getDocs(collection(db, 'membres'));
+      const matches = [];
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const nom = normalize(data.nom);
+        const prenom = normalize(data.prenom);
+
+        if (nom.includes(term) || prenom.includes(term)) {
+          matches.push({ id: docSnap.id, data });
+        }
+      });
+
+      if (matches.length === 0) {
+        renderEmpty('Aucun membre trouvé pour cette recherche.');
+      } else {
+        renderResults(matches);
+      }
+    } catch (err) {
+      console.error(err);
+      renderEmpty('Erreur lors de la recherche : ' + err.message);
+    }
+  });
+</script>
+
+</body>
+</html>
