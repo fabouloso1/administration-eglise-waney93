@@ -1,0 +1,712 @@
+/* =====================================================
+   Église de Dieu de la Prophétie de Waney 93
+   Feuille de style commune — toutes les pages
+   ===================================================== */
+
+:root{
+  --navy-deep:#0A1F44;
+  --navy-mid:#1B3A6B;
+  --gold:#C9A24B;
+  --gold-soft:#E4CD8C;
+  --cream:#F7F5F0;
+  --ink:#2E2E2E;
+  --error:#B3432B;
+  --success:#2E7D5B;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--cream);
+  min-height:100vh;
+  color:var(--ink);
+  position:relative;
+}
+
+/* =====================================================
+   ÉCRAN DE CONNEXION (index.html)
+   ===================================================== */
+
+body.has-login-bg{
+  background:var(--navy-deep);
+}
+
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Texture de fond : lignes discrètes façon registre */
+body.has-login-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 47px,
+      rgba(201,162,75,0.06) 48px
+    );
+  pointer-events:none;
+}
+
+/* Lueur dorée ambiante en haut à droite */
+body.has-login-bg::after{
+  content:"";
+  position:absolute;
+  top:-200px;
+  right:-200px;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(201,162,75,0.18) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.card{
+  position:relative;
+  z-index:1;
+  background:var(--cream);
+  width:100%;
+  max-width:420px;
+  margin:24px;
+  border-radius:2px;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(16px);
+  animation:rise 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+@keyframes rise{
+  to{opacity:1;transform:translateY(0);}
+}
+
+.card-band{
+  background:var(--navy-deep);
+  padding:36px 40px 28px;
+  text-align:center;
+  border-bottom:3px solid var(--gold);
+}
+
+.seal{
+  width:64px;
+  height:64px;
+  margin:0 auto 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.seal img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+
+.card-band h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:22px;
+  color:var(--cream);
+  letter-spacing:0.02em;
+  margin-bottom:6px;
+}
+
+.card-band p{
+  font-size:12.5px;
+  color:var(--gold-soft);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+.card-body{
+  padding:36px 40px 40px;
+}
+
+.pw-wrap{
+  position:relative;
+}
+
+.toggle-pw{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  cursor:pointer;
+  color:#9A9182;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.03em;
+  padding:4px;
+}
+
+.toggle-pw:hover{color:var(--navy-mid);}
+
+.submit-btn{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  background:var(--navy-deep);
+  color:var(--cream);
+  border:none;
+  border-radius:2px;
+  font-size:14.5px;
+  font-weight:600;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background 0.2s ease, transform 0.1s ease;
+}
+
+.submit-btn:hover{background:var(--navy-mid);}
+.submit-btn:active{transform:scale(0.99);}
+
+.footer-note{
+  text-align:center;
+  margin-top:24px;
+  font-size:13px;
+  font-weight:500;
+  color:#6B6457;
+  letter-spacing:0.02em;
+}
+
+/* Animation de secousse en cas de mot de passe erroné */
+.shake{
+  animation:shake 0.4s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-6px);}
+  80%{transform:translateX(6px);}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .card{animation:none;opacity:1;transform:none;}
+  .shake{animation:none;}
+}
+
+/* =====================================================
+   MENU PRINCIPAL (index.html, après connexion)
+   ===================================================== */
+
+#menuScreen{
+  display:none;
+  min-height:100vh;
+  flex-direction:column;
+  align-items:center;
+  background:var(--cream);
+}
+
+.menu-header{
+  width:100%;
+  background:var(--navy-deep);
+  padding:32px 28px 26px;
+  text-align:center;
+  border-bottom:3px solid var(--gold);
+  position:relative;
+}
+
+.menu-header::after{
+  content:"";
+  position:absolute;
+  top:-150px;
+  right:-150px;
+  width:400px;
+  height:400px;
+  background:radial-gradient(circle, rgba(201,162,75,0.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.menu-header .seal{
+  width:56px;height:56px;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+}
+
+.menu-header .seal img{
+  width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+
+.menu-header h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:20px;
+  color:var(--cream);
+  letter-spacing:0.02em;
+  margin-bottom:4px;
+  position:relative;z-index:1;
+}
+
+.menu-header p{
+  font-size:11.5px;
+  color:var(--gold-soft);
+  letter-spacing:0.07em;
+  text-transform:uppercase;
+  position:relative;z-index:1;
+}
+
+.menu-title{
+  width:100%;
+  text-align:center;
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:18px;
+  color:var(--navy-deep);
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:22px 0 6px;
+}
+
+.menu-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding:24px;
+  max-width:560px;
+  width:100%;
+  align-content:start;
+}
+
+.menu-btn{
+  background:#fff;
+  border:1.5px solid #E3DDC9;
+  border-radius:3px;
+  padding:22px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  text-align:center;
+  transition:border-color 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+  font-family:'Inter',sans-serif;
+  color:var(--navy-deep);
+}
+
+.menu-btn:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px -8px rgba(10,31,68,0.25);
+}
+
+.menu-btn:active{transform:translateY(0);}
+
+.menu-icon{
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  font-weight:600;
+  color:var(--gold);
+  border:1.5px solid var(--gold-soft);
+  border-radius:50%;
+}
+
+.menu-label{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--navy-deep);
+  letter-spacing:0.01em;
+}
+
+.menu-sub{
+  font-size:12px;
+  font-weight:500;
+  color:#6B6457;
+  letter-spacing:0.02em;
+}
+
+.menu-btn.danger{
+  grid-column:1 / -1;
+  background:#FBEDE8;
+  border:1.5px solid var(--error);
+  flex-direction:row;
+  justify-content:center;
+  padding:16px;
+  margin-top:6px;
+  margin-bottom:8px;
+}
+
+.menu-btn.danger .menu-label{color:var(--error);font-size:14px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;}
+.menu-btn.danger .menu-icon{display:none;}
+.menu-btn.danger:hover{background:#F6DDD5;border-color:#8E3522;}
+
+/* Couleurs personnalisées pour chaque bouton du menu principal */
+.menu-btn.c-membres{border-top:4px solid #B3432B;background:#FDF6F4;}
+.menu-btn.c-membres .menu-icon{color:#B3432B;border-color:#E3A893;}
+
+.menu-btn.c-dime{border-top:4px solid #C9A24B;background:#FBF8EF;}
+.menu-btn.c-dime .menu-icon{color:#C9A24B;border-color:var(--gold-soft);}
+
+.menu-btn.c-offrande{border-top:4px solid #6B2E8C;background:#F8F3FA;}
+.menu-btn.c-offrande .menu-icon{color:#6B2E8C;border-color:#C9A8DA;}
+
+.menu-btn.c-services{border-top:4px solid #1B3A6B;background:#F2F5FA;}
+.menu-btn.c-services .menu-icon{color:#1B3A6B;border-color:#A9BBD9;}
+
+.menu-btn.c-rapport{border-top:4px solid #2E7D5B;background:#F2F9F5;}
+.menu-btn.c-rapport .menu-icon{color:#2E7D5B;border-color:#A8D6BF;}
+
+.menu-footer{
+  width:100%;
+  text-align:center;
+  padding:18px;
+  font-size:12.5px;
+  font-weight:500;
+  color:#6B6457;
+  letter-spacing:0.02em;
+}
+
+/* =====================================================
+   EN-TÊTE DE SOUS-PAGE (membres.html, membres-ajouter.html, etc.)
+   ===================================================== */
+
+.page-header{
+  width:100%;
+  background:var(--navy-deep);
+  padding:24px 28px 22px;
+  text-align:center;
+  border-bottom:3px solid var(--gold);
+  position:relative;
+}
+
+.page-header::after{
+  content:"";
+  position:absolute;
+  top:-150px;
+  right:-150px;
+  width:400px;
+  height:400px;
+  background:radial-gradient(circle, rgba(201,162,75,0.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.back-link{
+  position:absolute;
+  left:20px;
+  top:20px;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--gold-soft);
+  font-size:13px;
+  font-weight:500;
+  text-decoration:none;
+  letter-spacing:0.02em;
+  padding:6px 10px;
+  border:1px solid rgba(228,205,140,0.4);
+  border-radius:20px;
+  transition:background 0.2s ease;
+}
+
+.back-link:hover{background:rgba(255,255,255,0.08);}
+
+.page-header .seal{
+  width:50px;height:50px;margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+}
+
+.page-header .seal img{
+  width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+
+.page-header h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:19px;
+  color:var(--cream);
+  letter-spacing:0.02em;
+  margin-bottom:4px;
+  position:relative;z-index:1;
+}
+
+.page-header p{
+  font-size:11.5px;
+  color:var(--gold-soft);
+  letter-spacing:0.07em;
+  text-transform:uppercase;
+  position:relative;z-index:1;
+}
+
+.section-title{
+  width:100%;
+  text-align:center;
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:18px;
+  color:var(--navy-deep);
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:22px 0 4px;
+}
+
+.section-sub{
+  width:100%;
+  text-align:center;
+  font-size:13px;
+  color:#6B6457;
+  padding-bottom:8px;
+}
+
+.page-footer{
+  width:100%;
+  text-align:center;
+  padding:18px;
+  font-size:12.5px;
+  font-weight:500;
+  color:#6B6457;
+  letter-spacing:0.02em;
+}
+
+/* =====================================================
+   GRILLE D'ACTIONS (membres.html — 4 boutons)
+   ===================================================== */
+
+.action-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding:20px 24px 28px;
+  max-width:560px;
+  width:100%;
+  align-content:start;
+}
+
+.action-btn{
+  background:#fff;
+  border:1.5px solid #E3DDC9;
+  border-radius:3px;
+  padding:26px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  text-align:center;
+  transition:border-color 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+  font-family:'Inter',sans-serif;
+  color:var(--navy-deep);
+}
+
+.action-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px -8px rgba(10,31,68,0.25);
+}
+
+.action-btn:active{transform:translateY(0);}
+
+.action-icon{
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  border-radius:50%;
+}
+
+.action-label{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--navy-deep);
+  letter-spacing:0.01em;
+}
+
+.action-sub{
+  font-size:12px;
+  font-weight:500;
+  color:#6B6457;
+  letter-spacing:0.02em;
+}
+
+/* Couleurs personnalisées pour chaque bouton d'action */
+.action-btn.c-add{border-top:4px solid #2E7D5B;background:#F2F9F5;}
+.action-btn.c-add .action-icon{background:#fff;border:1.5px solid #A8D6BF;}
+.action-btn.c-add:hover{border-color:#2E7D5B;}
+
+.action-btn.c-delete{border-top:4px solid #B3432B;background:#FDF6F4;}
+.action-btn.c-delete .action-icon{background:#fff;border:1.5px solid #E3A893;}
+.action-btn.c-delete:hover{border-color:#B3432B;}
+
+.action-btn.c-search{border-top:4px solid #1B3A6B;background:#F2F5FA;}
+.action-btn.c-search .action-icon{background:#fff;border:1.5px solid #A9BBD9;}
+.action-btn.c-search:hover{border-color:#1B3A6B;}
+
+.action-btn.c-list{border-top:4px solid #C9A24B;background:#FBF8EF;}
+.action-btn.c-list .action-icon{background:#fff;border:1.5px solid var(--gold-soft);}
+.action-btn.c-list:hover{border-color:#C9A24B;}
+
+/* =====================================================
+   FORMULAIRES (membres-ajouter.html, etc.)
+   ===================================================== */
+
+.form-wrap{
+  width:100%;
+  max-width:480px;
+  padding:0 24px 32px;
+}
+
+.field-group{
+  margin-bottom:16px;
+}
+
+.field-label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy-mid);
+  margin-bottom:6px;
+  letter-spacing:0.01em;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+select{
+  width:100%;
+  padding:13px 14px;
+  border:1.5px solid #D8D2C2;
+  border-radius:3px;
+  font-size:15px;
+  font-family:'Inter',sans-serif;
+  background:#fff;
+  color:var(--ink);
+  transition:border-color 0.2s ease;
+}
+
+/* Le champ mot de passe de la connexion a un padding différent pour l'icône œil */
+#loginScreen input[type="password"]{
+  padding:14px 44px 14px 16px;
+  border-radius:2px;
+}
+
+input:focus, select:focus{
+  outline:none;
+  border-color:var(--navy-mid);
+}
+
+/* Sexe : boutons radio stylisés côte à côte */
+.sexe-group{
+  display:flex;
+  gap:10px;
+}
+
+.sexe-option{
+  flex:1;
+  position:relative;
+}
+
+.sexe-option input{
+  position:absolute;
+  opacity:0;
+  width:100%;
+  height:100%;
+  cursor:pointer;
+}
+
+.sexe-option label{
+  display:block;
+  text-align:center;
+  padding:13px;
+  border:1.5px solid #D8D2C2;
+  border-radius:3px;
+  font-size:14px;
+  font-weight:600;
+  color:#6B6457;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+
+.sexe-option input:checked + label{
+  border-color:var(--navy-mid);
+  background:#F2F5FA;
+  color:var(--navy-deep);
+}
+
+/* Boutons d'action du formulaire */
+.btn-row{
+  display:flex;
+  gap:12px;
+  margin-top:24px;
+}
+
+.btn{
+  flex:1;
+  padding:15px;
+  border:none;
+  border-radius:3px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.btn:active{transform:scale(0.98);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+.btn-save{background:var(--success);color:#fff;}
+.btn-save:hover:not(:disabled){box-shadow:0 8px 20px -8px rgba(46,125,91,0.5);}
+
+.btn-edit{background:var(--gold);color:var(--navy-deep);}
+.btn-edit:hover:not(:disabled){box-shadow:0 8px 20px -8px rgba(201,162,75,0.5);}
+
+.btn-back{background:#fff;border:1.5px solid #D8D2C2;color:var(--navy-deep);}
+.btn-back:hover{border-color:var(--navy-mid);}
+
+/* Message de statut (succès / erreur / information) */
+.status-msg{
+  display:none;
+  margin-top:16px;
+  padding:13px 15px;
+  border-radius:3px;
+  font-size:13.5px;
+  font-weight:500;
+}
+
+.status-msg.show{display:block;}
+
+.status-msg.ok{
+  background:#F2F9F5;
+  border-left:3px solid var(--success);
+  color:var(--success);
+}
+
+.status-msg.err{
+  background:#FBEDE8;
+  border-left:3px solid var(--error);
+  color:var(--error);
+}
+
+.status-msg.info{
+  background:#F2F5FA;
+  border-left:3px solid var(--navy-mid);
+  color:var(--navy-mid);
+}
+
+/* Message d'erreur spécifique au formulaire de connexion */
+.error-msg{
+  display:none;
+  margin-top:14px;
+  padding:11px 14px;
+  background:#FBEDE8;
+  border-left:3px solid var(--error);
+  color:var(--error);
+  font-size:13px;
+  border-radius:2px;
+}
+
+.error-msg.show{display:block;}
