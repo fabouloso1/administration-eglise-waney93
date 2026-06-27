@@ -31,19 +31,20 @@
 
   .btn-search-inline{
     padding:13px 20px;
-    background:var(--navy-deep);
+    background:linear-gradient(165deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
     color:#fff;
     border:none;
-    border-radius:3px;
+    border-radius:6px;
     font-size:14px;
     font-weight:700;
     letter-spacing:0.02em;
     cursor:pointer;
-    transition:background 0.2s ease;
+    box-shadow:0 4px 12px -5px rgba(10,31,68,0.4);
+    transition:background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
     white-space:nowrap;
   }
 
-  .btn-search-inline:hover{background:var(--navy-mid);}
+  .btn-search-inline:hover{box-shadow:0 8px 18px -6px rgba(10,31,68,0.5);transform:translateY(-1px);}
 
   .results-wrap{
     width:100%;
@@ -52,16 +53,17 @@
   }
 
   .result-card{
-    background:#fff;
+    background:linear-gradient(165deg, #ffffff 0%, #fdfaf8 100%);
     border:1.5px solid #E3DDC9;
     border-left:4px solid #B3432B;
-    border-radius:3px;
+    border-radius:8px;
     padding:16px 18px;
     margin-bottom:12px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
+    box-shadow:0 4px 14px -8px rgba(10,31,68,0.18);
   }
 
   .result-info{
@@ -83,20 +85,21 @@
   .btn-delete-item{
     flex-shrink:0;
     padding:10px 16px;
-    background:#FBEDE8;
+    background:linear-gradient(165deg, #FCEEEA 0%, #FBEDE8 100%);
     color:var(--error);
     border:1.5px solid var(--error);
-    border-radius:3px;
+    border-radius:6px;
     font-size:12.5px;
     font-weight:700;
     letter-spacing:0.03em;
     text-transform:uppercase;
     cursor:pointer;
-    transition:background 0.2s ease;
+    box-shadow:0 2px 8px -4px rgba(179,67,43,0.25);
+    transition:background 0.2s ease, transform 0.1s ease;
   }
 
-  .btn-delete-item:hover{background:#F6DDD5;}
-  .btn-delete-item:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-delete-item:hover{background:#F6DDD5;transform:translateY(-1px);}
+  .btn-delete-item:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
 
   .empty-state{
     text-align:center;
