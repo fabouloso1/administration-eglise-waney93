@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dîme — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  /* Styles spécifiques à la page Dîme */
+  .add-btn-wrap{
+    width:100%;
+    max-width:560px;
+    padding:20px 24px 8px;
+  }
+
+  .btn-add-dime{
+    width:100%;
+    padding:16px;
+    background:linear-gradient(165deg, #D6B468 0%, var(--gold) 100%);
+    color:var(--navy-deep);
+    border:none;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 6px 16px -6px rgba(201,162,75,0.5);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-add-dime:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 22px -8px rgba(201,162,75,0.6);
+  }
+
+  .year-selector{
+    width:100%;
+    max-width:560px;
+    padding:20px 24px 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+  }
+
+  .year-arrow{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1.5px solid #D8D2C2;
+    background:#fff;
+    color:var(--navy-deep);
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 2px 8px -3px rgba(0,0,0,0.12);
+    transition:border-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .year-arrow:hover{border-color:var(--gold);transform:translateY(-1px);}
+  .year-arrow:active{transform:translateY(0);}
+
+  .year-display{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    color:var(--navy-deep);
+    letter-spacing:0.02em;
+    min-width:80px;
+    text-align:center;
+  }
+
+  .months-wrap{
+    width:100%;
+    max-width:560px;
+    padding:16px 24px 8px;
+  }
+
+  .month-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid var(--gold);
+    border-radius:6px;
+    padding:13px 18px;
+    margin-bottom:9px;
+    box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
+  }
+
+  .month-name{
+    font-size:14px;
+    font-weight:600;
+    color:var(--navy-deep);
+  }
+
+  .month-total{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--gold);
+    font-family:'Fraunces',serif;
+  }
+
+  .total-wrap{
+    width:100%;
+    max-width:560px;
+    padding:14px 24px 32px;
+  }
+
+  .total-card{
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border-radius:8px;
+    padding:20px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 10px 24px -10px rgba(10,31,68,0.45);
+  }
+
+  .total-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--gold-soft);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+
+  .total-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:24px;
+    color:#fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="index.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Dîme</p>
+<p class="section-sub">Contributions par mois</p>
+
+<div class="add-btn-wrap">
+  <button class="btn-add-dime" id="btnAddDime">+ Enregistrer une nouvelle dîme</button>
+</div>
+
+<div class="year-selector">
+  <button class="year-arrow" id="prevYear">◀</button>
+  <span class="year-display" id="yearDisplay">2026</span>
+  <button class="year-arrow" id="nextYear">▶</button>
+</div>
+
+<div class="months-wrap" id="monthsWrap">
+  <!-- Les 12 lignes de mois sont générées par JavaScript -->
+</div>
+
+<div class="total-wrap">
+  <div class="total-card">
+    <span class="total-label">Total général</span>
+    <span class="total-amount" id="totalAmount">0 HTG</span>
+  </div>
+</div>
+
+<script>
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const MOIS = [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ];
+
+  let currentYear = new Date().getFullYear();
+
+  const yearDisplay = document.getElementById('yearDisplay');
+  const monthsWrap = document.getElementById('monthsWrap');
+  const totalAmount = document.getElementById('totalAmount');
+  const prevYearBtn = document.getElementById('prevYear');
+  const nextYearBtn = document.getElementById('nextYear');
+  const btnAddDime = document.getElementById('btnAddDime');
+
+  function formatMontant(montant){
+    return montant.toLocaleString('fr-FR') + ' HTG';
+  }
+
+  function renderMonths(){
+    yearDisplay.textContent = currentYear;
+    monthsWrap.innerHTML = '';
+
+    // Pour l'instant, les totaux sont à 0 — ils seront calculés
+    // à partir des dîmes enregistrées une fois cette fonctionnalité ajoutée.
+    let totalGeneral = 0;
+
+    MOIS.forEach((nomMois) => {
+      const montantMois = 0;
+      totalGeneral += montantMois;
+
+      const row = document.createElement('div');
+      row.className = 'month-row';
+      row.innerHTML = `
+        <span class="month-name">${nomMois}</span>
+        <span class="month-total">${formatMontant(montantMois)}</span>
+      `;
+      monthsWrap.appendChild(row);
+    });
+
+    totalAmount.textContent = formatMontant(totalGeneral);
+  }
+
+  prevYearBtn.addEventListener('click', () => {
+    currentYear -= 1;
+    renderMonths();
+  });
+
+  nextYearBtn.addEventListener('click', () => {
+    currentYear += 1;
+    renderMonths();
+  });
+
+  btnAddDime.addEventListener('click', () => {
+    // À connecter plus tard à la page d'enregistrement d'une dîme
+    alert('Cette fonctionnalité sera ajoutée prochainement.');
+  });
+
+  renderMonths();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
