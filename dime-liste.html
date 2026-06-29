@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Dîme — Église de Dieu de la Prophétie de Waney 93</title>
+<title>Liste des dîmes — Église de Dieu de la Prophétie de Waney 93</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,34 +13,6 @@
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-  /* Styles spécifiques à la page Dîme */
-  .add-btn-wrap{
-    width:100%;
-    max-width:560px;
-    padding:20px 24px 8px;
-  }
-
-  .btn-add-dime{
-    width:100%;
-    padding:16px;
-    background:linear-gradient(165deg, #D6B468 0%, var(--gold) 100%);
-    color:var(--navy-deep);
-    border:none;
-    border-radius:6px;
-    font-size:14.5px;
-    font-weight:700;
-    letter-spacing:0.03em;
-    text-transform:uppercase;
-    cursor:pointer;
-    box-shadow:0 6px 16px -6px rgba(201,162,75,0.5);
-    transition:transform 0.12s ease, box-shadow 0.2s ease;
-  }
-
-  .btn-add-dime:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 22px -8px rgba(201,162,75,0.6);
-  }
-
   .year-selector{
     width:100%;
     max-width:560px;
@@ -62,64 +34,69 @@
     font-weight:700;
     cursor:pointer;
     box-shadow:0 2px 8px -3px rgba(0,0,0,0.12);
-    transition:border-color 0.2s ease, transform 0.1s ease;
   }
-
-  .year-arrow:hover{border-color:var(--gold);transform:translateY(-1px);}
-  .year-arrow:active{transform:translateY(0);}
 
   .year-display{
     font-family:'Fraunces',serif;
     font-weight:700;
     font-size:22px;
     color:var(--navy-deep);
-    letter-spacing:0.02em;
     min-width:80px;
     text-align:center;
   }
 
-  .months-wrap{
+  .list-wrap{
     width:100%;
-    max-width:560px;
-    padding:16px 24px 8px;
+    max-width:680px;
+    padding:8px 24px 16px;
   }
 
-  .month-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  .dime-card{
     background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
     border:1.5px solid #E3DDC9;
     border-left:4px solid var(--gold);
-    border-radius:6px;
-    padding:13px 18px;
-    margin-bottom:9px;
-    box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:12px;
+    box-shadow:0 4px 14px -8px rgba(10,31,68,0.18);
   }
 
-  .month-name{
-    font-size:14px;
-    font-weight:600;
+  .dime-card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+
+  .dime-name{
+    font-size:15px;
+    font-weight:700;
     color:var(--navy-deep);
   }
 
-  .month-total{
-    font-size:14.5px;
-    font-weight:700;
-    color:var(--gold);
+  .dime-total{
     font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--gold);
+  }
+
+  .dime-months{
+    font-size:12px;
+    color:#6B6457;
+    line-height:1.6;
   }
 
   .total-wrap{
     width:100%;
-    max-width:560px;
-    padding:14px 24px 32px;
+    max-width:680px;
+    padding:8px 24px 32px;
   }
 
   .total-card{
     background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
     border-radius:8px;
-    padding:20px 22px;
+    padding:18px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -137,36 +114,37 @@
   .total-amount{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:24px;
+    font-size:22px;
     color:#fff;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:32px 16px;
+    color:#9A9182;
+    font-size:13.5px;
   }
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <a href="index.html" class="back-link">← Retour</a>
+  <a href="dime.html" class="back-link">← Retour</a>
   <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
   <h1>Église de Dieu de la Prophétie</h1>
   <p>Waney 93</p>
 </div>
 
-<p class="section-title">Dîme</p>
-<p class="section-sub">Contributions par mois</p>
-
-<div class="add-btn-wrap">
-  <button class="btn-add-dime" id="btnAddDime">+ Enregistrer une nouvelle dîme</button>
-</div>
+<p class="section-title">Liste des dîmes</p>
+<p class="section-sub">Tous ceux qui ont payé la dîme</p>
 
 <div class="year-selector">
   <button class="year-arrow" id="prevYear">◀</button>
-  <span class="year-display" id="yearDisplay">2026</span>
+  <span class="year-display" id="yearDisplay"></span>
   <button class="year-arrow" id="nextYear">▶</button>
 </div>
 
-<div class="months-wrap" id="monthsWrap">
-  <!-- Les 12 lignes de mois sont générées par JavaScript -->
-</div>
+<div class="list-wrap" id="listWrap"></div>
 
 <div class="total-wrap">
   <div class="total-card">
@@ -175,6 +153,7 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -202,92 +181,86 @@
     window.location.href = 'index.html';
   }
 
-  const MOIS = [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  const MOIS_ABBR = [
+    'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+    'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'
   ];
 
   let currentYear = new Date().getFullYear();
 
   const yearDisplay = document.getElementById('yearDisplay');
-  const monthsWrap = document.getElementById('monthsWrap');
-  const totalAmount = document.getElementById('totalAmount');
   const prevYearBtn = document.getElementById('prevYear');
   const nextYearBtn = document.getElementById('nextYear');
-  const btnAddDime = document.getElementById('btnAddDime');
+  const listWrap = document.getElementById('listWrap');
+  const totalAmount = document.getElementById('totalAmount');
 
   function formatMontant(montant){
     return montant.toLocaleString('fr-FR') + ' HTG';
   }
 
-  async function getMonthlyTotals(){
-    // Initialise les 12 totaux à 0
-    const totals = {};
-    for (let i = 1; i <= 12; i++) {
-      totals[String(i).padStart(2, '0')] = 0;
-    }
+  async function loadDimes(){
+    yearDisplay.textContent = currentYear;
+    listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
 
     try {
       const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
       const snapshot = await getDocs(q);
 
+      if (snapshot.empty) {
+        listWrap.innerHTML = '<p class="empty-state">Aucune dîme enregistrée pour ' + currentYear + '.</p>';
+        totalAmount.textContent = formatMontant(0);
+        return;
+      }
+
+      listWrap.innerHTML = '';
+      let totalGeneral = 0;
+
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const mois = data.mois || {};
-        Object.keys(mois).forEach((key) => {
-          if (totals[key] !== undefined) {
-            totals[key] += parseFloat(mois[key]) || 0;
-          }
+
+        let totalMembre = 0;
+        const moisLabels = [];
+
+        Object.keys(mois).sort().forEach((key) => {
+          const montant = parseFloat(mois[key]) || 0;
+          totalMembre += montant;
+          const moisIndex = parseInt(key, 10) - 1;
+          moisLabels.push(`${MOIS_ABBR[moisIndex]} : ${formatMontant(montant)}`);
         });
+
+        totalGeneral += totalMembre;
+
+        const card = document.createElement('div');
+        card.className = 'dime-card';
+        card.innerHTML = `
+          <div class="dime-card-header">
+            <span class="dime-name">${data.nom || ''} ${data.prenom || ''}</span>
+            <span class="dime-total">${formatMontant(totalMembre)}</span>
+          </div>
+          <div class="dime-months">${moisLabels.join(' &nbsp;·&nbsp; ') || 'Aucun mois enregistré'}</div>
+        `;
+        listWrap.appendChild(card);
       });
+
+      totalAmount.textContent = formatMontant(totalGeneral);
     } catch (err) {
       console.error(err);
+      listWrap.innerHTML = '<p class="empty-state">Erreur lors du chargement : ' + err.message + '</p>';
     }
-
-    return totals;
-  }
-
-  async function renderMonths(){
-    yearDisplay.textContent = currentYear;
-    monthsWrap.innerHTML = '<p style="text-align:center;color:#9A9182;font-size:13px;padding:12px;">Chargement...</p>';
-
-    const totals = await getMonthlyTotals();
-    monthsWrap.innerHTML = '';
-
-    let totalGeneral = 0;
-
-    MOIS.forEach((nomMois, index) => {
-      const key = String(index + 1).padStart(2, '0');
-      const montantMois = totals[key] || 0;
-      totalGeneral += montantMois;
-
-      const row = document.createElement('div');
-      row.className = 'month-row';
-      row.innerHTML = `
-        <span class="month-name">${nomMois}</span>
-        <span class="month-total">${formatMontant(montantMois)}</span>
-      `;
-      monthsWrap.appendChild(row);
-    });
-
-    totalAmount.textContent = formatMontant(totalGeneral);
   }
 
   prevYearBtn.addEventListener('click', () => {
     currentYear -= 1;
-    renderMonths();
+    loadDimes();
   });
 
   nextYearBtn.addEventListener('click', () => {
     currentYear += 1;
-    renderMonths();
+    loadDimes();
   });
 
-  btnAddDime.addEventListener('click', () => {
-    window.location.href = 'dime-ajouter.html';
-  });
-
-  renderMonths();
+  loadDimes();
 </script>
 
 <script>
