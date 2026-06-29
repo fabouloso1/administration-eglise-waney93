@@ -140,6 +140,118 @@
     font-size:24px;
     color:#fff;
   }
+
+  /* Modal détail d'un mois */
+  .month-modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(10,31,68,0.55);
+    z-index:50;
+    align-items:flex-end;
+    justify-content:center;
+  }
+
+  .month-modal-overlay.show{display:flex;}
+
+  .month-modal{
+    background:var(--cream);
+    width:100%;
+    max-width:520px;
+    max-height:80vh;
+    border-radius:16px 16px 0 0;
+    overflow-y:auto;
+    box-shadow:0 -20px 50px rgba(0,0,0,0.3);
+    animation:slideUp 0.25s ease-out;
+  }
+
+  @keyframes slideUp{
+    from{transform:translateY(100%);}
+    to{transform:translateY(0);}
+  }
+
+  .month-modal-header{
+    position:sticky;
+    top:0;
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    padding:18px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:3px solid var(--gold);
+  }
+
+  .month-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:17px;
+    color:#fff;
+  }
+
+  .month-modal-close{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+  }
+
+  .month-modal-body{
+    padding:18px 20px 28px;
+  }
+
+  .month-person-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid var(--gold);
+    border-radius:6px;
+    padding:12px 16px;
+    margin-bottom:9px;
+    box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
+  }
+
+  .month-person-name{
+    font-size:14px;
+    font-weight:600;
+    color:var(--navy-deep);
+  }
+
+  .month-person-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--gold);
+  }
+
+  .month-modal-total{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    margin-top:6px;
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border-radius:6px;
+  }
+
+  .month-modal-total span:first-child{
+    font-size:12px;
+    font-weight:600;
+    color:var(--gold-soft);
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+
+  .month-modal-total span:last-child{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:16px;
+    color:#fff;
+  }
 </style>
 </head>
 <body>
@@ -172,6 +284,16 @@
   <div class="total-card">
     <span class="total-label">Total général</span>
     <span class="total-amount" id="totalAmount">0 HTG</span>
+  </div>
+</div>
+
+<div class="month-modal-overlay" id="monthModalOverlay">
+  <div class="month-modal">
+    <div class="month-modal-header">
+      <span class="month-modal-title" id="monthModalTitle">Mois</span>
+      <button class="month-modal-close" id="monthModalClose">✕</button>
+    </div>
+    <div class="month-modal-body" id="monthModalBody"></div>
   </div>
 </div>
 
@@ -220,6 +342,62 @@
     return montant.toLocaleString('fr-FR') + ' HTG';
   }
 
+  const monthModalOverlay = document.getElementById('monthModalOverlay');
+  const monthModalTitle = document.getElementById('monthModalTitle');
+  const monthModalBody = document.getElementById('monthModalBody');
+  const monthModalClose = document.getElementById('monthModalClose');
+
+  function showMonthDetail(key, nomMois){
+    monthModalTitle.textContent = `${nomMois} ${currentYear}`;
+
+    const people = [];
+    let total = 0;
+
+    allDimesCache.forEach((data) => {
+      const mois = data.mois || {};
+      if (mois[key] !== undefined && mois[key] !== null) {
+        const montant = parseFloat(mois[key]) || 0;
+        total += montant;
+        people.push({
+          nom: `${data.nom || ''} ${data.prenom || ''}`.trim(),
+          montant
+        });
+      }
+    });
+
+    people.sort((a, b) => a.nom.localeCompare(b.nom));
+
+    if (people.length === 0) {
+      monthModalBody.innerHTML = '<p style="text-align:center;color:#9A9182;font-size:13.5px;padding:20px;">Aucun paiement enregistré pour ce mois.</p>';
+    } else {
+      monthModalBody.innerHTML = people.map((p) => `
+        <div class="month-person-row">
+          <span class="month-person-name">${p.nom}</span>
+          <span class="month-person-amount">${formatMontant(p.montant)}</span>
+        </div>
+      `).join('') + `
+        <div class="month-modal-total">
+          <span>Total du mois</span>
+          <span>${formatMontant(total)}</span>
+        </div>
+      `;
+    }
+
+    monthModalOverlay.classList.add('show');
+  }
+
+  monthModalClose.addEventListener('click', () => {
+    monthModalOverlay.classList.remove('show');
+  });
+
+  monthModalOverlay.addEventListener('click', (e) => {
+    if (e.target === monthModalOverlay) {
+      monthModalOverlay.classList.remove('show');
+    }
+  });
+
+  let allDimesCache = [];
+
   async function getMonthlyTotals(){
     // Initialise les 12 totaux à 0
     const totals = {};
@@ -227,12 +405,15 @@
       totals[String(i).padStart(2, '0')] = 0;
     }
 
+    allDimesCache = [];
+
     try {
       const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
       const snapshot = await getDocs(q);
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
+        allDimesCache.push(data);
         const mois = data.mois || {};
         Object.keys(mois).forEach((key) => {
           if (totals[key] !== undefined) {
@@ -263,10 +444,14 @@
 
       const row = document.createElement('div');
       row.className = 'month-row';
+      row.style.cursor = 'pointer';
       row.innerHTML = `
         <span class="month-name">${nomMois}</span>
         <span class="month-total">${formatMontant(montantMois)}</span>
       `;
+      row.addEventListener('click', () => {
+        showMonthDetail(key, nomMois);
+      });
       monthsWrap.appendChild(row);
     });
 
