@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Enregistrer une dîme — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  /* Recherche */
+  .search-wrap{
+    width:100%;
+    max-width:560px;
+    padding:0 24px 8px;
+  }
+
+  .search-row{
+    display:flex;
+    gap:10px;
+  }
+
+  .search-row input{
+    flex:1;
+  }
+
+  .btn-search-inline{
+    padding:13px 20px;
+    background:linear-gradient(165deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    box-shadow:0 4px 12px -5px rgba(10,31,68,0.4);
+    transition:transform 0.1s ease, box-shadow 0.2s ease;
+    white-space:nowrap;
+  }
+
+  .btn-search-inline:hover{box-shadow:0 8px 18px -6px rgba(10,31,68,0.5);transform:translateY(-1px);}
+
+  .results-wrap{
+    width:100%;
+    max-width:560px;
+    padding:8px 24px 8px;
+  }
+
+  .result-pick{
+    background:linear-gradient(165deg, #ffffff 0%, #fdfaf8 100%);
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid var(--gold);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    box-shadow:0 4px 14px -8px rgba(10,31,68,0.18);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .result-pick:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(10,31,68,0.28);}
+
+  .result-pick .mini-photo{
+    width:42px;height:42px;border-radius:50%;
+    background:#F2F0E8;border:1.5px solid var(--gold-soft);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;flex-shrink:0;
+  }
+  .result-pick .mini-photo img{width:100%;height:100%;object-fit:cover;}
+  .result-pick .mini-photo span{font-size:18px;color:#B8AE94;}
+
+  .result-pick .pick-name{font-size:14.5px;font-weight:700;color:var(--navy-deep);}
+  .result-pick .pick-detail{font-size:12px;color:#6B6457;}
+
+  .empty-state{
+    text-align:center;
+    padding:24px 16px;
+    color:#9A9182;
+    font-size:13.5px;
+  }
+
+  /* Fiche membre sélectionné + tableau des mois */
+  .member-panel{
+    display:none;
+    width:100%;
+    max-width:680px;
+    padding:8px 24px 32px;
+  }
+
+  .member-panel.show{display:flex;flex-direction:column;gap:18px;}
+
+  .member-summary{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
+    border:1.5px solid #E3DDC9;
+    border-radius:10px;
+    padding:18px;
+    box-shadow:0 6px 18px -10px rgba(10,31,68,0.2);
+  }
+
+  .member-summary .summary-photo{
+    width:72px;height:72px;border-radius:50%;
+    background:#F2F0E8;border:2.5px solid var(--gold-soft);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;flex-shrink:0;
+  }
+  .member-summary .summary-photo img{width:100%;height:100%;object-fit:cover;}
+  .member-summary .summary-photo span{font-size:30px;color:#B8AE94;}
+
+  .summary-name{font-size:16px;font-weight:700;color:var(--navy-deep);margin-bottom:4px;}
+  .summary-detail{font-size:12.5px;color:#6B6457;line-height:1.5;}
+
+  .btn-change-member{
+    margin-left:auto;
+    flex-shrink:0;
+    padding:8px 14px;
+    background:#fff;
+    border:1.5px solid #D8D2C2;
+    border-radius:20px;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--navy-mid);
+    cursor:pointer;
+  }
+
+  .year-badge{
+    align-self:center;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:18px;
+    color:var(--navy-deep);
+    background:#FBF8EF;
+    border:1.5px solid var(--gold-soft);
+    border-radius:20px;
+    padding:6px 22px;
+  }
+
+  .months-table{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .month-line{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
+    border:1.5px solid #E3DDC9;
+    border-radius:6px;
+    padding:11px 14px;
+    box-shadow:0 3px 10px -6px rgba(10,31,68,0.1);
+    transition:border-color 0.2s ease;
+  }
+
+  .month-line.checked{border-color:var(--gold);background:linear-gradient(165deg, #FBF8EF 0%, #F8F1DF 100%);}
+
+  .month-line input[type="checkbox"]{
+    width:19px;height:19px;
+    accent-color:var(--navy-mid);
+    cursor:pointer;
+    flex-shrink:0;
+  }
+
+  .month-line .month-label{
+    flex:0 0 92px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--navy-deep);
+  }
+
+  .month-line input[type="number"]{
+    flex:1;
+    padding:9px 12px;
+    border:1.5px solid #D8D2C2;
+    border-radius:5px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    background:#fdfcfa;
+  }
+
+  .month-line input[type="number"]:disabled{
+    background:#F2F0EA;
+    color:#B8AE94;
+    cursor:not-allowed;
+  }
+
+  .month-line input[type="number"]:focus{
+    outline:none;
+    border-color:var(--navy-mid);
+  }
+
+  .total-card{
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border-radius:8px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 10px 24px -10px rgba(10,31,68,0.45);
+  }
+
+  .total-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--gold-soft);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+
+  .total-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    color:#fff;
+  }
+
+  .save-row{display:flex;gap:12px;}
+
+  .btn-save-dime{
+    flex:1;
+    padding:15px;
+    background:linear-gradient(165deg, #34906A 0%, var(--success) 100%);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 6px 16px -6px rgba(46,125,91,0.5);
+  }
+
+  .btn-save-dime:disabled{opacity:0.6;cursor:not-allowed;}
+
+  .save-status{
+    display:none;
+    margin-top:4px;
+    padding:12px 14px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:500;
+  }
+
+  .save-status.show{display:block;}
+  .save-status.ok{background:#F2F9F5;border-left:3px solid var(--success);color:var(--success);}
+  .save-status.err{background:#FBEDE8;border-left:3px solid var(--error);color:var(--error);}
+
+  /* Bouton voir liste complète */
+  .view-all-wrap{
+    width:100%;
+    max-width:560px;
+    padding:8px 24px 32px;
+  }
+
+  .btn-view-all{
+    width:100%;
+    padding:14px;
+    background:#fff;
+    border:1.5px solid var(--navy-mid);
+    color:var(--navy-mid);
+    border-radius:6px;
+    font-size:13.5px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    box-shadow:0 2px 8px -4px rgba(27,58,107,0.15);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="dime.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Enregistrer une dîme</p>
+<p class="section-sub" id="modeSub">Recherchez un membre pour commencer</p>
+
+<div class="search-wrap" id="searchWrap">
+  <form id="searchForm" autocomplete="off">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Nom ou prénom..." required>
+      <button type="submit" class="btn-search-inline">Rechercher</button>
+    </div>
+  </form>
+</div>
+
+<div class="results-wrap" id="resultsWrap"></div>
+
+<div class="member-panel" id="memberPanel">
+  <div class="member-summary">
+    <div class="summary-photo" id="summaryPhoto"><span>👤</span></div>
+    <div>
+      <div class="summary-name" id="summaryName"></div>
+      <div class="summary-detail" id="summaryDetail"></div>
+    </div>
+    <button class="btn-change-member" id="btnChangeMember">Changer</button>
+  </div>
+
+  <div class="year-badge" id="yearBadge"></div>
+
+  <div class="months-table" id="monthsTable"></div>
+
+  <div class="total-card">
+    <span class="total-label">Total</span>
+    <span class="total-amount" id="totalAmount">0 HTG</span>
+  </div>
+
+  <div class="save-row">
+    <button class="btn-save-dime" id="btnSaveDime">Enregistrer</button>
+  </div>
+  <div class="save-status" id="saveStatus"></div>
+</div>
+
+<div class="view-all-wrap">
+  <button class="btn-view-all" id="btnViewAll">📋 Afficher tous ceux qui ont payé la dîme</button>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const MOIS = [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const searchWrap = document.getElementById('searchWrap');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+  const resultsWrap = document.getElementById('resultsWrap');
+  const memberPanel = document.getElementById('memberPanel');
+  const modeSub = document.getElementById('modeSub');
+
+  const summaryPhoto = document.getElementById('summaryPhoto');
+  const summaryName = document.getElementById('summaryName');
+  const summaryDetail = document.getElementById('summaryDetail');
+  const btnChangeMember = document.getElementById('btnChangeMember');
+  const yearBadge = document.getElementById('yearBadge');
+  const monthsTable = document.getElementById('monthsTable');
+  const totalAmount = document.getElementById('totalAmount');
+  const btnSaveDime = document.getElementById('btnSaveDime');
+  const saveStatus = document.getElementById('saveStatus');
+  const btnViewAll = document.getElementById('btnViewAll');
+
+  let selectedMember = null; // { id, data }
+
+  function normalize(str){
+    return (str || '').toString().toLowerCase().trim();
+  }
+
+  function formatMontant(montant){
+    return montant.toLocaleString('fr-FR') + ' HTG';
+  }
+
+  function showStatus(message, type){
+    saveStatus.textContent = message;
+    saveStatus.className = 'save-status show ' + type;
+  }
+
+  // ---------- Recherche de membre ----------
+
+  searchForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const term = normalize(searchInput.value);
+    if (!term) return;
+
+    resultsWrap.innerHTML = '<p class="empty-state">Recherche en cours...</p>';
+
+    try {
+      const snapshot = await getDocs(collection(db, 'membres'));
+      const matches = [];
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (normalize(data.nom).includes(term) || normalize(data.prenom).includes(term)) {
+          matches.push({ id: docSnap.id, data });
+        }
+      });
+
+      if (matches.length === 0) {
+        resultsWrap.innerHTML = '<p class="empty-state">Aucun membre trouvé.</p>';
+        return;
+      }
+
+      resultsWrap.innerHTML = '';
+      matches.forEach(({ id, data }) => {
+        const item = document.createElement('div');
+        item.className = 'result-pick';
+
+        const photoContent = data.photo
+          ? `<img src="${data.photo}" alt="">`
+          : `<span>👤</span>`;
+
+        item.innerHTML = `
+          <div class="mini-photo">${photoContent}</div>
+          <div>
+            <div class="pick-name">${data.nom || ''} ${data.prenom || ''}</div>
+            <div class="pick-detail">${data.fonction || ''}</div>
+          </div>
+        `;
+
+        item.addEventListener('click', () => selectMember(id, data));
+        resultsWrap.appendChild(item);
+      });
+    } catch (err) {
+      console.error(err);
+      resultsWrap.innerHTML = '<p class="empty-state">Erreur : ' + err.message + '</p>';
+    }
+  });
+
+  // ---------- Sélection d'un membre ----------
+
+  async function selectMember(id, data){
+    selectedMember = { id, data };
+
+    searchWrap.style.display = 'none';
+    resultsWrap.innerHTML = '';
+    modeSub.textContent = 'Dîme de l\'année ' + currentYear;
+
+    const photoContent = data.photo
+      ? `<img src="${data.photo}" alt="">`
+      : `<span>👤</span>`;
+    summaryPhoto.innerHTML = photoContent;
+    summaryName.textContent = `${data.nom || ''} ${data.prenom || ''}`;
+    summaryDetail.textContent = [data.fonction, data.telephone].filter(Boolean).join(' · ');
+
+    yearBadge.textContent = currentYear;
+
+    memberPanel.classList.add('show');
+
+    await loadExistingDime();
+  }
+
+  btnChangeMember.addEventListener('click', () => {
+    selectedMember = null;
+    memberPanel.classList.remove('show');
+    searchWrap.style.display = '';
+    searchInput.value = '';
+    modeSub.textContent = 'Recherchez un membre pour commencer';
+  });
+
+  // ---------- Tableau des mois ----------
+
+  let existingMonths = {};
+
+  function dimeDocId(){
+    return `${selectedMember.id}_${currentYear}`;
+  }
+
+  async function loadExistingDime(){
+    existingMonths = {};
+
+    try {
+      const snap = await getDoc(doc(db, 'dimes', dimeDocId()));
+      if (snap.exists()) {
+        existingMonths = snap.data().mois || {};
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    renderMonthsTable();
+  }
+
+  function renderMonthsTable(){
+    monthsTable.innerHTML = '';
+
+    MOIS.forEach((nomMois, index) => {
+      const key = String(index + 1).padStart(2, '0');
+      const existingValue = existingMonths[key];
+      const isChecked = existingValue !== undefined && existingValue !== null;
+
+      const line = document.createElement('div');
+      line.className = 'month-line' + (isChecked ? ' checked' : '');
+      line.innerHTML = `
+        <input type="checkbox" data-key="${key}" ${isChecked ? 'checked' : ''}>
+        <span class="month-label">${nomMois}</span>
+        <input type="number" data-key="${key}" min="0" step="1"
+          placeholder="Montant"
+          value="${isChecked ? existingValue : ''}"
+          ${isChecked ? '' : 'disabled'}>
+      `;
+
+      const checkbox = line.querySelector('input[type="checkbox"]');
+      const amountInput = line.querySelector('input[type="number"]');
+
+      checkbox.addEventListener('change', () => {
+        amountInput.disabled = !checkbox.checked;
+        line.classList.toggle('checked', checkbox.checked);
+        if (!checkbox.checked) amountInput.value = '';
+        else amountInput.focus();
+        updateTotal();
+      });
+
+      amountInput.addEventListener('input', updateTotal);
+
+      monthsTable.appendChild(line);
+    });
+
+    updateTotal();
+  }
+
+  function updateTotal(){
+    let total = 0;
+    monthsTable.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => {
+      const amountInput = monthsTable.querySelector(`input[type="number"][data-key="${cb.dataset.key}"]`);
+      total += parseFloat(amountInput.value) || 0;
+    });
+    totalAmount.textContent = formatMontant(total);
+  }
+
+  // ---------- Enregistrement ----------
+
+  btnSaveDime.addEventListener('click', async () => {
+    if (!selectedMember) return;
+
+    const moisData = {};
+    monthsTable.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+      if (cb.checked) {
+        const amountInput = monthsTable.querySelector(`input[type="number"][data-key="${cb.dataset.key}"]`);
+        const value = parseFloat(amountInput.value) || 0;
+        moisData[cb.dataset.key] = value;
+      }
+    });
+
+    btnSaveDime.disabled = true;
+    showStatus('Enregistrement en cours...', 'ok');
+
+    try {
+      await setDoc(doc(db, 'dimes', dimeDocId()), {
+        membreId: selectedMember.id,
+        nom: selectedMember.data.nom || '',
+        prenom: selectedMember.data.prenom || '',
+        annee: currentYear,
+        mois: moisData
+      });
+
+      showStatus('Dîme enregistrée avec succès.', 'ok');
+      existingMonths = moisData;
+    } catch (err) {
+      console.error(err);
+      showStatus('Erreur lors de l\'enregistrement : ' + err.message, 'err');
+    } finally {
+      btnSaveDime.disabled = false;
+    }
+  });
+
+  // ---------- Voir la liste complète ----------
+
+  btnViewAll.addEventListener('click', () => {
+    window.location.href = 'dime-liste.html';
+  });
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
