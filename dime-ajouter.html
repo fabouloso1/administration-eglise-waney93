@@ -401,6 +401,25 @@
     saveStatus.className = 'save-status show ' + type;
   }
 
+  // ---------- Chargement automatique depuis l'URL (?membreId=...) ----------
+
+  async function loadMemberFromUrl(){
+    const params = new URLSearchParams(window.location.search);
+    const membreId = params.get('membreId');
+    if (!membreId) return;
+
+    try {
+      const snap = await getDoc(doc(db, 'membres', membreId));
+      if (snap.exists()) {
+        await selectMember(membreId, snap.data());
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  loadMemberFromUrl();
+
   // ---------- Recherche de membre ----------
 
   searchForm.addEventListener('submit', async (e) => {

@@ -59,6 +59,13 @@
     padding:16px 18px;
     margin-bottom:12px;
     box-shadow:0 4px 14px -8px rgba(10,31,68,0.18);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .dime-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px -10px rgba(10,31,68,0.28);
+    border-color:var(--gold);
   }
 
   .dime-card-header{
@@ -233,6 +240,7 @@
 
         const card = document.createElement('div');
         card.className = 'dime-card';
+        card.style.cursor = 'pointer';
         card.innerHTML = `
           <div class="dime-card-header">
             <span class="dime-name">${data.nom || ''} ${data.prenom || ''}</span>
@@ -240,6 +248,11 @@
           </div>
           <div class="dime-months">${moisLabels.join(' &nbsp;·&nbsp; ') || 'Aucun mois enregistré'}</div>
         `;
+        if (data.membreId) {
+          card.addEventListener('click', () => {
+            window.location.href = `dime-ajouter.html?membreId=${encodeURIComponent(data.membreId)}`;
+          });
+        }
         listWrap.appendChild(card);
       });
 

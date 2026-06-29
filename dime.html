@@ -213,6 +213,13 @@
     padding:12px 16px;
     margin-bottom:9px;
     box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .month-person-row:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 16px -8px rgba(10,31,68,0.25);
+    border-color:var(--gold);
   }
 
   .month-person-name{
@@ -360,7 +367,8 @@
         total += montant;
         people.push({
           nom: `${data.nom || ''} ${data.prenom || ''}`.trim(),
-          montant
+          montant,
+          membreId: data.membreId || ''
         });
       }
     });
@@ -371,7 +379,7 @@
       monthModalBody.innerHTML = '<p style="text-align:center;color:#9A9182;font-size:13.5px;padding:20px;">Aucun paiement enregistré pour ce mois.</p>';
     } else {
       monthModalBody.innerHTML = people.map((p) => `
-        <div class="month-person-row">
+        <div class="month-person-row" data-membre-id="${p.membreId}" style="cursor:pointer;">
           <span class="month-person-name">${p.nom}</span>
           <span class="month-person-amount">${formatMontant(p.montant)}</span>
         </div>
@@ -381,6 +389,15 @@
           <span>${formatMontant(total)}</span>
         </div>
       `;
+
+      monthModalBody.querySelectorAll('.month-person-row').forEach((row) => {
+        row.addEventListener('click', () => {
+          const membreId = row.dataset.membreId;
+          if (membreId) {
+            window.location.href = `dime-ajouter.html?membreId=${encodeURIComponent(membreId)}`;
+          }
+        });
+      });
     }
 
     monthModalOverlay.classList.add('show');
