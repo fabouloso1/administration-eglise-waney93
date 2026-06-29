@@ -413,16 +413,18 @@
     try {
       const snapshot = await getDocs(collection(db, 'membres'));
       const matches = [];
+      const allNames = [];
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
+        allNames.push(`${data.nom || '?'} ${data.prenom || '?'}`);
         if (normalize(data.nom).includes(term) || normalize(data.prenom).includes(term)) {
           matches.push({ id: docSnap.id, data });
         }
       });
 
       if (matches.length === 0) {
-        resultsWrap.innerHTML = '<p class="empty-state">Aucun membre trouvé.</p>';
+        resultsWrap.innerHTML = `<p class="empty-state">Aucun membre trouvé pour "${term}".<br><br>Total membres dans la base : ${snapshot.size}<br>Noms trouvés : ${allNames.join(', ') || 'aucun'}</p>`;
         return;
       }
 
