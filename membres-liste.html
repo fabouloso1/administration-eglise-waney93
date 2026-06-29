@@ -228,7 +228,11 @@
     }
 
     const filtered = allMembers.filter((data) => {
-      return normalize(data.nom).includes(term) || normalize(data.prenom).includes(term);
+      const nom = normalize(data.nom);
+      const prenom = normalize(data.prenom);
+      const nomPrenom = `${nom} ${prenom}`.trim();
+      const prenomNom = `${prenom} ${nom}`.trim();
+      return nom.includes(term) || prenom.includes(term) || nomPrenom.includes(term) || prenomNom.includes(term);
     });
 
     renderList(filtered);

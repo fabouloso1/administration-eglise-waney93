@@ -237,8 +237,15 @@
         const data = docSnap.data();
         const nom = normalize(data.nom);
         const prenom = normalize(data.prenom);
+        const nomPrenom = `${nom} ${prenom}`.trim();
+        const prenomNom = `${prenom} ${nom}`.trim();
 
-        if (nom.includes(term) || prenom.includes(term)) {
+        if (
+          nom.includes(term) ||
+          prenom.includes(term) ||
+          nomPrenom.includes(term) ||
+          prenomNom.includes(term)
+        ) {
           matches.push({ id: docSnap.id, data });
         }
       });

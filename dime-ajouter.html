@@ -418,13 +418,24 @@
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         allNames.push(`${data.nom || '?'} ${data.prenom || '?'}`);
-        if (normalize(data.nom).includes(term) || normalize(data.prenom).includes(term)) {
+
+        const nom = normalize(data.nom);
+        const prenom = normalize(data.prenom);
+        const nomPrenom = `${nom} ${prenom}`.trim();
+        const prenomNom = `${prenom} ${nom}`.trim();
+
+        if (
+          nom.includes(term) ||
+          prenom.includes(term) ||
+          nomPrenom.includes(term) ||
+          prenomNom.includes(term)
+        ) {
           matches.push({ id: docSnap.id, data });
         }
       });
 
       if (matches.length === 0) {
-        resultsWrap.innerHTML = `<p class="empty-state">Aucun membre trouvé pour "${term}".<br><br>Total membres dans la base : ${snapshot.size}<br>Noms trouvés : ${allNames.join(', ') || 'aucun'}</p>`;
+        resultsWrap.innerHTML = '<p class="empty-state">Aucun membre trouvé.</p>';
         return;
       }
 
