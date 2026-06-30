@@ -177,7 +177,8 @@
     addDoc,
     updateDoc,
     doc,
-    serverTimestamp
+    serverTimestamp,
+    getDoc
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -282,6 +283,48 @@
     btnSave.style.display = '';
     modeIndicator.textContent = 'Nouvel enregistrement';
   }
+
+  // ---------- Chargement automatique depuis l'URL (?membreId=...) ----------
+
+  async function loadMemberFromUrl(){
+    const params = new URLSearchParams(window.location.search);
+    const membreId = params.get('membreId');
+    if (!membreId) return;
+
+    try {
+      const snap = await getDoc(doc(db, 'membres', membreId));
+      if (!snap.exists()) return;
+
+      const data = snap.data();
+
+      document.getElementById('nom').value = data.nom || '';
+      document.getElementById('prenom').value = data.prenom || '';
+      document.getElementById('dateNaissance').value = data.dateNaissance || '';
+      document.getElementById('dateConvention').value = data.dateConvention || '';
+      document.getElementById('dateBapteme').value = data.dateBapteme || '';
+      document.getElementById('telephone').value = data.telephone || '';
+      document.getElementById('fonction').value = data.fonction || '';
+      document.getElementById('conditionMatrimoniale').value = data.conditionMatrimoniale || '';
+      document.getElementById('nifCin').value = data.nifCin || '';
+
+      if (data.sexe === 'M') document.getElementById('sexeM').checked = true;
+      if (data.sexe === 'F') document.getElementById('sexeF').checked = true;
+
+      if (data.photo) {
+        photoPreview.innerHTML = `<img src="${data.photo}" alt="Photo du membre">`;
+      }
+
+      membreIdInput.value = membreId;
+      btnEdit.disabled = false;
+      btnSave.style.display = 'none';
+      modeIndicator.textContent = `Modification de ${data.nom || ''} ${data.prenom || ''}`;
+    } catch (err) {
+      console.error(err);
+      showStatus('Erreur lors du chargement du membre : ' + err.message, 'err');
+    }
+  }
+
+  loadMemberFromUrl();
 
   // ENREGISTRER un nouveau membre
   form.addEventListener('submit', async (e) => {
