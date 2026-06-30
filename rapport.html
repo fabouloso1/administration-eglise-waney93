@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rapport général — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  .rapport-wrap{
+    width:100%;
+    max-width:560px;
+    padding:16px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  /* Sélecteur période */
+  .periode-selector{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .periode-selector select{
+    font-size:13.5px;
+    padding:11px 12px;
+    border-radius:6px;
+  }
+
+  /* Section card */
+  .section-card{
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 24px -12px rgba(10,31,68,0.2), 0 0 0 1px rgba(0,0,0,0.03);
+  }
+
+  .section-card-header{
+    padding:16px 20px 14px;
+    border-bottom:1px solid #EFEAE0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .section-card-icon{
+    width:34px;height:34px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;
+    flex-shrink:0;
+  }
+
+  .section-card-title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--navy-deep);
+    letter-spacing:0.01em;
+  }
+
+  .section-card-body{
+    padding:14px 20px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  /* Lignes de montant */
+  .rapport-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 14px;
+    border-radius:6px;
+    gap:12px;
+  }
+
+  .rapport-row-label{
+    font-size:13px;
+    font-weight:600;
+    color:#6B6457;
+  }
+
+  .rapport-row-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:15px;
+    white-space:nowrap;
+  }
+
+  /* Couleurs par type */
+  .row-dime{background:#FBF8EF;}
+  .row-dime .rapport-row-amount{color:var(--gold);}
+
+  .row-entree{background:#F2F9F5;}
+  .row-entree .rapport-row-amount{color:var(--success);}
+
+  .row-sortie{background:#FBEDE8;}
+  .row-sortie .rapport-row-amount{color:var(--error);}
+  .row-sortie .rapport-row-amount::before{content:"− ";}
+
+  .row-solde-positif{background:linear-gradient(165deg,#E8F3EC,#F2F9F5);}
+  .row-solde-positif .rapport-row-label{color:var(--success);font-weight:700;}
+  .row-solde-positif .rapport-row-amount{color:var(--success);font-size:17px;}
+
+  .row-solde-negatif{background:linear-gradient(165deg,#FBEAE4,#FDF6F4);}
+  .row-solde-negatif .rapport-row-label{color:var(--error);font-weight:700;}
+  .row-solde-negatif .rapport-row-amount{color:var(--error);font-size:17px;}
+  .row-solde-negatif .rapport-row-amount::before{content:"− ";}
+
+  .divider{
+    height:1px;
+    background:#EFEAE0;
+    margin:4px 0;
+  }
+
+  /* Carte total global */
+  .total-global-card{
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border-radius:12px;
+    padding:22px 20px;
+    box-shadow:0 12px 28px -12px rgba(10,31,68,0.5);
+  }
+
+  .total-global-title{
+    font-size:12px;
+    font-weight:600;
+    color:var(--gold-soft);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+
+  .total-global-rows{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:14px;
+  }
+
+  .total-global-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  .total-global-row span:first-child{
+    font-size:12.5px;
+    font-weight:500;
+    color:rgba(255,255,255,0.65);
+  }
+
+  .total-global-row span:last-child{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:14px;
+    color:#fff;
+  }
+
+  .total-global-divider{
+    height:1px;
+    background:rgba(255,255,255,0.15);
+    margin:10px 0;
+  }
+
+  .total-global-solde-label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--gold-soft);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+
+  .total-global-solde-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:28px;
+    color:#fff;
+  }
+
+  .total-global-solde-amount.negatif{color:#FF9E8A;}
+
+  .loading-state{
+    text-align:center;
+    padding:32px 16px;
+    color:#9A9182;
+    font-size:13.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="index.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Rapport général</p>
+<p class="section-sub" id="periodeLabel">Chargement...</p>
+
+<div class="rapport-wrap">
+
+  <!-- Sélecteur période -->
+  <div class="periode-selector">
+    <select id="filterMonth">
+      <option value="">Toute l'année</option>
+      <option value="01">Janvier</option>
+      <option value="02">Février</option>
+      <option value="03">Mars</option>
+      <option value="04">Avril</option>
+      <option value="05">Mai</option>
+      <option value="06">Juin</option>
+      <option value="07">Juillet</option>
+      <option value="08">Août</option>
+      <option value="09">Septembre</option>
+      <option value="10">Octobre</option>
+      <option value="11">Novembre</option>
+      <option value="12">Décembre</option>
+    </select>
+    <select id="filterYear">
+      <!-- Généré dynamiquement -->
+    </select>
+  </div>
+
+  <!-- Seksyon 1 : Dîme (apa) -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <div class="section-card-icon" style="background:#FBF8EF;color:var(--gold);">✦</div>
+      <span class="section-card-title">Dîme</span>
+    </div>
+    <div class="section-card-body" id="dimBody">
+      <p class="loading-state">Chargement...</p>
+    </div>
+  </div>
+
+  <!-- Seksyon 2 : Kès Général -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <div class="section-card-icon" style="background:#F2F9F5;color:var(--success);">⇄</div>
+      <span class="section-card-title">Caisse générale</span>
+    </div>
+    <div class="section-card-body" id="kesBody">
+      <p class="loading-state">Chargement...</p>
+    </div>
+  </div>
+
+  <!-- Seksyon 3 : Total Global -->
+  <div class="total-global-card">
+    <div class="total-global-title">Vue d'ensemble</div>
+    <div class="total-global-rows" id="globalRows">
+      <div class="loading-state" style="color:rgba(255,255,255,0.5);">Chargement...</div>
+    </div>
+    <div class="total-global-divider"></div>
+    <div class="total-global-solde-label">Solde total</div>
+    <div class="total-global-solde-amount" id="globalSolde">— HTG</div>
+  </div>
+
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const MOIS_NOMS = ['', 'Janvier','Février','Mars','Avril','Mai','Juin',
+    'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  const filterMonth = document.getElementById('filterMonth');
+  const filterYear = document.getElementById('filterYear');
+  const periodeLabel = document.getElementById('periodeLabel');
+
+  // Génère les années disponibles (5 ans en arrière + année courante)
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= currentYear - 4; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    filterYear.appendChild(opt);
+  }
+  filterYear.value = currentYear;
+  filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
+
+  function fmt(m){
+    return Number(m).toLocaleString('fr-FR') + ' HTG';
+  }
+
+  function matchPeriode(dateStr, year, month){
+    if (!dateStr) return false;
+    const [y, m] = dateStr.split('-');
+    if (String(y) !== String(year)) return false;
+    if (month && m !== month) return false;
+    return true;
+  }
+
+  async function loadRapport(){
+    const year = filterYear.value;
+    const month = filterMonth.value;
+
+    // Met à jour le label de période
+    const moisLabel = month ? MOIS_NOMS[parseInt(month)] : 'Toute l\'année';
+    periodeLabel.textContent = `${moisLabel} ${year}`;
+
+    // ===== 1. DÎME =====
+    let totalDime = 0;
+    try {
+      const q = query(collection(db, 'dimes'), where('annee', '==', parseInt(year)));
+      const snap = await getDocs(q);
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        const mois = data.mois || {};
+        Object.keys(mois).forEach(key => {
+          if (!month || key === month) {
+            totalDime += parseFloat(mois[key]) || 0;
+          }
+        });
+      });
+    } catch (err) { console.error('Dime err:', err); }
+
+    document.getElementById('dimBody').innerHTML = `
+      <div class="rapport-row row-dime">
+        <span class="rapport-row-label">Total dîme</span>
+        <span class="rapport-row-amount">${fmt(totalDime)}</span>
+      </div>
+    `;
+
+    // ===== 2. KÈS JENERAL : OFFRANDE + DON =====
+    let totalOffrande = 0;
+    let totalDon = 0;
+    try {
+      const snap = await getDocs(collection(db, 'offrandes'));
+      snap.forEach(docSnap => {
+        const d = docSnap.data();
+        if (!matchPeriode(d.date, year, month)) return;
+        const m = parseFloat(d.montant) || 0;
+        if (d.type === 'Don') totalDon += m;
+        else totalOffrande += m;
+      });
+    } catch (err) { console.error('Offrande err:', err); }
+
+    const totalEntree = totalOffrande + totalDon;
+
+    // ===== 3. DÉPENSES =====
+    let totalDepenses = 0;
+    let depensesParCat = {};
+    try {
+      const snap = await getDocs(collection(db, 'depenses'));
+      snap.forEach(docSnap => {
+        const d = docSnap.data();
+        if (!matchPeriode(d.date, year, month)) return;
+        const m = parseFloat(d.montant) || 0;
+        totalDepenses += m;
+        depensesParCat[d.type] = (depensesParCat[d.type] || 0) + m;
+      });
+    } catch (err) { console.error('Depenses err:', err); }
+
+    const soldeKes = totalEntree - totalDepenses;
+    const soldeKesClass = soldeKes >= 0 ? 'row-solde-positif' : 'row-solde-negatif';
+    const soldeKesAbs = Math.abs(soldeKes);
+
+    // Détail dépenses par catégorie
+    const detailDep = Object.entries(depensesParCat).map(([cat, mt]) => `
+      <div class="rapport-row row-sortie" style="opacity:0.75;padding:7px 14px;">
+        <span class="rapport-row-label" style="font-weight:500;">${cat}</span>
+        <span class="rapport-row-amount" style="font-size:13px;">${fmt(mt)}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('kesBody').innerHTML = `
+      <div class="rapport-row row-entree">
+        <span class="rapport-row-label">Offrandes</span>
+        <span class="rapport-row-amount">${fmt(totalOffrande)}</span>
+      </div>
+      <div class="rapport-row row-entree">
+        <span class="rapport-row-label">Dons</span>
+        <span class="rapport-row-amount">${fmt(totalDon)}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="rapport-row row-sortie">
+        <span class="rapport-row-label">Total dépenses</span>
+        <span class="rapport-row-amount">${fmt(totalDepenses)}</span>
+      </div>
+      ${detailDep}
+      <div class="divider"></div>
+      <div class="rapport-row ${soldeKesClass}">
+        <span class="rapport-row-label">Solde caisse générale</span>
+        <span class="rapport-row-amount">${fmt(soldeKesAbs)}</span>
+      </div>
+    `;
+
+    // ===== 4. TOTAL GLOBAL =====
+    const totalTousEntrees = totalDime + totalEntree;
+    const soldeFinal = totalDime + soldeKes;
+    const soldeFinalAbs = Math.abs(soldeFinal);
+    const soldeFinalNegatif = soldeFinal < 0;
+
+    document.getElementById('globalRows').innerHTML = `
+      <div class="total-global-row">
+        <span>Dîme</span>
+        <span>${fmt(totalDime)}</span>
+      </div>
+      <div class="total-global-row">
+        <span>Offrandes + Dons</span>
+        <span>${fmt(totalEntree)}</span>
+      </div>
+      <div class="total-global-row">
+        <span>Dépenses</span>
+        <span style="color:#FF9E8A;">− ${fmt(totalDepenses)}</span>
+      </div>
+    `;
+
+    const soldeEl = document.getElementById('globalSolde');
+    soldeEl.textContent = fmt(soldeFinalAbs);
+    soldeEl.className = 'total-global-solde-amount' + (soldeFinalNegatif ? ' negatif' : '');
+    if (soldeFinalNegatif) {
+      document.querySelector('.total-global-solde-label').textContent = 'Solde total (déficit)';
+    } else {
+      document.querySelector('.total-global-solde-label').textContent = 'Solde total';
+    }
+  }
+
+  filterMonth.addEventListener('change', loadRapport);
+  filterYear.addEventListener('change', loadRapport);
+
+  loadRapport();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
