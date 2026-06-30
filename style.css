@@ -366,8 +366,8 @@ body.has-login-bg::after{
 .menu-btn.c-offrande{border-top:4px solid #6B2E8C;background:linear-gradient(165deg, #F8F3FA 0%, #F2E9F6 100%);}
 .menu-btn.c-offrande .menu-icon{color:#6B2E8C;border-color:#C9A8DA;background:#fff;}
 
-.menu-btn.c-services{border-top:4px solid #1B3A6B;background:linear-gradient(165deg, #F2F5FA 0%, #E9EFF7 100%);}
-.menu-btn.c-services .menu-icon{color:#1B3A6B;border-color:#A9BBD9;background:#fff;}
+.menu-btn.c-services{border-top:4px solid #8E3522;background:linear-gradient(165deg, #FDF6F4 0%, #FBEAE4 100%);}
+.menu-btn.c-services .menu-icon{color:#8E3522;border-color:#D9A893;background:#fff;}
 
 .menu-btn.c-rapport{border-top:4px solid #2E7D5B;background:linear-gradient(165deg, #F2F9F5 0%, #E8F3EC 100%);}
 .menu-btn.c-rapport .menu-icon{color:#2E7D5B;border-color:#A8D6BF;background:#fff;}

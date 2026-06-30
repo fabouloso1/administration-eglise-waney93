@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dépenses — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  .form-card{
+    width:100%;
+    max-width:520px;
+    padding:0 24px 8px;
+  }
+
+  .form-card form{
+    background:#fff;
+    border-radius:10px;
+    padding:22px 20px 24px;
+    box-shadow:0 10px 30px -16px rgba(10,31,68,0.22), 0 0 0 1px rgba(0,0,0,0.03);
+  }
+
+  .form-row-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+
+  .btn-enregistrer{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+    background:linear-gradient(165deg, #C9543A 0%, var(--error) 100%);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 6px 16px -6px rgba(179,67,43,0.5);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-enregistrer:hover{transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(179,67,43,0.55);}
+  .btn-enregistrer:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+  /* Liste des dépenses */
+  .list-section{
+    width:100%;
+    max-width:520px;
+    padding:20px 24px 8px;
+  }
+
+  .list-title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--navy-deep);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    margin-bottom:12px;
+  }
+
+  .filter-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .filter-row select{
+    font-size:13px;
+    padding:10px 12px;
+  }
+
+  .depense-item{
+    background:linear-gradient(165deg, #ffffff 0%, #fdfaf8 100%);
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid var(--error);
+    border-radius:8px;
+    padding:13px 16px;
+    margin-bottom:9px;
+    box-shadow:0 3px 10px -6px rgba(179,67,43,0.1);
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    position:relative;
+  }
+
+  .depense-item-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  .depense-type{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--navy-deep);
+  }
+
+  .depense-montant{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--error);
+    white-space:nowrap;
+  }
+
+  .depense-montant::before{
+    content:"− ";
+  }
+
+  .depense-date{
+    font-size:11.5px;
+    font-weight:500;
+    color:#9A9182;
+  }
+
+  .depense-note{
+    font-size:12px;
+    color:#6B6457;
+    font-style:italic;
+  }
+
+  .depense-delete{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:none;
+    border:none;
+    color:#D8C9B0;
+    font-size:15px;
+    cursor:pointer;
+    padding:2px 6px;
+    border-radius:4px;
+    transition:color 0.15s ease;
+    display:none;
+  }
+
+  .depense-item:hover .depense-delete{display:block;}
+  .depense-delete:hover{color:var(--error);}
+
+  .total-wrap{
+    width:100%;
+    max-width:520px;
+    padding:12px 24px 32px;
+  }
+
+  .total-card{
+    background:linear-gradient(155deg, #8E3522 0%, #5E2316 100%);
+    border-radius:8px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 10px 24px -10px rgba(142,53,34,0.45);
+  }
+
+  .total-label{
+    font-size:13px;
+    font-weight:600;
+    color:rgba(255,255,255,0.75);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+
+  .total-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    color:#fff;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:28px 16px;
+    color:#9A9182;
+    font-size:13.5px;
+  }
+
+  .status-msg{
+    display:none;
+    margin-top:12px;
+    padding:12px 14px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:500;
+  }
+  .status-msg.show{display:block;}
+  .status-msg.ok{background:#F2F9F5;border-left:3px solid var(--success);color:var(--success);}
+  .status-msg.err{background:#FBEDE8;border-left:3px solid var(--error);color:var(--error);}
+  .status-msg.info{background:#F2F5FA;border-left:3px solid var(--navy-mid);color:var(--navy-mid);}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="index.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Dépenses</p>
+<p class="section-sub">Enregistrer une dépense de l'église</p>
+
+<!-- Formulaire -->
+<div class="form-card">
+  <form id="depenseForm" autocomplete="off">
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="dpDate">Date</label>
+        <input type="date" id="dpDate" required>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="dpType">Catégorie</label>
+        <select id="dpType" required>
+          <option value="" disabled selected>Choisir...</option>
+          <option value="Gaz pour delco">Gaz pour delco</option>
+          <option value="Eau">Eau</option>
+          <option value="Boisson">Boisson</option>
+          <option value="Livres École du dimanche">Livres École du dimanche</option>
+          <option value="Veuf(ve)">Veuf(ve)</option>
+          <option value="Autre dépense">Autre dépense</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="dpMontant">Montant (HTG)</label>
+      <input type="number" id="dpMontant" min="0" step="1" placeholder="0" required>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="dpNote">Description (optionnel)</label>
+      <input type="text" id="dpNote" placeholder="Ex. : Aide pour sœur Marie, achat de 5 gallons...">
+    </div>
+
+    <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer</button>
+    <div class="status-msg" id="statusMsg"></div>
+  </form>
+</div>
+
+<!-- Filtres + liste -->
+<div class="list-section">
+  <p class="list-title">Historique</p>
+  <div class="filter-row">
+    <select id="filterType">
+      <option value="">Toutes les catégories</option>
+      <option value="Gaz pour delco">Gaz pour delco</option>
+      <option value="Eau">Eau</option>
+      <option value="Boisson">Boisson</option>
+      <option value="Livres École du dimanche">Livres École du dimanche</option>
+      <option value="Veuf(ve)">Veuf(ve)</option>
+      <option value="Autre dépense">Autre dépense</option>
+    </select>
+    <select id="filterMonth">
+      <option value="">Tous les mois</option>
+      <option value="01">Janvier</option>
+      <option value="02">Février</option>
+      <option value="03">Mars</option>
+      <option value="04">Avril</option>
+      <option value="05">Mai</option>
+      <option value="06">Juin</option>
+      <option value="07">Juillet</option>
+      <option value="08">Août</option>
+      <option value="09">Septembre</option>
+      <option value="10">Octobre</option>
+      <option value="11">Novembre</option>
+      <option value="12">Décembre</option>
+    </select>
+  </div>
+  <div id="listWrap"></div>
+</div>
+
+<div class="total-wrap">
+  <div class="total-card">
+    <span class="total-label">Total des dépenses affichées</span>
+    <span class="total-amount" id="totalAmount">0 HTG</span>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('dpDate').value = today;
+
+  const form = document.getElementById('depenseForm');
+  const btnSave = document.getElementById('btnSave');
+  const statusMsg = document.getElementById('statusMsg');
+  const listWrap = document.getElementById('listWrap');
+  const totalAmount = document.getElementById('totalAmount');
+  const filterType = document.getElementById('filterType');
+  const filterMonth = document.getElementById('filterMonth');
+
+  filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
+
+  let allDepenses = [];
+
+  function showStatus(msg, type){
+    statusMsg.textContent = msg;
+    statusMsg.className = 'status-msg show ' + type;
+    if (type === 'ok') setTimeout(() => statusMsg.classList.remove('show'), 3000);
+  }
+
+  function formatMontant(m){
+    return Number(m).toLocaleString('fr-FR') + ' HTG';
+  }
+
+  function formatDate(dateStr){
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  function renderList(){
+    const typeFilter = filterType.value;
+    const monthFilter = filterMonth.value;
+
+    const filtered = allDepenses.filter(d => {
+      const matchType = !typeFilter || d.type === typeFilter;
+      const matchMonth = !monthFilter || (d.date && d.date.slice(5, 7) === monthFilter);
+      return matchType && matchMonth;
+    });
+
+    filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+    listWrap.innerHTML = '';
+
+    if (filtered.length === 0) {
+      listWrap.innerHTML = '<p class="empty-state">Aucune dépense trouvée.</p>';
+      totalAmount.textContent = formatMontant(0);
+      return;
+    }
+
+    let total = 0;
+
+    filtered.forEach(d => {
+      total += Number(d.montant) || 0;
+
+      const item = document.createElement('div');
+      item.className = 'depense-item';
+      item.innerHTML = `
+        <div class="depense-item-top">
+          <span class="depense-type">${d.type || ''}</span>
+          <span class="depense-montant">${formatMontant(d.montant)}</span>
+        </div>
+        <span class="depense-date">${formatDate(d.date)}</span>
+        ${d.note ? `<span class="depense-note">${d.note}</span>` : ''}
+        <button class="depense-delete" data-id="${d.id}" title="Supprimer">✕</button>
+      `;
+
+      item.querySelector('.depense-delete').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const confirmed = confirm(`Supprimer cette dépense (${d.type} — ${formatMontant(d.montant)}) ?`);
+        if (!confirmed) return;
+        try {
+          await deleteDoc(doc(db, 'depenses', d.id));
+          allDepenses = allDepenses.filter(x => x.id !== d.id);
+          renderList();
+        } catch (err) {
+          alert('Erreur lors de la suppression : ' + err.message);
+        }
+      });
+
+      listWrap.appendChild(item);
+    });
+
+    totalAmount.textContent = formatMontant(total);
+  }
+
+  async function loadDepenses(){
+    listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
+    try {
+      const snapshot = await getDocs(collection(db, 'depenses'));
+      allDepenses = [];
+      snapshot.forEach(docSnap => {
+        allDepenses.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      renderList();
+    } catch (err) {
+      listWrap.innerHTML = '<p class="empty-state">Erreur : ' + err.message + '</p>';
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btnSave.disabled = true;
+    showStatus('Enregistrement en cours...', 'info');
+
+    try {
+      const data = {
+        date: document.getElementById('dpDate').value,
+        type: document.getElementById('dpType').value,
+        montant: parseFloat(document.getElementById('dpMontant').value) || 0,
+        note: document.getElementById('dpNote').value.trim() || null,
+        creeLe: serverTimestamp()
+      };
+
+      const docRef = await addDoc(collection(db, 'depenses'), data);
+      allDepenses.push({ id: docRef.id, ...data });
+      renderList();
+
+      document.getElementById('dpMontant').value = '';
+      document.getElementById('dpNote').value = '';
+      showStatus('Dépense enregistrée avec succès.', 'ok');
+    } catch (err) {
+      showStatus('Erreur : ' + err.message, 'err');
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  filterType.addEventListener('change', renderList);
+  filterMonth.addEventListener('change', renderList);
+
+  loadDepenses();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
