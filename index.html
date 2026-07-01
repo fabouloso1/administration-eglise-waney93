@@ -17,23 +17,27 @@
 
 <!-- ===== ÉCRAN CONNEXION ===== -->
 <div id="loginScreen">
+  <div class="login-logo">
+    <img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie">
+    <div class="login-logo-name">Église de Dieu<br>de la Prophétie</div>
+    <div class="login-logo-sub">Waney 93</div>
+  </div>
+
   <div class="card" id="loginCard">
-    <div class="card-band">
-      <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
-      <h1>Église de Dieu de la Prophétie</h1>
-      <p>Waney 93</p>
-    </div>
     <div class="card-body">
+      <h2>Connexion</h2>
+      <p class="card-intro">Accès réservé aux administrateurs et trésoriers</p>
       <form id="loginForm" autocomplete="off">
-        <label class="field-label" for="pw">Mot de passe administrateur / trésorier</label>
-        <div class="pw-wrap">
-          <input type="password" id="pw" name="pw" placeholder="••••••••" required>
-          <button type="button" class="toggle-pw" id="togglePw">VOIR</button>
+        <div class="field-group">
+          <label class="field-label" for="pw">Mot de passe</label>
+          <div class="pw-wrap">
+            <input type="password" id="pw" name="pw" placeholder="••••••••" required>
+            <button type="button" class="toggle-pw" id="togglePw">VOIR</button>
+          </div>
         </div>
         <button type="submit" class="submit-btn">Entrer</button>
         <div class="error-msg" id="errorMsg">Mot de passe incorrect. Veuillez réessayer.</div>
       </form>
-      <p class="footer-note">Accès réservé au trésorier et aux administrateurs de l'église</p>
     </div>
   </div>
 </div>
@@ -49,37 +53,39 @@
 
   <nav class="menu-grid">
     <button class="menu-btn c-membres" data-target="membres.html">
-      <span class="menu-icon">👤</span>
+      <span class="menu-icon">👥</span>
       <span class="menu-label">Membres</span>
       <span class="menu-sub">Enregistrement</span>
     </button>
 
     <button class="menu-btn c-dime" data-target="dime.html">
-      <span class="menu-icon">✦</span>
+      <span class="menu-icon">💰</span>
       <span class="menu-label">Dîme</span>
       <span class="menu-sub">Contributions</span>
     </button>
 
     <button class="menu-btn c-offrande" data-target="offrande.html">
-      <span class="menu-icon">✦</span>
+      <span class="menu-icon">🙏</span>
       <span class="menu-label">Offrande</span>
-      <span class="menu-sub">Contributions</span>
+      <span class="menu-sub">Dimanche · Étude · Spéciale</span>
     </button>
 
     <button class="menu-btn c-services" data-target="depenses.html">
-      <span class="menu-icon">✦</span>
+      <span class="menu-icon">📋</span>
       <span class="menu-label">Dépenses</span>
-      <span class="menu-sub">Gaz · Eau · Boisson · Veuf(ve)</span>
+      <span class="menu-sub">Gaz · Eau · Veuf(ve)</span>
     </button>
 
     <button class="menu-btn c-rapport" data-target="rapport.html">
-      <span class="menu-icon">✦</span>
-      <span class="menu-label">Rapport général</span>
-      <span class="menu-sub">Vue d'ensemble</span>
+      <span class="menu-icon">📊</span>
+      <div>
+        <div class="menu-label">Rapport général</div>
+        <div class="menu-sub">Vue d'ensemble financière</div>
+      </div>
     </button>
 
     <button class="menu-btn danger" id="closeAppBtn">
-      <span class="menu-label">Fermer l'application</span>
+      <span class="menu-label">⏻ &nbsp;Fermer la session</span>
     </button>
   </nav>
 
