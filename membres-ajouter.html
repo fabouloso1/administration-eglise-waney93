@@ -193,15 +193,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Active la persistance hors-ligne (données sauvegardées localement)
-  enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code === 'failed-precondition') {
-      console.warn('Persistance offline: plusieurs onglets ouverts.');
-    } else if (err.code === 'unimplemented') {
-      console.warn('Persistance offline: navigateur non supporté.');
-    }
-  });
-
   // Sécurité : on vérifie que l'utilisateur est bien connecté
   if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
     window.location.href = 'index.html';
