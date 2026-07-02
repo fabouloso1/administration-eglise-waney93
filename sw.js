@@ -1,10 +1,11 @@
-// Service Worker — Église de Dieu de la Prophétie de Waney 93
-// Cache les fichiers statiques pour permettre une utilisation hors-ligne partielle
+// Service Worker v2 — Église de Dieu de la Prophétie de Waney 93
+// Stratégie: Cache-first pour TOUT (fichiers locaux + Firebase SDK + Fonts)
 
-const CACHE_NAME = 'eglise-waney93-v1';
+const CACHE = 'eglise-waney93-v2';
 
-// Fichiers à mettre en cache pour utilisation hors-ligne
-const FILES_TO_CACHE = [
+// Tous les fichiers à mettre en cache
+const STATIC_FILES = [
+  // Pages HTML
   '/administration-eglise-waney93/',
   '/administration-eglise-waney93/index.html',
   '/administration-eglise-waney93/membres.html',
@@ -19,61 +20,101 @@ const FILES_TO_CACHE = [
   '/administration-eglise-waney93/offrande.html',
   '/administration-eglise-waney93/depenses.html',
   '/administration-eglise-waney93/rapport.html',
+  // Assets locaux
   '/administration-eglise-waney93/style.css',
   '/administration-eglise-waney93/images.jpeg',
   '/administration-eglise-waney93/icon-192.png',
   '/administration-eglise-waney93/icon-512.png',
-  '/administration-eglise-waney93/manifest.json'
+  '/administration-eglise-waney93/manifest.json',
+  // Firebase SDK (CDN) — cachés localement après la première visite
+  'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js',
+  'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js',
+  // Google Fonts
+  'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap',
 ];
 
-// Installation : met en cache tous les fichiers statiques
+// Installation — cache tous les fichiers statiques
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE).catch((err) => {
-        console.warn('Certains fichiers n\'ont pas pu être mis en cache:', err);
-      });
+    caches.open(CACHE).then(async (cache) => {
+      // Cache fichiers locaux (obligatoires)
+      const localFiles = STATIC_FILES.filter(f => !f.startsWith('http'));
+      try {
+        await cache.addAll(localFiles);
+      } catch(e) {
+        console.warn('Erreur cache local:', e);
+      }
+      // Cache fichiers CDN (optionnels — peuvent échouer si hors-ligne)
+      const cdnFiles = STATIC_FILES.filter(f => f.startsWith('http'));
+      for (const url of cdnFiles) {
+        try {
+          const response = await fetch(url, { mode: 'cors' });
+          if (response.ok) await cache.put(url, response);
+        } catch(e) {
+          console.warn('CDN non mis en cache (hors-ligne?):', url);
+        }
+      }
     })
   );
-  self.skipWaiting();
 });
 
-// Activation : supprime les anciens caches
+// Activation — supprime anciens caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME)
-            .map((key) => caches.delete(key))
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    )
   );
   self.clients.claim();
 });
 
-// Fetch : Cache-first pour fichiers statiques, Network-first pour Firebase
+// Fetch — Cache-first pour tout SAUF les requêtes Firestore (données)
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Laisse passer les requêtes Firebase (besoin d'internet)
-  if (url.hostname.includes('firebase') ||
-      url.hostname.includes('google') ||
-      url.hostname.includes('gstatic')) {
-    event.respondWith(fetch(event.request).catch(() => new Response('', {status: 503})));
+  // Requêtes Firestore (données) → réseau d'abord, puis cache si dispo
+  if (url.hostname.includes('firestore.googleapis.com') ||
+      url.pathname.includes('/google.firestore.')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Met à jour le cache des données si possible
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE).then(c => c.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
     return;
   }
 
-  // Pour les fichiers statiques : cache d'abord, réseau ensuite
+  // Tout le reste (HTML, CSS, JS, fonts, images) → cache d'abord
   event.respondWith(
-    caches.match(event.request).then((cached) => {
+    caches.match(event.request).then(cached => {
       if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        if (response.ok) {
+
+      // Pas en cache → essayer le réseau et mettre en cache
+      return fetch(event.request).then(response => {
+        if (response.ok || response.type === 'opaque') {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          caches.open(CACHE).then(c => c.put(event.request, clone));
         }
         return response;
-      }).catch(() => cached || new Response('Hors-ligne — connexion requise pour les données.', {status: 503}));
+      }).catch(() => {
+        // Hors-ligne et pas en cache
+        if (event.request.destination === 'document') {
+          return caches.match('/administration-eglise-waney93/index.html');
+        }
+        return new Response('Hors-ligne', { status: 503 });
+      });
     })
   );
+});
+
+// Écoute les messages pour forcer une mise à jour du cache
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
