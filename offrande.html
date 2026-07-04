@@ -143,8 +143,10 @@
     position: absolute;
     display: block;
     top: 100%;
-    left: 0;
     right: 0;
+    left: auto;
+    width: 230px;
+    max-width: calc(100vw - 56px);
     background: #ffffff !important;
     border: 2px solid #6B2EA0 !important;
     border-radius: 12px;
@@ -491,44 +493,57 @@
   <!-- Modal de choix pour la réinitialisation -->
   <div class="reset-modal" id="resetModal">
     <div class="reset-modal-box">
-      <p class="reset-modal-title">Efase ofrann yo</p>
-      <p class="reset-modal-text" id="resetModalText">Chwazi ki ofrann ou vle efase nèt. Aksyon sa PA KA anile.</p>
-      <button type="button" class="reset-modal-btn month" id="btnResetMonth">Efase ofrann mwa sa a</button>
-      <button type="button" class="reset-modal-btn year" id="btnResetYear">Efase ofrann tout ane a</button>
-      <button type="button" class="reset-modal-btn cancel" id="btnResetCancel">Anile</button>
+      <p class="reset-modal-title">Supprimer les offrandes</p>
+      <p class="reset-modal-text" id="resetModalText">Choisissez les offrandes à supprimer définitivement. Cette action est irréversible.</p>
+      <button type="button" class="reset-modal-btn month" id="btnResetMonth">Supprimer les offrandes de ce mois</button>
+      <button type="button" class="reset-modal-btn year" id="btnResetYear">Supprimer les offrandes de toute l'année</button>
+      <button type="button" class="reset-modal-btn cancel" id="btnResetCancel">Annuler</button>
     </div>
   </div>
   
   <div class="filter-row">
-    <select id="filterType">
-      <option value="">Tous les types</option>
-      <option value="Dimanche matin">Dimanche matin</option>
-      <option value="Dimanche soir">Dimanche soir</option>
-      <option value="Mardi étude">Mardi étude</option>
-      <option value="Jeudi Calme-Tempête">Jeudi Calme-Tempête</option>
-      <option value="École du dimanche">École du dimanche</option>
-      <option value="Réveil">Réveil</option>
-      <option value="Semaine de prière">Semaine de prière</option>
-      <option value="Jeûne">Jeûne</option>
-      <option value="Veillée de nuit">Veillée de nuit</option>
-      <option value="Don">Don</option>
-      <option value="Autre">Autre</option>
-    </select>
-    <select id="filterMonth">
-      <option value="">Tous les mois</option>
-      <option value="01">Janvier</option>
-      <option value="02">Février</option>
-      <option value="03">Mars</option>
-      <option value="04">Avril</option>
-      <option value="05">Mai</option>
-      <option value="06">Juin</option>
-      <option value="07">Juillet</option>
-      <option value="08">Août</option>
-      <option value="09">Septembre</option>
-      <option value="10">Octobre</option>
-      <option value="11">Novembre</option>
-      <option value="12">Décembre</option>
-    </select>
+    <div class="field-group">
+      <div class="custom-select-wrapper" id="filterTypeWrapper">
+        <div class="custom-select-trigger" id="filterTypeTrigger">Tous les types</div>
+        <div class="custom-options">
+          <span class="custom-option" data-value="">Tous les types</span>
+          <span class="custom-option" data-value="Dimanche matin"><span class="custom-option-icon">🙏</span>Dimanche matin</span>
+          <span class="custom-option" data-value="Dimanche soir"><span class="custom-option-icon">🙏</span>Dimanche soir</span>
+          <span class="custom-option" data-value="Mardi étude"><span class="custom-option-icon">📖</span>Mardi étude</span>
+          <span class="custom-option" data-value="Jeudi Calme-Tempête"><span class="custom-option-icon">⭐</span>Jeudi Calme-Tempête</span>
+          <span class="custom-option" data-value="École du dimanche"><span class="custom-option-icon">📖</span>École du dimanche</span>
+          <span class="custom-option" data-value="Réveil"><span class="custom-option-icon">✨</span>Réveil</span>
+          <span class="custom-option" data-value="Semaine de prière"><span class="custom-option-icon">🕊️</span>Semaine de prière</span>
+          <span class="custom-option" data-value="Jeûne"><span class="custom-option-icon">🕊️</span>Jeûne</span>
+          <span class="custom-option" data-value="Veillée de nuit"><span class="custom-option-icon">✨</span>Veillée de nuit</span>
+          <span class="custom-option" data-value="Don"><span class="custom-option-icon">🎁</span>Don</span>
+          <span class="custom-option" data-value="Autre"><span class="custom-option-icon">⭐</span>Autre</span>
+        </div>
+      </div>
+      <input type="hidden" id="filterType" value="">
+    </div>
+
+    <div class="field-group">
+      <div class="custom-select-wrapper" id="filterMonthWrapper">
+        <div class="custom-select-trigger" id="filterMonthTrigger">Tous les mois</div>
+        <div class="custom-options">
+          <span class="custom-option" data-value="">Tous les mois</span>
+          <span class="custom-option" data-value="01">Janvier</span>
+          <span class="custom-option" data-value="02">Février</span>
+          <span class="custom-option" data-value="03">Mars</span>
+          <span class="custom-option" data-value="04">Avril</span>
+          <span class="custom-option" data-value="05">Mai</span>
+          <span class="custom-option" data-value="06">Juin</span>
+          <span class="custom-option" data-value="07">Juillet</span>
+          <span class="custom-option" data-value="08">Août</span>
+          <span class="custom-option" data-value="09">Septembre</span>
+          <span class="custom-option" data-value="10">Octobre</span>
+          <span class="custom-option" data-value="11">Novembre</span>
+          <span class="custom-option" data-value="12">Décembre</span>
+        </div>
+      </div>
+      <input type="hidden" id="filterMonth" value="">
+    </div>
   </div>
   <div id="listWrap"></div>
 </div>
@@ -583,31 +598,51 @@
   const filterMonth = document.getElementById('filterMonth');
   const btnReset = document.getElementById('btnResetFilters');
 
-  // GESTION JAVASCRIPT DE LA LISTE PERSONNALISÉE
-  const wrapper = document.getElementById('customSelectWrapper');
-  const trigger = document.getElementById('customSelectTrigger');
-  const hiddenInput = document.getElementById('ofType');
+  // GESTION JAVASCRIPT DES LISTES PERSONNALISÉES (Type, Filtre Type, Filtre Mois)
+  const allDropdownWrappers = [];
 
-  trigger.addEventListener('click', () => wrapper.classList.toggle('open'));
+  function setupCustomSelect(wrapperId, triggerId, hiddenInputId, onSelect){
+    const wrapperEl = document.getElementById(wrapperId);
+    const triggerEl = document.getElementById(triggerId);
+    const hiddenEl = document.getElementById(hiddenInputId);
+    allDropdownWrappers.push(wrapperEl);
 
-  document.querySelectorAll('.custom-option').forEach(option => {
-    option.addEventListener('click', function() {
-      const val = this.getAttribute('data-value');
-      trigger.textContent = val;
-      hiddenInput.value = val;
-      wrapper.classList.remove('open');
+    triggerEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = wrapperEl.classList.contains('open');
+      allDropdownWrappers.forEach(w => w.classList.remove('open'));
+      if (!isOpen) wrapperEl.classList.add('open');
     });
+
+    wrapperEl.querySelectorAll('.custom-option').forEach(option => {
+      option.addEventListener('click', function(){
+        const val = this.getAttribute('data-value');
+        triggerEl.textContent = val || this.textContent.trim();
+        hiddenEl.value = val;
+        wrapperEl.classList.remove('open');
+        if (onSelect) onSelect(val);
+      });
+    });
+
+    return { wrapperEl, triggerEl, hiddenEl };
+  }
+
+  const typeDD = setupCustomSelect('customSelectWrapper', 'customSelectTrigger', 'ofType');
+  const filterTypeDD = setupCustomSelect('filterTypeWrapper', 'filterTypeTrigger', 'filterType', () => renderList());
+  const filterMonthDD = setupCustomSelect('filterMonthWrapper', 'filterMonthTrigger', 'filterMonth', () => renderList());
+
+  const trigger = typeDD.triggerEl;
+  const hiddenInput = typeDD.hiddenEl;
+
+  window.addEventListener('click', () => {
+    allDropdownWrappers.forEach(w => w.classList.remove('open'));
   });
 
-  window.addEventListener('click', (e) => {
-    if (!wrapper.contains(e.target)) {
-      wrapper.classList.remove('open');
-    }
-  });
-
-  // KÒREKBOUTON RÉINITIALISER — jere pi ba nan fichye a (efase tout ofrann yo)
-
-  filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
+  // Initialise le filtre mois sur le mois actuel (valeur + texte affiché)
+  const moisNomsComplets = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const moisActuelNum = String(new Date().getMonth() + 1).padStart(2, '0');
+  filterMonth.value = moisActuelNum;
+  filterMonthDD.triggerEl.textContent = moisNomsComplets[new Date().getMonth()];
 
   let allOffrandes = [];
 
@@ -717,7 +752,7 @@
     e.preventDefault();
 
     if (!hiddenInput.value) {
-      showStatus('Tanpri chwazi yon Tip anvan w anrejistre.', 'err');
+      showStatus('Veuillez choisir un type avant d\'enregistrer.', 'err');
       return;
     }
 
@@ -747,10 +782,9 @@
     }
   });
 
-  filterType.addEventListener('change', renderList);
-  filterMonth.addEventListener('change', renderList);
+  // (Le filtrage se déclenche déjà directement depuis les listes personnalisées ci-dessus)
 
-  // --- BOUTON RÉINITIALISER : efase tout ofrann yo net (mwa oswa ane) ---
+  // --- BOUTON RÉINITIALISER : supprime définitivement les offrandes (mois ou année) ---
   const resetModal = document.getElementById('resetModal');
   const resetModalText = document.getElementById('resetModalText');
   const btnResetMonth = document.getElementById('btnResetMonth');
@@ -759,7 +793,7 @@
 
   function openResetModal(){
     if (allOffrandes.length === 0) {
-      showStatus('Pa gen okenn ofrann pou efase.', 'info');
+      showStatus('Aucune offrande à supprimer.', 'info');
       return;
     }
     resetModal.classList.add('open');
@@ -772,15 +806,15 @@
 
   async function deleteBatch(list, label){
     if (list.length === 0) {
-      showStatus(`Pa gen ofrann pou ${label}.`, 'info');
+      showStatus(`Aucune offrande pour ${label}.`, 'info');
       return;
     }
-    const confirmed = confirm(`Ou sèten ou vle efase ${list.length} ofrann (${label}) NÈT? Aksyon sa PA KA anile.`);
+    const confirmed = confirm(`Voulez-vous vraiment supprimer définitivement ${list.length} offrande(s) pour ${label} ? Cette action est irréversible.`);
     if (!confirmed) return;
 
     closeResetModal();
     btnReset.disabled = true;
-    showStatus(`Efasman an kòmanse (${label})...`, 'info');
+    showStatus(`Suppression en cours pour ${label}...`, 'info');
 
     try {
       for (const o of list) {
@@ -789,9 +823,9 @@
       const idsRemoved = new Set(list.map(o => o.id));
       allOffrandes = allOffrandes.filter(o => !idsRemoved.has(o.id));
       renderList();
-      showStatus(`${list.length} ofrann efase (${label}).`, 'ok');
+      showStatus(`${list.length} offrande(s) supprimée(s) pour ${label}.`, 'ok');
     } catch (err) {
-      showStatus('Erè pandan efasman an : ' + err.message, 'err');
+      showStatus('Erreur lors de la suppression : ' + err.message, 'err');
     } finally {
       btnReset.disabled = false;
     }
@@ -802,13 +836,13 @@
     const y = String(now.getFullYear());
     const m = String(now.getMonth() + 1).padStart(2, '0');
     const list = allOffrandes.filter(o => o.date && o.date.slice(0, 4) === y && o.date.slice(5, 7) === m);
-    deleteBatch(list, `mwa ${m}/${y}`);
+    deleteBatch(list, `ce mois (${m}/${y})`);
   });
 
   btnResetYear.addEventListener('click', () => {
     const y = String(new Date().getFullYear());
     const list = allOffrandes.filter(o => o.date && o.date.slice(0, 4) === y);
-    deleteBatch(list, `ane ${y}`);
+    deleteBatch(list, `l'année ${y}`);
   });
 
   loadOffrandes();
