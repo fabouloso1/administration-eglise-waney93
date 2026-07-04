@@ -600,4 +600,93 @@
       item.innerHTML = `
         <div class="offrande-item-top">
           <div class="offrande-type-wrap">
-       
+            <span class="offrande-icon">${getTypeIcon(o.type)}</span>
+            <span class="offrande-type">${o.type || ''}</span>
+          </div>
+          <span class="offrande-montant">${formatMontant(o.montant)}</span>
+        </div>
+        <span class="offrande-date">${formatDate(o.date)}</span>
+        ${o.note ? `<span class="offrande-note">${o.note}</span>` : ''}
+        <button class="offrande-delete" data-id="${o.id}" title="Supprimer">✕</button>
+      `;
+
+      item.querySelector('.offrande-delete').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const confirmed = confirm(`Supprimer cette offrande (${o.type} — ${formatMontant(o.montant)}) ?`);
+        if (!confirmed) return;
+        try {
+          await deleteDoc(doc(db, 'offrandes', o.id));
+          allOffrandes = allOffrandes.filter(x => x.id !== o.id);
+          renderList();
+        } catch (err) {
+          alert('Erreur lors de la suppression : ' + err.message);
+        }
+      });
+
+      listWrap.appendChild(item);
+    });
+
+    totalAmount.textContent = formatMontant(total);
+  }
+
+  async function loadOffrandes(){
+    listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
+    try {
+      const snapshot = await getDocs(collection(db, 'offrandes'));
+      allOffrandes = [];
+      snapshot.forEach(docSnap => {
+        allOffrandes.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      renderList();
+    } catch (err) {
+      listWrap.innerHTML = '<p class="empty-state">Erreur : ' + err.message + '</p>';
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!hiddenInput.value) {
+      alert('Veuillez choisir un type d\'offrande.');
+      return;
+    }
+    btnSave.disabled = true;
+    showStatus('Enregistrement en cours...', 'info');
+
+    try {
+      const data = {
+        date: document.getElementById('ofDate').value,
+        type: hiddenInput.value,
+        montant: parseFloat(document.getElementById('ofMontant').value) || 0,
+        note: document.getElementById('ofNote').value.trim() || null,
+        creeLe: serverTimestamp()
+      };
+
+      const docRef = await addDoc(collection(db, 'offrandes'), data);
+      allOffrandes.push({ id: docRef.id, ...data });
+      renderList();
+
+      document.getElementById('ofMontant').value = '';
+      document.getElementById('ofNote').value = '';
+      trigger.textContent = "Choisir...";
+      hiddenInput.value = "";
+      showStatus('Offrande enregistrée avec succès.', 'ok');
+    } catch (err) {
+      showStatus('Erreur : ' + err.message, 'err');
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  filterType.addEventListener('change', renderList);
+  filterMonth.addEventListener('change', renderList);
+
+  loadOffrandes();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
