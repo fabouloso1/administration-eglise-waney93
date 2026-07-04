@@ -13,41 +13,46 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  /* Fond de page plus sombre et plus élégant, thème mauve profond pour cette page */
-  body{
-    background: linear-gradient(160deg, #241531 0%, #170D22 55%, #140A1D 100%) !important;
+  /* 1. FOND DE PAGE CLARIFIÉ ET PLUS LISIBLE */
+  body {
+    background: linear-gradient(160deg, #F4F0FA 0%, #EAE3F2 55%, #DFD5EB 100%) !important;
+    color: #241531;
   }
 
-  /* Textes du haut de page adaptés au fond sombre */
-  .section-title{ color:#F5EEFC !important; font-size:26px !important; }
-  .section-sub{ color:#C9B4E0 !important; font-size:17px !important; }
-  .page-footer{ color:#8E7AA6 !important; font-size:13.5px !important; }
+  /* Textes du haut de page adaptés au nouveau fond clair */
+  .section-title { color:#3A1848 !important; font-size:26px !important; }
+  .section-sub { color:#6B2E8C !important; font-size:17px !important; }
+  .page-footer { color:#6A557A !important; font-size:13.5px !important; }
 
-  .form-card{
+  .form-card {
     width:100%;
     max-width:520px;
     padding:0 20px 8px;
   }
 
-  .form-card form{
+  .form-card form {
     background:#fff;
     border-radius:18px;
     padding:26px 22px 28px;
-    box-shadow:0 20px 45px -18px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
+    box-shadow:0 15px 35px -12px rgba(58,24,72,0.15), 0 0 0 1px rgba(0,0,0,0.04);
   }
 
-  .form-row-2{
+  .form-row-2 {
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:14px;
   }
 
-  .field-label{
+  .field-label {
     font-size:16px !important;
+    color: #3A1848;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
   }
 
-  /* --- Champs Date et Type : style professionnel --- */
-  #ofDate, #ofType, #filterType, #filterMonth{
+  /* --- Champs Date et Type --- */
+  #ofDate, #filterType, #filterMonth {
     appearance:none;
     -webkit-appearance:none;
     width:100%;
@@ -58,28 +63,110 @@
     background-size:16px;
     border:2px solid #E3D8ED;
     border-radius:12px;
-    padding:14px 40px 14px 16px;
+    padding:14px 16px;
     font-size:17px;
     font-weight:600;
     color:var(--ink);
     cursor:pointer;
     transition:border-color .15s ease, box-shadow .15s ease;
   }
-  #ofDate{ cursor:text; padding-right:16px; }
-  #ofDate::-webkit-calendar-picker-indicator{
+  #ofDate { cursor:text; padding-right:16px; }
+  #ofDate::-webkit-calendar-picker-indicator {
     filter:invert(24%) sepia(54%) saturate(1400%) hue-rotate(240deg);
     cursor:pointer;
   }
-  #ofType optgroup{ font-weight:700; color:#6B2EA0; }
-  #ofType option{ font-weight:500; color:var(--ink); }
 
-  #ofDate:focus, #ofType:focus, #filterType:focus, #filterMonth:focus{
+  #ofDate:focus, #filterType:focus, #filterMonth:focus {
     outline:none;
     border-color:#6B2EA0;
     box-shadow:0 0 0 4px rgba(107,46,160,0.14);
   }
 
-  .btn-enregistrer{
+  /* 2. STYLE DE LA LISTE PERSONNALISÉE (CUSTOM SELECT) */
+  .custom-select-wrapper {
+    position: relative;
+    user-select: none;
+  }
+  .custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #241531;
+    background: #FBF9FD;
+    border: 2px solid #E3D8ED;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .custom-select-trigger:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #6B2EA0;
+    transition: transform 0.2s ease;
+  }
+  .custom-select-wrapper.open .custom-select-trigger {
+    border-color: #6B2EA0;
+    box-shadow: 0 0 0 4px rgba(107,46,160,0.14);
+  }
+  .custom-select-wrapper.open .custom-select-trigger:after {
+    transform: rotate(180deg);
+  }
+  .custom-options {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 2px solid #6B2EA0;
+    border-radius: 12px;
+    margin-top: 6px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.15s ease;
+    box-shadow: 0 10px 25px rgba(58,24,72,0.15);
+  }
+  .custom-select-wrapper.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .custom-optgroup-label {
+    display: block;
+    padding: 8px 14px;
+    font-weight: 700;
+    color: #6B2EA0;
+    background: #F5EEFC;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .custom-option {
+    position: relative;
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #241531;
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+  .custom-option:hover {
+    background: #F5EEFC;
+    color: #6B2EA0;
+  }
+
+  .btn-enregistrer {
     width:100%;
     margin-top:20px;
     padding:17px;
@@ -96,84 +183,111 @@
     transition:transform 0.12s ease, box-shadow 0.2s ease;
   }
 
-  .btn-enregistrer:hover{transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(46,125,91,0.55);}
-  .btn-enregistrer:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+  .btn-enregistrer:hover {transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(46,125,91,0.55);}
+  .btn-enregistrer:disabled {opacity:0.6;cursor:not-allowed;transform:none;}
 
-  /* Liste des offrandes — Historique */
-  .list-section{
+  /* Seksyon Istorik */
+  .list-section {
     width:100%;
     max-width:520px;
     padding:24px 20px 8px;
   }
 
-  .list-title{
+  /* 3. ENTÊTE HISTORIQUE AVEC BOUTON RÉINITIALISER */
+  .list-header-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .list-title {
     font-family:'Fraunces',serif;
     font-weight:700;
     font-size:20px;
-    color:var(--gold-light);
+    color:#3A1848;
     letter-spacing:0.04em;
     text-transform:uppercase;
-    margin-bottom:14px;
+    margin-bottom:0;
   }
 
-  .filter-row{
+  .btn-reset-filters {
+    background: #6B2EA0;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(107,46,160,0.2);
+  }
+  .btn-reset-filters:hover {
+    background: #53227E;
+  }
+  .btn-reset-filters:active {
+    transform: scale(0.96);
+  }
+
+  .filter-row {
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:10px;
     margin-bottom:16px;
   }
 
-  .filter-row select{
+  .filter-row select {
     font-size:15.5px;
-    padding:12px 38px 12px 14px;
+    padding:12px 14px;
     border-radius:24px;
   }
 
-  .offrande-item{
-    background:linear-gradient(160deg, #ffffff 0%, #fbf8fd 100%);
-    border:1.5px solid rgba(255,255,255,0.5);
+  .offrande-item {
+    background: #ffffff;
+    border: 1.5px solid #E3D8ED;
     border-left:5px solid #6B2E8C;
     border-radius:14px;
     padding:16px 18px;
     margin-bottom:12px;
-    box-shadow:0 10px 26px -14px rgba(0,0,0,0.5);
+    box-shadow:0 6px 18px -8px rgba(58,24,72,0.15);
     display:flex;
     flex-direction:column;
     gap:7px;
     position:relative;
     transition:transform .15s ease, box-shadow .15s ease;
   }
-  .offrande-item:hover{
+  .offrande-item:hover {
     transform:translateY(-2px);
-    box-shadow:0 14px 30px -12px rgba(0,0,0,0.55);
+    box-shadow:0 10px 22px -8px rgba(58,24,72,0.2);
   }
 
-  .offrande-item-top{
+  .offrande-item-top {
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:10px;
   }
 
-  .offrande-type-wrap{
+  .offrande-type-wrap {
     display:flex; align-items:center; gap:9px;
   }
 
-  .offrande-icon{
+  .offrande-icon {
     width:34px; height:34px; flex-shrink:0;
     border-radius:50%;
-    background:var(--purple-light);
+    background:#F5EEFC;
     display:flex; align-items:center; justify-content:center;
     font-size:16px;
   }
 
-  .offrande-type{
+  .offrande-type {
     font-size:16.5px;
     font-weight:700;
-    color:var(--navy-deep);
+    color:#241531;
   }
 
-  .offrande-montant{
+  .offrande-montant {
     font-family:'Fraunces',serif;
     font-weight:700;
     font-size:18.5px;
@@ -184,27 +298,27 @@
     border-radius:20px;
   }
 
-  .offrande-date{
+  .offrande-date {
     font-size:14px;
     font-weight:600;
-    color:#9A9182;
+    color:#8E7AA6;
     padding-left:43px;
   }
 
-  .offrande-note{
+  .offrande-note {
     font-size:14.5px;
-    color:#6B6457;
+    color:#6A557A;
     font-style:italic;
     padding-left:43px;
   }
 
-  .offrande-delete{
+  .offrande-delete {
     position:absolute;
     top:12px;
     right:12px;
     background:none;
     border:none;
-    color:#D8C9B0;
+    color:#C9B4E0;
     font-size:19px;
     cursor:pointer;
     padding:2px 6px;
@@ -213,49 +327,49 @@
     display:none;
   }
 
-  .offrande-item:hover .offrande-delete{display:block;}
-  .offrande-delete:hover{color:var(--error);}
+  .offrande-item:hover .offrande-delete {display:block;}
+  .offrande-delete:hover {color:var(--error);}
 
-  .total-wrap{
+  .total-wrap {
     width:100%;
     max-width:520px;
     padding:14px 20px 36px;
   }
 
-  .total-card{
+  .total-card {
     background:linear-gradient(155deg, #6B2E8C 0%, #3B1848 100%);
-    border:1px solid rgba(232,203,128,0.35);
+    border:1px solid rgba(232,203,128,0.2);
     border-radius:14px;
     padding:20px 22px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    box-shadow:0 16px 34px -14px rgba(0,0,0,0.6);
+    box-shadow:0 12px 28px -10px rgba(58,24,72,0.3);
   }
 
-  .total-label{
+  .total-label {
     font-size:15.5px;
     font-weight:600;
-    color:rgba(255,255,255,0.75);
+    color:rgba(255,255,255,0.8);
     letter-spacing:0.04em;
     text-transform:uppercase;
   }
 
-  .total-amount{
+  .total-amount {
     font-family:'Fraunces',serif;
     font-weight:700;
     font-size:27px;
     color:#F3D98A;
   }
 
-  .empty-state{
+  .empty-state {
     text-align:center;
     padding:30px 16px;
-    color:#B9A9CC;
+    color:#6A557A;
     font-size:16px;
   }
 
-  .status-msg{
+  .status-msg {
     display:none;
     margin-top:14px;
     padding:13px 15px;
@@ -263,21 +377,20 @@
     font-size:15.5px;
     font-weight:500;
   }
-  .status-msg.show{display:block;}
-  .status-msg.ok{background:#F2F9F5;border-left:3px solid var(--success);color:var(--success);}
-  .status-msg.err{background:#FBEDE8;border-left:3px solid var(--error);color:var(--error);}
-  .status-msg.info{background:#F2F5FA;border-left:3px solid var(--navy-mid);color:var(--navy-mid);}
+  .status-msg.show {display:block;}
+  .status-msg.ok {background:#F2F9F5;border-left:3px solid var(--success);color:var(--success);}
+  .status-msg.err {background:#FBEDE8;border-left:3px solid var(--error);color:var(--error);}
+  .status-msg.info {background:#F2F5FA;border-left:3px solid var(--navy-mid);color:var(--navy-mid);}
 
-/* --- Effet 3D (relief) ajoute automatiquement --- */
-.btn-enregistrer{
-  border-bottom: 4px solid rgba(0,0,0,0.28) !important;
-  transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
-}
-.btn-enregistrer:active{
-  transform: translateY(3px) !important;
-  border-bottom-width: 2px !important;
-  filter: brightness(0.97);
-}
+  .btn-enregistrer {
+    border-bottom: 4px solid rgba(0,0,0,0.28) !important;
+    transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
+  }
+  .btn-enregistrer:active {
+    transform: translateY(3px) !important;
+    border-bottom-width: 2px !important;
+    filter: brightness(0.97);
+  }
 </style>
 </head>
 <body>
@@ -301,28 +414,32 @@
         <label class="field-label" for="ofDate">Date</label>
         <input type="date" id="ofDate" required>
       </div>
+      
       <div class="field-group">
-        <label class="field-label" for="ofType">Type</label>
-        <select id="ofType" required>
-          <option value="" disabled selected>Choisir...</option>
-          <optgroup label="Offrandes régulières">
-            <option value="Dimanche matin">Dimanche matin</option>
-            <option value="Dimanche soir">Dimanche soir</option>
-            <option value="Mardi étude">Mardi étude</option>
-            <option value="Jeudi Calme-Tempête">Jeudi Calme-Tempête</option>
-            <option value="École du dimanche">École du dimanche</option>
-          </optgroup>
-          <optgroup label="Services spéciaux">
-            <option value="Réveil">Réveil</option>
-            <option value="Semaine de prière">Semaine de prière</option>
-            <option value="Jeûne">Jeûne</option>
-            <option value="Veillée de nuit">Veillée de nuit</option>
-          </optgroup>
-          <optgroup label="Autres">
-            <option value="Don">Don</option>
-            <option value="Autre">Autre</option>
-          </optgroup>
-        </select>
+        <label class="field-label">Type</label>
+        <!-- LISTE PERSONNALISÉE -->
+        <div class="custom-select-wrapper" id="customSelectWrapper">
+          <div class="custom-select-trigger" id="customSelectTrigger">Choisir...</div>
+          <div class="custom-options">
+            <span class="custom-optgroup-label">Offrandes régulières</span>
+            <span class="custom-option" data-value="Dimanche matin">Dimanche matin</span>
+            <span class="custom-option" data-value="Dimanche soir">Dimanche soir</span>
+            <span class="custom-option" data-value="Mardi étude">Mardi étude</span>
+            <span class="custom-option" data-value="Jeudi Calme-Tempête">Jeudi Calme-Tempête</span>
+            <span class="custom-option" data-value="École du dimanche">École du dimanche</span>
+            
+            <span class="custom-optgroup-label">Services spéciaux</span>
+            <span class="custom-option" data-value="Réveil">Réveil</span>
+            <span class="custom-option" data-value="Semaine de prière">Semaine de prière</span>
+            <span class="custom-option" data-value="Jeûne">Jeûne</span>
+            <span class="custom-option" data-value="Veillée de nuit">Veillée de nuit</span>
+            
+            <span class="custom-optgroup-label">Autres</span>
+            <span class="custom-option" data-value="Don">Don</span>
+            <span class="custom-option" data-value="Autre">Autre</span>
+          </div>
+        </div>
+        <input type="hidden" id="ofType" required>
       </div>
     </div>
 
@@ -343,7 +460,11 @@
 
 <!-- Filtres + liste -->
 <div class="list-section">
-  <p class="list-title">Historique</p>
+  <div class="list-header-box">
+    <p class="list-title">Historique</p>
+    <button type="button" class="btn-reset-filters" id="btnResetFilters">Réinitialiser</button>
+  </div>
+  
   <div class="filter-row">
     <select id="filterType">
       <option value="">Tous les types</option>
@@ -416,7 +537,6 @@
     window.location.href = 'index.html';
   }
 
-  // Mettre la date d'aujourd'hui par défaut
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('ofDate').value = today;
 
@@ -427,8 +547,37 @@
   const totalAmount = document.getElementById('totalAmount');
   const filterType = document.getElementById('filterType');
   const filterMonth = document.getElementById('filterMonth');
+  const btnResetFilters = document.getElementById('btnResetFilters');
 
-  // Initialise le filtre mois sur le mois actuel
+  // GESTION JAVASCRIPT DE LA LISTE PERSONNALISÉE
+  const wrapper = document.getElementById('customSelectWrapper');
+  const trigger = document.getElementById('customSelectTrigger');
+  const hiddenInput = document.getElementById('ofType');
+
+  trigger.addEventListener('click', () => wrapper.classList.toggle('open'));
+
+  document.querySelectorAll('.custom-option').forEach(option => {
+    option.addEventListener('click', function() {
+      const val = this.getAttribute('data-value');
+      trigger.textContent = val;
+      hiddenInput.value = val;
+      wrapper.classList.remove('open');
+    });
+  });
+
+  window.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      wrapper.classList.remove('open');
+    }
+  });
+
+  // BOUTON RÉINITIALISER
+  btnResetFilters.addEventListener('click', () => {
+    filterType.value = "";
+    filterMonth.value = "";
+    renderList();
+  });
+
   filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
 
   let allOffrandes = [];
@@ -469,7 +618,6 @@
       return matchType && matchMonth;
     });
 
-    // Tri par date décroissante
     filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
     listWrap.innerHTML = '';
@@ -523,55 +671,4 @@
     listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
     try {
       const snapshot = await getDocs(collection(db, 'offrandes'));
-      allOffrandes = [];
-      snapshot.forEach(docSnap => {
-        allOffrandes.push({ id: docSnap.id, ...docSnap.data() });
-      });
-      renderList();
-    } catch (err) {
-      listWrap.innerHTML = '<p class="empty-state">Erreur : ' + err.message + '</p>';
-    }
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    btnSave.disabled = true;
-    showStatus('Enregistrement en cours...', 'info');
-
-    try {
-      const data = {
-        date: document.getElementById('ofDate').value,
-        type: document.getElementById('ofType').value,
-        montant: parseFloat(document.getElementById('ofMontant').value) || 0,
-        note: document.getElementById('ofNote').value.trim() || null,
-        creeLe: serverTimestamp()
-      };
-
-      const docRef = await addDoc(collection(db, 'offrandes'), data);
-      allOffrandes.push({ id: docRef.id, ...data });
-      renderList();
-
-      // Réinitialiser le formulaire (garder date et type)
-      document.getElementById('ofMontant').value = '';
-      document.getElementById('ofNote').value = '';
-      showStatus('Offrande enregistrée avec succès.', 'ok');
-    } catch (err) {
-      showStatus('Erreur : ' + err.message, 'err');
-    } finally {
-      btnSave.disabled = false;
-    }
-  });
-
-  filterType.addEventListener('change', renderList);
-  filterMonth.addEventListener('change', renderList);
-
-  loadOffrandes();
-</script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  }
-</script>
-</body>
-</html>
+      allOffran
