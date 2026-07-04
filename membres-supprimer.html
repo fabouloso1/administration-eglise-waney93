@@ -35,7 +35,7 @@
     color:#fff;
     border:none;
     border-radius:6px;
-    font-size:14px;
+    font-size:15.5px;
     font-weight:700;
     letter-spacing:0.02em;
     cursor:pointer;
@@ -71,14 +71,14 @@
   }
 
   .result-name{
-    font-size:15px;
+    font-size:17px;
     font-weight:700;
     color:var(--navy-deep);
     margin-bottom:3px;
   }
 
   .result-detail{
-    font-size:12.5px;
+    font-size:14px;
     color:#6B6457;
   }
 
@@ -89,7 +89,7 @@
     color:var(--error);
     border:1.5px solid var(--error);
     border-radius:6px;
-    font-size:12.5px;
+    font-size:14px;
     font-weight:700;
     letter-spacing:0.03em;
     text-transform:uppercase;
@@ -105,8 +105,19 @@
     text-align:center;
     padding:32px 16px;
     color:#9A9182;
-    font-size:13.5px;
+    font-size:15px;
   }
+
+/* --- Effet 3D (relief) ajoute automatiquement --- */
+.btn-search-inline, .btn-delete-item{
+  border-bottom: 4px solid rgba(0,0,0,0.28) !important;
+  transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
+}
+.btn-search-inline:active, .btn-delete-item:active{
+  transform: translateY(3px) !important;
+  border-bottom-width: 2px !important;
+  filter: brightness(0.97);
+}
 </style>
 </head>
 <body>

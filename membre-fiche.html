@@ -49,12 +49,12 @@
   }
 
   .fiche-photo img{width:100%;height:100%;object-fit:cover;}
-  .fiche-photo span{font-size:42px;color:#B8AE94;}
+  .fiche-photo span{font-size:47px;color:#B8AE94;}
 
   .fiche-name{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:20px;
+    font-size:22.5px;
     color:#fff;
     text-align:center;
     margin-bottom:6px;
@@ -62,7 +62,7 @@
 
   .fiche-fonction-badge{
     display:inline-block;
-    font-size:11.5px;
+    font-size:13px;
     font-weight:600;
     color:var(--navy-deep);
     background:var(--gold);
@@ -87,7 +87,7 @@
   .fiche-row:last-child{border-bottom:none;}
 
   .fiche-label{
-    font-size:12.5px;
+    font-size:14px;
     font-weight:600;
     color:#9A9182;
     letter-spacing:0.02em;
@@ -95,7 +95,7 @@
   }
 
   .fiche-value{
-    font-size:14px;
+    font-size:15.5px;
     font-weight:600;
     color:var(--navy-deep);
     text-align:right;
@@ -112,7 +112,7 @@
     padding:13px;
     border:none;
     border-radius:6px;
-    font-size:13px;
+    font-size:14.5px;
     font-weight:700;
     letter-spacing:0.02em;
     text-transform:uppercase;
@@ -135,8 +135,19 @@
     text-align:center;
     padding:40px 16px;
     color:#9A9182;
-    font-size:14px;
+    font-size:15.5px;
   }
+
+/* --- Effet 3D (relief) ajoute automatiquement --- */
+.btn-fiche{
+  border-bottom: 4px solid rgba(0,0,0,0.28) !important;
+  transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
+}
+.btn-fiche:active{
+  transform: translateY(3px) !important;
+  border-bottom-width: 2px !important;
+  filter: brightness(0.97);
+}
 </style>
 </head>
 <body>
@@ -223,7 +234,7 @@
           ${fonctionBadge}
         </div>
         <div class="fiche-detail-list">
-          ${rowsHtml || '<p style="text-align:center;color:#9A9182;font-size:13px;padding:8px 0;">Aucune information supplémentaire.</p>'}
+          ${rowsHtml || '<p style="text-align:center;color:#9A9182;font-size:14.5px;padding:8px 0;">Aucune information supplémentaire.</p>'}
         </div>
         <div class="fiche-actions">
           <button class="btn-fiche edit" id="btnEditMember">Modifier</button>

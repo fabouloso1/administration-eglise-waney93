@@ -30,7 +30,7 @@
   }
 
   .periode-selector select{
-    font-size:13.5px;
+    font-size:15px;
     padding:11px 12px;
     border-radius:6px;
   }
@@ -55,14 +55,14 @@
     width:34px;height:34px;
     border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    font-size:15px;
+    font-size:17px;
     flex-shrink:0;
   }
 
   .section-card-title{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:15px;
+    font-size:17px;
     color:var(--navy-deep);
     letter-spacing:0.01em;
   }
@@ -85,7 +85,7 @@
   }
 
   .rapport-row-label{
-    font-size:13px;
+    font-size:14.5px;
     font-weight:600;
     color:#6B6457;
   }
@@ -93,7 +93,7 @@
   .rapport-row-amount{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:15px;
+    font-size:17px;
     white-space:nowrap;
   }
 
@@ -110,11 +110,11 @@
 
   .row-solde-positif{background:linear-gradient(165deg,#E8F3EC,#F2F9F5);}
   .row-solde-positif .rapport-row-label{color:var(--success);font-weight:700;}
-  .row-solde-positif .rapport-row-amount{color:var(--success);font-size:17px;}
+  .row-solde-positif .rapport-row-amount{color:var(--success);font-size:19px;}
 
   .row-solde-negatif{background:linear-gradient(165deg,#FBEAE4,#FDF6F4);}
   .row-solde-negatif .rapport-row-label{color:var(--error);font-weight:700;}
-  .row-solde-negatif .rapport-row-amount{color:var(--error);font-size:17px;}
+  .row-solde-negatif .rapport-row-amount{color:var(--error);font-size:19px;}
   .row-solde-negatif .rapport-row-amount::before{content:"− ";}
 
   .divider{
@@ -132,7 +132,7 @@
   }
 
   .total-global-title{
-    font-size:12px;
+    font-size:13.5px;
     font-weight:600;
     color:var(--gold-soft);
     letter-spacing:0.06em;
@@ -154,7 +154,7 @@
   }
 
   .total-global-row span:first-child{
-    font-size:12.5px;
+    font-size:14px;
     font-weight:500;
     color:rgba(255,255,255,0.65);
   }
@@ -162,7 +162,7 @@
   .total-global-row span:last-child{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:14px;
+    font-size:15.5px;
     color:#fff;
   }
 
@@ -173,7 +173,7 @@
   }
 
   .total-global-solde-label{
-    font-size:12px;
+    font-size:13.5px;
     font-weight:600;
     color:var(--gold-soft);
     letter-spacing:0.04em;
@@ -184,7 +184,7 @@
   .total-global-solde-amount{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:28px;
+    font-size:31.5px;
     color:#fff;
   }
 
@@ -194,7 +194,7 @@
     text-align:center;
     padding:32px 16px;
     color:#9A9182;
-    font-size:13.5px;
+    font-size:15px;
   }
 </style>
 </head>
@@ -395,7 +395,7 @@
     const detailDep = Object.entries(depensesParCat).map(([cat, mt]) => `
       <div class="rapport-row row-sortie" style="opacity:0.75;padding:7px 14px;">
         <span class="rapport-row-label" style="font-weight:500;">${cat}</span>
-        <span class="rapport-row-amount" style="font-size:13px;">${fmt(mt)}</span>
+        <span class="rapport-row-amount" style="font-size:14.5px;">${fmt(mt)}</span>
       </div>
     `).join('');
 

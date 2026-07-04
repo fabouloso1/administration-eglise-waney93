@@ -35,7 +35,7 @@
     color:#fff;
     border:none;
     border-radius:6px;
-    font-size:14px;
+    font-size:15.5px;
     font-weight:700;
     letter-spacing:0.02em;
     cursor:pointer;
@@ -76,16 +76,16 @@
     overflow:hidden;flex-shrink:0;
   }
   .result-pick .mini-photo img{width:100%;height:100%;object-fit:cover;}
-  .result-pick .mini-photo span{font-size:18px;color:#B8AE94;}
+  .result-pick .mini-photo span{font-size:20px;color:#B8AE94;}
 
-  .result-pick .pick-name{font-size:14.5px;font-weight:700;color:var(--navy-deep);}
-  .result-pick .pick-detail{font-size:12px;color:#6B6457;}
+  .result-pick .pick-name{font-size:16px;font-weight:700;color:var(--navy-deep);}
+  .result-pick .pick-detail{font-size:13.5px;color:#6B6457;}
 
   .empty-state{
     text-align:center;
     padding:24px 16px;
     color:#9A9182;
-    font-size:13.5px;
+    font-size:15px;
   }
 
   /* Fiche membre sélectionné + tableau des mois */
@@ -116,10 +116,10 @@
     overflow:hidden;flex-shrink:0;
   }
   .member-summary .summary-photo img{width:100%;height:100%;object-fit:cover;}
-  .member-summary .summary-photo span{font-size:30px;color:#B8AE94;}
+  .member-summary .summary-photo span{font-size:33.5px;color:#B8AE94;}
 
-  .summary-name{font-size:16px;font-weight:700;color:var(--navy-deep);margin-bottom:4px;}
-  .summary-detail{font-size:12.5px;color:#6B6457;line-height:1.5;}
+  .summary-name{font-size:18px;font-weight:700;color:var(--navy-deep);margin-bottom:4px;}
+  .summary-detail{font-size:14px;color:#6B6457;line-height:1.5;}
 
   .btn-change-member{
     margin-left:auto;
@@ -128,7 +128,7 @@
     background:#fff;
     border:1.5px solid #D8D2C2;
     border-radius:20px;
-    font-size:11.5px;
+    font-size:13px;
     font-weight:600;
     color:var(--navy-mid);
     cursor:pointer;
@@ -138,7 +138,7 @@
     align-self:center;
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:18px;
+    font-size:20px;
     color:var(--navy-deep);
     background:#FBF8EF;
     border:1.5px solid var(--gold-soft);
@@ -175,7 +175,7 @@
 
   .month-line .month-label{
     flex:0 0 92px;
-    font-size:13.5px;
+    font-size:15px;
     font-weight:600;
     color:var(--navy-deep);
   }
@@ -185,7 +185,7 @@
     padding:9px 12px;
     border:1.5px solid #D8D2C2;
     border-radius:5px;
-    font-size:14px;
+    font-size:15.5px;
     font-family:'Inter',sans-serif;
     background:#fdfcfa;
   }
@@ -212,7 +212,7 @@
   }
 
   .total-label{
-    font-size:13px;
+    font-size:14.5px;
     font-weight:600;
     color:var(--gold-soft);
     letter-spacing:0.04em;
@@ -222,7 +222,7 @@
   .total-amount{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:22px;
+    font-size:24.5px;
     color:#fff;
   }
 
@@ -235,7 +235,7 @@
     color:#fff;
     border:none;
     border-radius:6px;
-    font-size:14px;
+    font-size:15.5px;
     font-weight:700;
     letter-spacing:0.03em;
     text-transform:uppercase;
@@ -250,7 +250,7 @@
     margin-top:4px;
     padding:12px 14px;
     border-radius:6px;
-    font-size:13px;
+    font-size:14.5px;
     font-weight:500;
   }
 
@@ -272,12 +272,23 @@
     border:1.5px solid var(--navy-mid);
     color:var(--navy-mid);
     border-radius:6px;
-    font-size:13.5px;
+    font-size:15px;
     font-weight:700;
     letter-spacing:0.02em;
     cursor:pointer;
     box-shadow:0 2px 8px -4px rgba(27,58,107,0.15);
   }
+
+/* --- Effet 3D (relief) ajoute automatiquement --- */
+.btn-search-inline, .btn-change-member, .btn-save-dime, .btn-view-all{
+  border-bottom: 4px solid rgba(0,0,0,0.28) !important;
+  transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
+}
+.btn-search-inline:active, .btn-change-member:active, .btn-save-dime:active, .btn-view-all:active{
+  transform: translateY(3px) !important;
+  border-bottom-width: 2px !important;
+  filter: brightness(0.97);
+}
 </style>
 </head>
 <body>
