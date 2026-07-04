@@ -108,12 +108,14 @@
   function showMenu(){
     loginScreen.style.display = 'none';
     menuScreen.style.display = 'flex';
+    document.body.classList.remove('has-login-bg');
   }
 
   function showLogin(){
     menuScreen.style.display = 'none';
     loginScreen.style.display = 'flex';
     pwInput.value = '';
+    document.body.classList.add('has-login-bg');
   }
 
   // Si l'utilisateur est déjà connecté pendant la session, on va directement au menu
