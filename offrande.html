@@ -13,7 +13,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  /* 1. FOND DE PAGE CLARIFIÉ ET PLUS LISIBLE (FÒSE SOU STYLE.CSS) */
+  /* 1. FOND DE PAGE CLARIFIÉ ET PLUS LISIBLE */
   body {
     background: linear-gradient(160deg, #F4F0FA 0%, #EAE3F2 55%, #DFD5EB 100%) !important;
     color: #241531 !important;
@@ -53,29 +53,56 @@
     display: block !important;
   }
 
-  /* --- Inputs --- */
+  /* --- MODÈNIZASYON TOUT LIS AK INPUT YO --- */
   #ofDate, #filterType, #filterMonth, #ofMontant, #ofNote {
     background-color:#FBF9FD !important;
     color: #241531 !important;
     border: 2px solid #E3D8ED !important;
+    font-family:'Inter', sans-serif !important;
+    font-size:16px !important;
+    font-weight:600 !important;
+    border-radius:12px !important;
+    padding:14px 16px !important;
+    transition: border-color .15s ease, box-shadow .15s ease !important;
   }
 
-  #ofDate, #filterType, #filterMonth {
-    appearance:none;
-    -webkit-appearance:none;
-    width:100%;
-    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236B2EA0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;
-    background-position:right 14px center;
-    background-size:16px;
-    border-radius:12px;
-    padding:14px 16px;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
-    transition:border-color .15s ease, box-shadow .15s ease;
+  /* Efè konsantrasyon (Focus) */
+  #ofDate:focus, #filterType:focus, #filterMonth:focus, #ofMontant:focus, #ofNote:focus {
+    outline:none !important;
+    border-color:#6B2EA0 !important;
+    box-shadow:0 0 0 4px rgba(107,46,160,0.14) !important;
+    background-color:#ffffff !important;
   }
-  #ofDate { cursor:text; padding-right:16px; background-image:none !important; }
+
+  /* Ranje flèch ak aparans pou lis filtraj yo ak dat la */
+  #filterType, #filterMonth, #ofDate {
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236B2EA0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat:no-repeat !important;
+    background-position:right 14px center !important;
+    background-size:16px !important;
+    padding-right:40px !important;
+    cursor:pointer !important;
+  }
+
+  /* Pou kalandriye a kache flèch pa defo a epi parèt pwòp */
+  #ofDate::-webkit-calendar-picker-indicator {
+    background: transparent !important;
+    bottom: 0 !important;
+    color: transparent !important;
+    cursor: pointer !important;
+    height: auto !important;
+    left: 0 !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: auto !important;
+  }
+  
+  .field-group .pw-wrap {
+    position: relative;
+  }
 
   /* 2. STYLE DE LA LISTE PERSONNALISÉE (CUSTOM SELECT) */
   .custom-select-wrapper {
@@ -87,7 +114,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: #241531 !important;
     background: #FBF9FD !important;
@@ -124,7 +151,7 @@
     margin-top: 6px;
     max-height: 240px;
     overflow-y: auto;
-    z-index: 9999 !important; /* Mete l sou tèt tout lòt eleman yo */
+    z-index: 9999 !important;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -236,12 +263,6 @@
     margin-bottom:16px;
   }
 
-  .filter-row select {
-    font-size:15.5px !important;
-    padding:12px 14px !important;
-    border-radius:24px !important;
-  }
-
   .offrande-item {
     background: #ffffff !important;
     border: 1.5px solid #E3D8ED !important;
@@ -261,7 +282,7 @@
     box-shadow:0 10px 22px -8px rgba(58,24,72,0.2);
   }
 
-  .offrande-item-top { display:flex; align-items:center; justify-content:between; gap:10px; }
+  .offrande-item-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .offrande-type-wrap { display:flex; align-items:center; gap:9px; }
 
   .offrande-icon {
@@ -346,17 +367,19 @@
 <p class="section-title">Offrande</p>
 <p class="section-sub">Enregistrer une offrande ou un don</p>
 
+<!-- Formulaire -->
 <div class="form-card">
   <form id="ofrandeForm" autocomplete="off">
 
     <div class="form-row-2">
-      <div class="field-group">
+      <div class="field-group pw-wrap">
         <label class="field-label" for="ofDate">Date</label>
         <input type="date" id="ofDate" required>
       </div>
       
       <div class="field-group">
         <label class="field-label">Type</label>
+        <!-- LISTE PERSONNALISÉE -->
         <div class="custom-select-wrapper" id="customSelectWrapper">
           <div class="custom-select-trigger" id="customSelectTrigger">Choisir...</div>
           <div class="custom-options">
@@ -397,6 +420,7 @@
   </form>
 </div>
 
+<!-- Filtres + liste -->
 <div class="list-section">
   <div class="list-header-box">
     <p class="list-title">Historique</p>
@@ -444,6 +468,7 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -508,10 +533,10 @@
     }
   });
 
-  // BOUTON RÉINITIALISER
+  // KÒREKBOUTON RÉINITIALISER (KAP JIS NETWAYE FILTÈ YO SAN MANDÈ EFASMAN)
   btnResetFilters.addEventListener('click', () => {
     filterType.value = "";
-    filterMonth.value = "";
+    filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
     renderList();
   });
 
@@ -575,93 +600,4 @@
       item.innerHTML = `
         <div class="offrande-item-top">
           <div class="offrande-type-wrap">
-            <span class="offrande-icon">${getTypeIcon(o.type)}</span>
-            <span class="offrande-type">${o.type || ''}</span>
-          </div>
-          <span class="offrande-montant">${formatMontant(o.montant)}</span>
-        </div>
-        <span class="offrande-date">${formatDate(o.date)}</span>
-        ${o.note ? `<span class="offrande-note">${o.note}</span>` : ''}
-        <button class="offrande-delete" data-id="${o.id}" title="Supprimer">✕</button>
-      `;
-
-      item.querySelector('.offrande-delete').addEventListener('click', async (e) => {
-        e.stopPropagation();
-        const confirmed = confirm(`Supprimer cette offrande (${o.type} — ${formatMontant(o.montant)}) ?`);
-        if (!confirmed) return;
-        try {
-          await deleteDoc(doc(db, 'offrandes', o.id));
-          allOffrandes = allOffrandes.filter(x => x.id !== o.id);
-          renderList();
-        } catch (err) {
-          alert('Erreur lors de la suppression : ' + err.message);
-        }
-      });
-
-      listWrap.appendChild(item);
-    });
-
-    totalAmount.textContent = formatMontant(total);
-  }
-
-  async function loadOffrandes(){
-    listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
-    try {
-      const snapshot = await getDocs(collection(db, 'offrandes'));
-      allOffrandes = [];
-      snapshot.forEach(docSnap => {
-        allOffrandes.push({ id: docSnap.id, ...docSnap.data() });
-      });
-      renderList();
-    } catch (err) {
-      listWrap.innerHTML = '<p class="empty-state">Erreur : ' + err.message + '</p>';
-    }
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if(!hiddenInput.value) {
-      alert('Veuillez choisir un type d\'offrande.');
-      return;
-    }
-    btnSave.disabled = true;
-    showStatus('Enregistrement en cours...', 'info');
-
-    try {
-      const data = {
-        date: document.getElementById('ofDate').value,
-        type: hiddenInput.value,
-        montant: parseFloat(document.getElementById('ofMontant').value) || 0,
-        note: document.getElementById('ofNote').value.trim() || null,
-        creeLe: serverTimestamp()
-      };
-
-      const docRef = await addDoc(collection(db, 'offrandes'), data);
-      allOffrandes.push({ id: docRef.id, ...data });
-      renderList();
-
-      document.getElementById('ofMontant').value = '';
-      document.getElementById('ofNote').value = '';
-      trigger.textContent = "Choisir...";
-      hiddenInput.value = "";
-      showStatus('Offrande enregistrée avec succès.', 'ok');
-    } catch (err) {
-      showStatus('Erreur : ' + err.message, 'err');
-    } finally {
-      btnSave.disabled = false;
-    }
-  });
-
-  filterType.addEventListener('change', renderList);
-  filterMonth.addEventListener('change', renderList);
-
-  loadOffrandes();
-</script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  }
-</script>
-</body>
-</html>
+       
