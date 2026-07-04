@@ -175,8 +175,10 @@
   }
   .custom-option {
     position: relative;
-    display: block;
-    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
     font-size: 16px;
     font-weight: 500;
     color: #241531 !important;
@@ -187,6 +189,13 @@
   .custom-option:hover {
     background: #F5EEFC !important;
     color: #6B2EA0 !important;
+  }
+  .custom-option-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%;
+    background: #F5EEFC;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
   }
 
   .btn-enregistrer {
@@ -242,19 +251,59 @@
   }
 
   .btn-reset-filters {
-    background: #6B2EA0 !important;
+    background: linear-gradient(180deg, #D4553A, #A5281B) !important;
     color: #fff !important;
     border: none !important;
+    border-bottom: 4px solid #6E170F !important;
     border-radius: 20px !important;
-    padding: 6px 14px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
     cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
-    box-shadow: 0 4px 10px rgba(107,46,160,0.2);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 0 6px 0 -2px #6E170F, 0 8px 18px -6px rgba(165,40,27,0.5);
   }
-  .btn-reset-filters:hover { background: #53227E !important; }
-  .btn-reset-filters:active { transform: scale(0.96); }
+  .btn-reset-filters:hover { transform: translateY(-2px); }
+  .btn-reset-filters:active { transform: translateY(3px); border-bottom-width: 2px !important; box-shadow:0 1px 0 -1px #6E170F; }
+  .btn-reset-filters:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+  /* Modal de choix pour réinitialiser */
+  .reset-modal {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(20,10,29,0.55);
+    align-items: center; justify-content: center;
+    z-index: 200;
+    padding: 24px;
+  }
+  .reset-modal.open { display: flex; }
+  .reset-modal-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px 22px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.4);
+  }
+  .reset-modal-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 20px;
+    color: #3A1848; margin-bottom: 6px;
+  }
+  .reset-modal-text {
+    font-size: 14.5px; color: #6A557A; margin-bottom: 18px; line-height: 1.4;
+  }
+  .reset-modal-btn {
+    width: 100%; padding: 14px; margin-bottom: 10px;
+    border: none; border-radius: 10px;
+    font-size: 15.5px; font-weight: 700;
+    cursor: pointer; transition: transform 0.1s ease;
+  }
+  .reset-modal-btn:active { transform: scale(0.98); }
+  .reset-modal-btn.month { background: #F5EEFC; color: #6B2EA0; border:2px solid #E3D8ED; }
+  .reset-modal-btn.year { background: linear-gradient(180deg,#D4553A,#A5281B); color:#fff; }
+  .reset-modal-btn.cancel { background: none; color: #6A557A; margin-bottom: 0; font-weight: 600; }
 
   .filter-row {
     display:grid;
@@ -307,7 +356,19 @@
     margin-left: auto;
   }
 
-  .offrande-date { font-size:14px !important; font-weight:600 !important; color:#8E7AA6 !important; padding-left:43px; }
+  .offrande-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size:13.5px !important;
+    font-weight:700 !important;
+    color:#6B2E8C !important;
+    background:#F5EEFC;
+    padding: 4px 11px;
+    border-radius: 20px;
+    width: fit-content;
+    margin-left: 43px;
+  }
   .offrande-note { font-size:14.5px !important; color:#6A557A !important; font-style:italic; padding-left:43px; }
 
   .offrande-delete {
@@ -384,21 +445,21 @@
           <div class="custom-select-trigger" id="customSelectTrigger">Choisir...</div>
           <div class="custom-options">
             <span class="custom-optgroup-label">Offrandes régulières</span>
-            <span class="custom-option" data-value="Dimanche matin">Dimanche matin</span>
-            <span class="custom-option" data-value="Dimanche soir">Dimanche soir</span>
-            <span class="custom-option" data-value="Mardi étude">Mardi étude</span>
-            <span class="custom-option" data-value="Jeudi Calme-Tempête">Jeudi Calme-Tempête</span>
-            <span class="custom-option" data-value="École du dimanche">École du dimanche</span>
-            
+            <span class="custom-option" data-value="Dimanche matin"><span class="custom-option-icon">🙏</span>Dimanche matin</span>
+            <span class="custom-option" data-value="Dimanche soir"><span class="custom-option-icon">🙏</span>Dimanche soir</span>
+            <span class="custom-option" data-value="Mardi étude"><span class="custom-option-icon">📖</span>Mardi étude</span>
+            <span class="custom-option" data-value="Jeudi Calme-Tempête"><span class="custom-option-icon">⭐</span>Jeudi Calme-Tempête</span>
+            <span class="custom-option" data-value="École du dimanche"><span class="custom-option-icon">📖</span>École du dimanche</span>
+
             <span class="custom-optgroup-label">Services spéciaux</span>
-            <span class="custom-option" data-value="Réveil">Réveil</span>
-            <span class="custom-option" data-value="Semaine de prière">Semaine de prière</span>
-            <span class="custom-option" data-value="Jeûne">Jeûne</span>
-            <span class="custom-option" data-value="Veillée de nuit">Veillée de nuit</span>
-            
+            <span class="custom-option" data-value="Réveil"><span class="custom-option-icon">✨</span>Réveil</span>
+            <span class="custom-option" data-value="Semaine de prière"><span class="custom-option-icon">🕊️</span>Semaine de prière</span>
+            <span class="custom-option" data-value="Jeûne"><span class="custom-option-icon">🕊️</span>Jeûne</span>
+            <span class="custom-option" data-value="Veillée de nuit"><span class="custom-option-icon">✨</span>Veillée de nuit</span>
+
             <span class="custom-optgroup-label">Autres</span>
-            <span class="custom-option" data-value="Don">Don</span>
-            <span class="custom-option" data-value="Autre">Autre</span>
+            <span class="custom-option" data-value="Don"><span class="custom-option-icon">🎁</span>Don</span>
+            <span class="custom-option" data-value="Autre"><span class="custom-option-icon">⭐</span>Autre</span>
           </div>
         </div>
         <input type="hidden" id="ofType" required>
@@ -424,7 +485,18 @@
 <div class="list-section">
   <div class="list-header-box">
     <p class="list-title">Historique</p>
-    <button type="button" class="btn-reset-filters" id="btnResetFilters">Réinitialiser</button>
+    <button type="button" class="btn-reset-filters" id="btnResetFilters">🗑️ Réinitialiser</button>
+  </div>
+
+  <!-- Modal de choix pour la réinitialisation -->
+  <div class="reset-modal" id="resetModal">
+    <div class="reset-modal-box">
+      <p class="reset-modal-title">Efase ofrann yo</p>
+      <p class="reset-modal-text" id="resetModalText">Chwazi ki ofrann ou vle efase nèt. Aksyon sa PA KA anile.</p>
+      <button type="button" class="reset-modal-btn month" id="btnResetMonth">Efase ofrann mwa sa a</button>
+      <button type="button" class="reset-modal-btn year" id="btnResetYear">Efase ofrann tout ane a</button>
+      <button type="button" class="reset-modal-btn cancel" id="btnResetCancel">Anile</button>
+    </div>
   </div>
   
   <div class="filter-row">
@@ -509,7 +581,7 @@
   const totalAmount = document.getElementById('totalAmount');
   const filterType = document.getElementById('filterType');
   const filterMonth = document.getElementById('filterMonth');
-  const btnResetFilters = document.getElementById('btnResetFilters');
+  const btnReset = document.getElementById('btnResetFilters');
 
   // GESTION JAVASCRIPT DE LA LISTE PERSONNALISÉE
   const wrapper = document.getElementById('customSelectWrapper');
@@ -533,12 +605,7 @@
     }
   });
 
-  // KÒREKBOUTON RÉINITIALISER (KAP JIS NETWAYE FILTÈ YO SAN MANDÈ EFASMAN)
-  btnResetFilters.addEventListener('click', () => {
-    filterType.value = "";
-    filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
-    renderList();
-  });
+  // KÒREKBOUTON RÉINITIALISER — jere pi ba nan fichye a (efase tout ofrann yo)
 
   filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
 
@@ -556,8 +623,11 @@
 
   function formatDate(dateStr){
     if (!dateStr) return '';
+    const moisAbbrev = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
     const [y, m, d] = dateStr.split('-');
-    return `${d}/${m}/${y}`;
+    const jour = parseInt(d, 10);
+    const moisNom = moisAbbrev[parseInt(m, 10) - 1] || m;
+    return `${jour} ${moisNom} ${y}`;
   }
 
   function getTypeIcon(type){
@@ -605,7 +675,7 @@
           </div>
           <span class="offrande-montant">${formatMontant(o.montant)}</span>
         </div>
-        <span class="offrande-date">${formatDate(o.date)}</span>
+        <span class="offrande-date">📅 ${formatDate(o.date)}</span>
         ${o.note ? `<span class="offrande-note">${o.note}</span>` : ''}
         <button class="offrande-delete" data-id="${o.id}" title="Supprimer">✕</button>
       `;
@@ -645,10 +715,12 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if(!hiddenInput.value) {
-      alert('Veuillez choisir un type d\'offrande.');
+
+    if (!hiddenInput.value) {
+      showStatus('Tanpri chwazi yon Tip anvan w anrejistre.', 'err');
       return;
     }
+
     btnSave.disabled = true;
     showStatus('Enregistrement en cours...', 'info');
 
@@ -667,8 +739,6 @@
 
       document.getElementById('ofMontant').value = '';
       document.getElementById('ofNote').value = '';
-      trigger.textContent = "Choisir...";
-      hiddenInput.value = "";
       showStatus('Offrande enregistrée avec succès.', 'ok');
     } catch (err) {
       showStatus('Erreur : ' + err.message, 'err');
@@ -679,6 +749,67 @@
 
   filterType.addEventListener('change', renderList);
   filterMonth.addEventListener('change', renderList);
+
+  // --- BOUTON RÉINITIALISER : efase tout ofrann yo net (mwa oswa ane) ---
+  const resetModal = document.getElementById('resetModal');
+  const resetModalText = document.getElementById('resetModalText');
+  const btnResetMonth = document.getElementById('btnResetMonth');
+  const btnResetYear = document.getElementById('btnResetYear');
+  const btnResetCancel = document.getElementById('btnResetCancel');
+
+  function openResetModal(){
+    if (allOffrandes.length === 0) {
+      showStatus('Pa gen okenn ofrann pou efase.', 'info');
+      return;
+    }
+    resetModal.classList.add('open');
+  }
+  function closeResetModal(){ resetModal.classList.remove('open'); }
+
+  btnReset.addEventListener('click', openResetModal);
+  btnResetCancel.addEventListener('click', closeResetModal);
+  resetModal.addEventListener('click', (e) => { if (e.target === resetModal) closeResetModal(); });
+
+  async function deleteBatch(list, label){
+    if (list.length === 0) {
+      showStatus(`Pa gen ofrann pou ${label}.`, 'info');
+      return;
+    }
+    const confirmed = confirm(`Ou sèten ou vle efase ${list.length} ofrann (${label}) NÈT? Aksyon sa PA KA anile.`);
+    if (!confirmed) return;
+
+    closeResetModal();
+    btnReset.disabled = true;
+    showStatus(`Efasman an kòmanse (${label})...`, 'info');
+
+    try {
+      for (const o of list) {
+        await deleteDoc(doc(db, 'offrandes', o.id));
+      }
+      const idsRemoved = new Set(list.map(o => o.id));
+      allOffrandes = allOffrandes.filter(o => !idsRemoved.has(o.id));
+      renderList();
+      showStatus(`${list.length} ofrann efase (${label}).`, 'ok');
+    } catch (err) {
+      showStatus('Erè pandan efasman an : ' + err.message, 'err');
+    } finally {
+      btnReset.disabled = false;
+    }
+  }
+
+  btnResetMonth.addEventListener('click', () => {
+    const now = new Date();
+    const y = String(now.getFullYear());
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const list = allOffrandes.filter(o => o.date && o.date.slice(0, 4) === y && o.date.slice(5, 7) === m);
+    deleteBatch(list, `mwa ${m}/${y}`);
+  });
+
+  btnResetYear.addEventListener('click', () => {
+    const y = String(new Date().getFullYear());
+    const list = allOffrandes.filter(o => o.date && o.date.slice(0, 4) === y);
+    deleteBatch(list, `ane ${y}`);
+  });
 
   loadOffrandes();
 </script>
