@@ -315,6 +315,22 @@ body{
   transition:background 0.2s ease;
 }
 .btn-reinit:hover{background:#FBEDE8;}
+
+/* Boutons réinitialiser sur paj prensipal */
+.btn-reinit-page{
+  padding:13px 10px;
+  background:#fff;
+  border:2px solid var(--error);
+  color:var(--error);
+  border-radius:6px;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  box-shadow:0 2px 8px -4px rgba(179,67,43,0.2);
+  transition:background 0.2s ease, transform 0.12s ease;
+}
+.btn-reinit-page:hover{background:#FBEDE8;transform:translateY(-1px);}
 </style>
 </head>
 <body>
@@ -332,6 +348,11 @@ body{
 <div class="add-btn-wrap">
   <button class="btn-add-dime" id="btnAddDime">+ Enregistrer une nouvelle dîme</button>
   <button class="btn-liste-dime" id="btnListeDime">📋 Afficher tous ceux qui ont payé la dîme</button>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+    <button class="btn-reinit-page" id="btnReinitMois">🗑 Réinitialiser le mois</button>
+    <button class="btn-reinit-page" id="btnReinitAnnee">🗑 Réinitialiser l'année</button>
+  </div>
 </div>
 
 <div class="year-selector">
@@ -575,6 +596,57 @@ body{
 
   document.getElementById('btnListeDime').addEventListener('click', () => {
     window.location.href = 'dime-liste.html';
+  });
+
+  // Réinitialiser le mois actuel affiché
+  document.getElementById('btnReinitMois').addEventListener('click', async () => {
+    const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin',
+      'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const moisActuel = new Date().getMonth();
+    const moisKey = String(moisActuel + 1).padStart(2, '0');
+    const moisNom = moisNoms[moisActuel];
+
+    const confirmed = confirm(`Réinitialiser toutes les dîmes de ${moisNom} ${currentYear} ? Cette action est irréversible.`);
+    if (!confirmed) return;
+
+    try {
+      const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+      const snap = await getDocs(q);
+      const promises = [];
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        const mois = { ...(data.mois || {}) };
+        if (mois[moisKey] !== undefined) {
+          delete mois[moisKey];
+          promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois }));
+        }
+      });
+      await Promise.all(promises);
+      renderMonths();
+      alert(`Dîmes de ${moisNom} ${currentYear} réinitialisées.`);
+    } catch(err) {
+      alert('Erreur : ' + err.message);
+    }
+  });
+
+  // Réinitialiser toute l'année affichée
+  document.getElementById('btnReinitAnnee').addEventListener('click', async () => {
+    const confirmed = confirm(`Réinitialiser TOUTES les dîmes de l'année ${currentYear} ? Cette action est irréversible.`);
+    if (!confirmed) return;
+
+    try {
+      const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+      const snap = await getDocs(q);
+      const promises = [];
+      snap.forEach(docSnap => {
+        promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois: {} }));
+      });
+      await Promise.all(promises);
+      renderMonths();
+      alert(`Toutes les dîmes de ${currentYear} ont été réinitialisées.`);
+    } catch(err) {
+      alert('Erreur : ' + err.message);
+    }
   });
 
   renderMonths();
