@@ -221,10 +221,14 @@
 
       listWrap.innerHTML = '';
       let totalGeneral = 0;
+      let cardsRendered = 0;
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const mois = data.mois || {};
+
+        // Si la personne n'a aucun mois enregistré (ex. après une réinitialisation), on ne l'affiche pas
+        if (Object.keys(mois).length === 0) return;
 
         let totalMembre = 0;
         const moisLabels = [];
@@ -237,6 +241,7 @@
         });
 
         totalGeneral += totalMembre;
+        cardsRendered++;
 
         const card = document.createElement('div');
         card.className = 'dime-card';
@@ -255,6 +260,10 @@
         }
         listWrap.appendChild(card);
       });
+
+      if (cardsRendered === 0) {
+        listWrap.innerHTML = '<p class="empty-state">Aucune dîme enregistrée pour ' + currentYear + '.</p>';
+      }
 
       totalAmount.textContent = formatMontant(totalGeneral);
     } catch (err) {
