@@ -22,13 +22,13 @@
 
   .btn-add-dime{
     width:100%;
-    padding:16px;
+    padding:18px;
     background:linear-gradient(165deg, #D6B468 0%, var(--gold) 100%);
     color:var(--navy-deep);
     border:none;
-    border-radius:6px;
-    font-size:16px;
-    font-weight:700;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:800;
     letter-spacing:0.03em;
     text-transform:uppercase;
     cursor:pointer;
@@ -52,26 +52,27 @@
   }
 
   .year-arrow{
-    width:38px;
-    height:38px;
+    width:42px;
+    height:42px;
     border-radius:50%;
-    border:1.5px solid #D8D2C2;
+    border:2px solid #D8D2C2;
+    border-bottom:4px solid #B8AE94;
     background:#fff;
     color:var(--navy-deep);
-    font-size:18px;
-    font-weight:700;
+    font-size:20px;
+    font-weight:800;
     cursor:pointer;
     box-shadow:0 2px 8px -3px rgba(0,0,0,0.12);
-    transition:border-color 0.2s ease, transform 0.1s ease;
+    transition:border-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
   }
 
-  .year-arrow:hover{border-color:var(--gold);transform:translateY(-1px);}
-  .year-arrow:active{transform:translateY(0);}
+  .year-arrow:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .year-arrow:active{transform:translateY(2px);border-bottom-width:2px;}
 
   .year-display{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:24.5px;
+    font-weight:800;
+    font-size:27px;
     color:var(--navy-deep);
     letter-spacing:0.02em;
     min-width:80px;
@@ -90,22 +91,26 @@
     justify-content:space-between;
     background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
     border:1.5px solid #E3DDC9;
-    border-left:4px solid var(--gold);
-    border-radius:6px;
-    padding:13px 18px;
-    margin-bottom:9px;
+    border-left:5px solid var(--gold);
+    border-bottom:4px solid #E3DDC9;
+    border-radius:10px;
+    padding:15px 18px;
+    margin-bottom:10px;
     box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
+    transition:transform 0.1s ease, box-shadow 0.15s ease;
   }
+  .month-row:hover{ transform:translateY(-2px); box-shadow:0 8px 18px -8px rgba(10,31,68,0.22); }
+  .month-row:active{ transform:translateY(1px); }
 
   .month-name{
-    font-size:15.5px;
-    font-weight:600;
+    font-size:17px;
+    font-weight:700;
     color:var(--navy-deep);
   }
 
   .month-total{
-    font-size:16px;
-    font-weight:700;
+    font-size:18px;
+    font-weight:800;
     color:var(--gold);
     font-family:'Fraunces',serif;
   }
@@ -127,8 +132,8 @@
   }
 
   .total-label{
-    font-size:14.5px;
-    font-weight:600;
+    font-size:15.5px;
+    font-weight:700;
     color:var(--gold-soft);
     letter-spacing:0.04em;
     text-transform:uppercase;
@@ -136,8 +141,8 @@
 
   .total-amount{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:27px;
+    font-weight:800;
+    font-size:29px;
     color:#fff;
   }
 
@@ -183,20 +188,24 @@
 
   .month-modal-title{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:19px;
+    font-weight:800;
+    font-size:21px;
     color:#fff;
   }
 
   .month-modal-close{
-    width:30px;height:30px;
+    width:34px;height:34px;
     border-radius:50%;
     background:rgba(255,255,255,0.15);
+    border-bottom:3px solid rgba(0,0,0,0.2);
     color:#fff;
-    border:none;
-    font-size:18px;
+    border-left:none; border-right:none; border-top:none;
+    font-size:19px;
+    font-weight:700;
     cursor:pointer;
+    transition:transform 0.1s ease;
   }
+  .month-modal-close:active{ transform:translateY(2px); }
 
   .month-modal-body{
     padding:18px 20px 28px;
@@ -208,12 +217,13 @@
     justify-content:space-between;
     background:#fff;
     border:1.5px solid #E3DDC9;
-    border-left:4px solid var(--gold);
-    border-radius:6px;
-    padding:12px 16px;
-    margin-bottom:9px;
+    border-left:5px solid var(--gold);
+    border-bottom:3px solid #E3DDC9;
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
     box-shadow:0 3px 10px -6px rgba(10,31,68,0.12);
-    transition:transform 0.12s ease, box-shadow 0.2s ease;
+    transition:transform 0.1s ease, box-shadow 0.15s ease;
   }
 
   .month-person-row:hover{
@@ -221,17 +231,18 @@
     box-shadow:0 6px 16px -8px rgba(10,31,68,0.25);
     border-color:var(--gold);
   }
+  .month-person-row:active{ transform:translateY(1px); }
 
   .month-person-name{
-    font-size:15.5px;
-    font-weight:600;
+    font-size:17px;
+    font-weight:700;
     color:var(--navy-deep);
   }
 
   .month-person-amount{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:15.5px;
+    font-weight:800;
+    font-size:17px;
     color:var(--gold);
   }
 
@@ -246,8 +257,8 @@
   }
 
   .month-modal-total span:first-child{
-    font-size:13.5px;
-    font-weight:600;
+    font-size:14.5px;
+    font-weight:700;
     color:var(--gold-soft);
     text-transform:uppercase;
     letter-spacing:0.03em;
@@ -255,8 +266,8 @@
 
   .month-modal-total span:last-child{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:18px;
+    font-weight:800;
+    font-size:20px;
     color:#fff;
   }
 
@@ -279,58 +290,76 @@ body{
 /* Bouton liste + réinitialiser */
 .btn-liste-dime{
   width:100%;
-  padding:14px;
+  padding:16px;
   background:#fff;
   border:2px solid #2E7D5B;
+  border-bottom:4px solid #1F5A40;
   color:#2E7D5B;
-  border-radius:6px;
-  font-size:15px;
-  font-weight:700;
+  border-radius:12px;
+  font-size:16.5px;
+  font-weight:800;
   letter-spacing:0.02em;
   cursor:pointer;
   box-shadow:0 2px 8px -4px rgba(46,125,91,0.2);
-  transition:transform 0.12s ease, box-shadow 0.2s ease;
-  margin-top:10px;
+  transition:transform 0.1s ease, box-shadow 0.1s ease;
+  margin-top:12px;
 }
 .btn-liste-dime:hover{
   background:#F0F7F2;
   transform:translateY(-2px);
-  box-shadow:0 8px 18px -6px rgba(46,125,91,0.3);
+}
+.btn-liste-dime:active{
+  transform:translateY(2px);
+  border-bottom-width:2px;
 }
 
 /* Bouton réinitialiser (dans modal) */
 .btn-reinit{
   width:100%;
-  margin-top:12px;
-  padding:13px;
+  margin-top:14px;
+  padding:14px;
   background:#fff;
   border:2px solid var(--error);
+  border-bottom:4px solid #901F14;
   color:var(--error);
-  border-radius:6px;
-  font-size:14px;
-  font-weight:700;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:800;
   letter-spacing:0.03em;
   text-transform:uppercase;
   cursor:pointer;
-  transition:background 0.2s ease;
+  transition:background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 .btn-reinit:hover{background:#FBEDE8;}
+.btn-reinit:active{transform:translateY(2px);border-bottom-width:2px;}
 
 /* Boutons réinitialiser sur paj prensipal */
 .btn-reinit-page{
-  padding:13px 10px;
+  padding:15px 10px;
   background:#fff;
   border:2px solid var(--error);
+  border-bottom:4px solid #901F14;
   color:var(--error);
-  border-radius:6px;
-  font-size:13px;
-  font-weight:700;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:800;
   letter-spacing:0.02em;
   cursor:pointer;
   box-shadow:0 2px 8px -4px rgba(179,67,43,0.2);
-  transition:background 0.2s ease, transform 0.12s ease;
+  transition:background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
-.btn-reinit-page:hover{background:#FBEDE8;transform:translateY(-1px);}
+.btn-reinit-page:hover{background:#FBEDE8;transform:translateY(-2px);}
+.btn-reinit-page:active{transform:translateY(2px);border-bottom-width:2px;}
+
+/* Tit paj la pi gro/gra */
+.section-title{
+  font-size:26px !important;
+  font-weight:800 !important;
+}
+.section-sub{
+  font-size:16.5px !important;
+  font-weight:600 !important;
+}
 </style>
 </head>
 <body>
