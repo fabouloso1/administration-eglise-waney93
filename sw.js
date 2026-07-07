@@ -20,6 +20,7 @@ const STATIC_FILES = [
   '/administration-eglise-waney93/offrande.html',
   '/administration-eglise-waney93/depenses.html',
   '/administration-eglise-waney93/rapport.html',
+  '/administration-eglise-waney93/pasteur.html',
   // Assets locaux
   '/administration-eglise-waney93/style.css',
   '/administration-eglise-waney93/images.jpeg',

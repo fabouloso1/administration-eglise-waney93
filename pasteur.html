@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Espace Pasteur — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --navy:#0B1F45;
+  --navy-light:#1A3A72;
+  --gold:#C8A04A;
+  --gold-light:#E8CB80;
+  --surface:#F8F9FC;
+  --card:#FFFFFF;
+  --border:#E8EBF2;
+  --ink:#0F172A;
+  --muted:#64748B;
+  --red:#C0392B;
+  --red-light:#FDECEA;
+  --green:#1A7A4A;
+  --green-light:#E8F5EE;
+  --purple:#6B2EA0;
+  --purple-light:#F3ECF9;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--navy);
+  min-height:100vh;
+  font-size:16px;
+}
+
+/* ===== LOGIN ===== */
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:28px 24px;
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(200,160,74,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,160,74,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  top:-30%;right:-20%;
+  width:70vw;height:70vw;
+  background:radial-gradient(circle,rgba(200,160,74,0.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.login-logo{
+  margin-bottom:28px;
+  display:flex;flex-direction:column;
+  align-items:center;gap:12px;
+  position:relative;z-index:1;
+}
+
+.login-logo img{
+  width:76px;height:76px;object-fit:contain;
+  filter:drop-shadow(0 4px 16px rgba(200,160,74,0.4));
+}
+
+.login-logo-name{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:19px;
+  color:#fff;text-align:center;line-height:1.3;
+}
+
+.login-logo-sub{
+  font-size:11.5px;font-weight:600;
+  color:var(--gold-light);
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+
+.login-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(200,160,74,0.15);
+  border:1px solid rgba(200,160,74,0.3);
+  border-radius:20px;padding:6px 16px;
+  font-size:12.5px;font-weight:600;
+  color:var(--gold-light);letter-spacing:0.04em;
+  text-transform:uppercase;margin-top:2px;
+}
+
+.card{
+  background:var(--card);
+  width:100%;max-width:400px;
+  border-radius:24px;
+  box-shadow:0 24px 64px -12px rgba(0,0,0,0.5);
+  overflow:hidden;
+  opacity:0;transform:translateY(24px);
+  animation:rise 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+  position:relative;z-index:1;
+}
+
+.card::before{
+  content:"";display:block;height:4px;
+  background:linear-gradient(90deg,var(--navy-light),var(--gold),var(--navy-light));
+}
+
+@keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+.card-body{padding:28px 24px 32px;}
+
+.card-body h2{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:21px;
+  color:var(--ink);margin-bottom:4px;
+}
+
+.card-intro{
+  font-size:14px;color:var(--muted);
+  margin-bottom:24px;font-weight:500;
+}
+
+.field-label{
+  display:block;font-size:14px;font-weight:700;
+  color:var(--ink);margin-bottom:8px;
+}
+
+.pw-wrap{position:relative;}
+
+input[type="password"],input[type="text"]{
+  width:100%;padding:15px 48px 15px 16px;
+  border:2px solid var(--border);border-radius:12px;
+  font-size:16px;font-family:'Inter',sans-serif;
+  background:#FAFBFD;color:var(--ink);
+  transition:border-color 0.2s ease,box-shadow 0.2s ease;
+}
+
+input:focus{
+  outline:none;border-color:var(--navy-light);
+  box-shadow:0 0 0 4px rgba(26,58,114,0.1);
+  background:#fff;
+}
+
+.toggle-pw{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:12.5px;font-weight:600;
+  letter-spacing:0.05em;padding:4px 8px;border-radius:6px;
+}
+
+.submit-btn{
+  width:100%;margin-top:18px;padding:17px;
+  background:var(--navy);color:#fff;
+  border:none;border-radius:12px;
+  font-size:15px;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;cursor:pointer;
+  box-shadow:0 6px 20px -6px rgba(11,31,69,0.55);
+  transition:transform 0.12s ease,box-shadow 0.2s ease;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(11,31,69,0.7);}
+.submit-btn:active{transform:scale(0.99);}
+
+.error-msg{
+  display:none;margin-top:14px;padding:13px 16px;
+  background:var(--red-light);border-left:4px solid var(--red);
+  color:var(--red);font-size:14px;border-radius:10px;font-weight:500;
+}
+.error-msg.show{display:block;}
+
+/* ===== ESPACE PASTEUR ===== */
+#pasteurScreen{
+  display:none;
+  min-height:100vh;
+  flex-direction:column;
+  background:var(--surface);
+}
+
+.pasteur-header{
+  background:var(--navy);
+  padding:0 20px 20px;
+  position:relative;overflow:hidden;
+}
+
+.pasteur-header::before{
+  content:"";display:block;height:4px;
+  background:linear-gradient(90deg,var(--navy),var(--gold) 40%,var(--navy));
+  margin-bottom:16px;
+}
+
+.pasteur-header::after{
+  content:"";position:absolute;
+  top:-60%;right:-20%;width:60%;height:200%;
+  background:radial-gradient(circle,rgba(200,160,74,0.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.pasteur-header-top{
+  display:flex;align-items:center;gap:14px;
+  position:relative;z-index:1;
+}
+
+.pasteur-header-logo{
+  width:46px;height:46px;flex-shrink:0;
+}
+.pasteur-header-logo img{
+  width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(200,160,74,0.35));
+}
+
+.pasteur-header-text h1{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:17px;color:#fff;
+  margin-bottom:2px;
+}
+
+.pasteur-header-text p{
+  font-size:11.5px;font-weight:600;
+  color:var(--gold-light);
+  letter-spacing:0.08em;text-transform:uppercase;
+}
+
+.pasteur-badge{
+  margin-left:auto;
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(200,160,74,0.15);
+  border:1px solid rgba(200,160,74,0.3);
+  border-radius:16px;padding:5px 12px;
+  font-size:11.5px;font-weight:600;
+  color:var(--gold-light);
+  cursor:pointer;
+  transition:background 0.2s ease;
+}
+.pasteur-badge:hover{background:rgba(200,160,74,0.25);}
+
+/* Onglets */
+.tabs{
+  display:flex;
+  background:var(--navy);
+  padding:0 20px 0;
+  gap:4px;
+  border-bottom:3px solid var(--gold);
+}
+
+.tab-btn{
+  flex:1;padding:12px 4px;
+  background:none;border:none;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;
+  color:rgba(255,255,255,0.5);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  margin-bottom:-3px;
+  transition:color 0.2s ease,border-color 0.2s ease;
+  letter-spacing:0.02em;
+}
+
+.tab-btn.active{
+  color:#fff;
+  border-bottom-color:var(--gold);
+}
+
+/* Contenu onglets */
+.tab-content{display:none;padding:16px 20px 32px;}
+.tab-content.active{display:block;}
+
+/* Cartes de résumé */
+.summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin-bottom:20px;
+}
+
+.summary-card{
+  background:var(--card);
+  border-radius:14px;padding:16px 14px;
+  box-shadow:0 2px 8px -2px rgba(11,31,69,0.08);
+  border-top:4px solid;
+}
+
+.summary-card.green{border-top-color:var(--green);}
+.summary-card.gold{border-top-color:var(--gold);}
+.summary-card.purple{border-top-color:var(--purple);}
+.summary-card.red{border-top-color:var(--red);}
+
+.summary-label{
+  font-size:11.5px;font-weight:600;
+  color:var(--muted);text-transform:uppercase;
+  letter-spacing:0.05em;margin-bottom:8px;
+}
+
+.summary-amount{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:18px;
+  color:var(--ink);
+}
+
+.summary-card.red .summary-amount{color:var(--red);}
+.summary-card.green .summary-amount{color:var(--green);}
+
+/* Section titre */
+.section-header{
+  display:flex;align-items:center;gap:8px;
+  margin:20px 0 12px;
+}
+
+.section-header h3{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:16px;color:var(--ink);
+}
+
+.section-header::after{
+  content:"";flex:1;height:1.5px;
+  background:linear-gradient(90deg,var(--border),transparent);
+}
+
+/* Items de liste */
+.detail-item{
+  background:var(--card);
+  border-radius:10px;padding:13px 16px;
+  margin-bottom:9px;
+  box-shadow:0 2px 6px -2px rgba(11,31,69,0.06);
+  display:flex;align-items:center;
+  justify-content:space-between;gap:12px;
+  border-left:4px solid;
+}
+
+.detail-item.gold{border-left-color:var(--gold);}
+.detail-item.green{border-left-color:var(--green);}
+.detail-item.purple{border-left-color:var(--purple);}
+.detail-item.red{border-left-color:var(--red);}
+.detail-item.navy{border-left-color:var(--navy-light);}
+
+.detail-info{flex:1;}
+.detail-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.detail-sub{font-size:12px;font-weight:500;color:var(--muted);}
+
+.detail-amount{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:15px;
+  white-space:nowrap;
+}
+.detail-amount.gold{color:var(--gold);}
+.detail-amount.green{color:var(--green);}
+.detail-amount.red{color:var(--red);}
+.detail-amount.purple{color:var(--purple);}
+
+/* Total global */
+.total-global{
+  background:linear-gradient(155deg,var(--navy) 0%,var(--navy-light) 100%);
+  border-radius:16px;padding:20px;
+  margin-top:20px;
+  box-shadow:0 12px 28px -10px rgba(11,31,69,0.45);
+}
+
+.total-global-label{
+  font-size:12px;font-weight:600;
+  color:var(--gold-light);
+  letter-spacing:0.06em;text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.total-global-amount{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:28px;color:#fff;
+}
+
+.total-global-amount.deficit{color:#FF9E8A;}
+
+.total-detail-row{
+  display:flex;justify-content:space-between;
+  margin-top:10px;padding-top:10px;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+
+.total-detail-row span:first-child{
+  font-size:12.5px;font-weight:500;
+  color:rgba(255,255,255,0.6);
+}
+
+.total-detail-row span:last-child{
+  font-family:'Fraunces',serif;
+  font-weight:700;font-size:13.5px;color:#fff;
+}
+
+.empty-state{
+  text-align:center;padding:28px 16px;
+  color:var(--muted);font-size:14px;font-weight:500;
+}
+
+/* Sélecteur période */
+.periode-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;margin-bottom:16px;
+}
+
+.periode-row select{
+  width:100%;padding:12px 14px;
+  border:2px solid var(--border);border-radius:10px;
+  font-size:15px;font-family:'Inter',sans-serif;
+  background:#FAFBFD;color:var(--ink);
+}
+.periode-row select:focus{
+  outline:none;border-color:var(--navy-light);
+  box-shadow:0 0 0 3px rgba(26,58,114,0.1);
+}
+
+.loading{
+  text-align:center;padding:24px;
+  color:var(--muted);font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN PASTEUR ===== -->
+<div id="loginScreen">
+  <div class="login-logo">
+    <img src="images.jpeg" alt="Logo">
+    <div class="login-logo-name">Église de Dieu<br>de la Prophétie</div>
+    <div class="login-logo-sub">Waney 93</div>
+    <div class="login-badge">✝ Espace Pasteur</div>
+  </div>
+
+  <div class="card" id="loginCard">
+    <div class="card-body">
+      <h2>Accès Pasteur</h2>
+      <p class="card-intro">Tableau de bord financier de l'église</p>
+      <div class="field-group">
+        <label class="field-label" for="pw">Mot de passe</label>
+        <div class="pw-wrap">
+          <input type="password" id="pw" placeholder="••••••••" required>
+          <button type="button" class="toggle-pw" id="togglePw">VOIR</button>
+        </div>
+      </div>
+      <button class="submit-btn" id="btnLogin">Entrer</button>
+      <div class="error-msg" id="errorMsg">Mot de passe incorrect.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ESPACE PASTEUR ===== -->
+<div id="pasteurScreen">
+  <div class="pasteur-header">
+    <div class="pasteur-header-top">
+      <div class="pasteur-header-logo">
+        <img src="images.jpeg" alt="Logo">
+      </div>
+      <div class="pasteur-header-text">
+        <h1>Rapport Financier</h1>
+        <p>Waney 93</p>
+      </div>
+      <div class="pasteur-badge" id="btnLogout">⏻ Quitter</div>
+    </div>
+  </div>
+
+  <!-- Onglets -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="semaine">📅 Semaine</button>
+    <button class="tab-btn" data-tab="mois">📆 Mois</button>
+    <button class="tab-btn" data-tab="annee">📊 Année</button>
+  </div>
+
+  <!-- ===== ONGLET SEMAINE ===== -->
+  <div class="tab-content active" id="tab-semaine">
+    <div class="loading" id="loadingSemaine">Chargement...</div>
+    <div id="contentSemaine" style="display:none;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;font-weight:500;" id="semaineLabel"></p>
+
+      <div class="summary-grid">
+        <div class="summary-card green">
+          <div class="summary-label">Offrandes</div>
+          <div class="summary-amount" id="sw-offrande">0 HTG</div>
+        </div>
+        <div class="summary-card gold">
+          <div class="summary-label">Dons</div>
+          <div class="summary-amount" id="sw-don">0 HTG</div>
+        </div>
+        <div class="summary-card red">
+          <div class="summary-label">Dépenses</div>
+          <div class="summary-amount" id="sw-depense">0 HTG</div>
+        </div>
+        <div class="summary-card purple">
+          <div class="summary-label">Solde</div>
+          <div class="summary-amount" id="sw-solde">0 HTG</div>
+        </div>
+      </div>
+
+      <div class="section-header"><h3>Offrandes & Dons</h3></div>
+      <div id="sw-list-offrande"><p class="empty-state">Aucune offrande cette semaine.</p></div>
+
+      <div class="section-header"><h3>Dépenses</h3></div>
+      <div id="sw-list-depense"><p class="empty-state">Aucune dépense cette semaine.</p></div>
+    </div>
+  </div>
+
+  <!-- ===== ONGLET MOIS ===== -->
+  <div class="tab-content" id="tab-mois">
+    <div class="periode-row">
+      <select id="moisSelect"></select>
+      <select id="moisAnneeSelect"></select>
+    </div>
+    <div class="loading" id="loadingMois">Chargement...</div>
+    <div id="contentMois" style="display:none;">
+      <div class="summary-grid">
+        <div class="summary-card gold">
+          <div class="summary-label">Dîme</div>
+          <div class="summary-amount" id="mm-dime">0 HTG</div>
+        </div>
+        <div class="summary-card green">
+          <div class="summary-label">Offrandes+Dons</div>
+          <div class="summary-amount" id="mm-offrande">0 HTG</div>
+        </div>
+        <div class="summary-card red">
+          <div class="summary-label">Dépenses</div>
+          <div class="summary-amount" id="mm-depense">0 HTG</div>
+        </div>
+        <div class="summary-card green">
+          <div class="summary-label">Solde Caisse</div>
+          <div class="summary-amount" id="mm-solde">0 HTG</div>
+        </div>
+      </div>
+
+      <div class="section-header"><h3>Dîme — par membre</h3></div>
+      <div id="mm-list-dime"><p class="empty-state">Aucune dîme ce mois.</p></div>
+
+      <div class="section-header"><h3>Offrandes & Dons</h3></div>
+      <div id="mm-list-offrande"><p class="empty-state">Aucune offrande ce mois.</p></div>
+
+      <div class="section-header"><h3>Dépenses</h3></div>
+      <div id="mm-list-depense"><p class="empty-state">Aucune dépense ce mois.</p></div>
+
+      <div class="total-global">
+        <div class="total-global-label">Solde total du mois</div>
+        <div class="total-global-amount" id="mm-total">0 HTG</div>
+        <div class="total-detail-row">
+          <span>Dîme + Offrandes + Dons</span>
+          <span id="mm-total-entree">0 HTG</span>
+        </div>
+        <div class="total-detail-row">
+          <span>Dépenses</span>
+          <span id="mm-total-depense-detail">0 HTG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ONGLET ANNÉE ===== -->
+  <div class="tab-content" id="tab-annee">
+    <div class="periode-row" style="grid-template-columns:1fr;">
+      <select id="anneeSelect"></select>
+    </div>
+    <div class="loading" id="loadingAnnee">Chargement...</div>
+    <div id="contentAnnee" style="display:none;">
+      <div class="summary-grid">
+        <div class="summary-card gold">
+          <div class="summary-label">Total Dîme</div>
+          <div class="summary-amount" id="aa-dime">0 HTG</div>
+        </div>
+        <div class="summary-card green">
+          <div class="summary-label">Offrandes+Dons</div>
+          <div class="summary-amount" id="aa-offrande">0 HTG</div>
+        </div>
+        <div class="summary-card red">
+          <div class="summary-label">Dépenses</div>
+          <div class="summary-amount" id="aa-depense">0 HTG</div>
+        </div>
+        <div class="summary-card green">
+          <div class="summary-label">Solde Caisse</div>
+          <div class="summary-amount" id="aa-solde">0 HTG</div>
+        </div>
+      </div>
+
+      <div class="section-header"><h3>Dîme par mois</h3></div>
+      <div id="aa-list-dime"></div>
+
+      <div class="section-header"><h3>Offrandes par type</h3></div>
+      <div id="aa-list-offrande"></div>
+
+      <div class="section-header"><h3>Dépenses par catégorie</h3></div>
+      <div id="aa-list-depense"></div>
+
+      <div class="total-global">
+        <div class="total-global-label">Bilan annuel</div>
+        <div class="total-global-amount" id="aa-total">0 HTG</div>
+        <div class="total-detail-row">
+          <span>Total entrées</span>
+          <span id="aa-total-entree">0 HTG</span>
+        </div>
+        <div class="total-detail-row">
+          <span>Total dépenses</span>
+          <span id="aa-total-depense">0 HTG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, getDocs, query, where
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ===== MODPAS PASTEUR =====
+  const PASTEUR_PASSWORD = "pasteur2026"; // Chanje sa jan ou vle
+
+  const loginScreen = document.getElementById('loginScreen');
+  const pasteurScreen = document.getElementById('pasteurScreen');
+  const pwInput = document.getElementById('pw');
+  const errorMsg = document.getElementById('errorMsg');
+  const togglePw = document.getElementById('togglePw');
+  const btnLogin = document.getElementById('btnLogin');
+  const btnLogout = document.getElementById('btnLogout');
+
+  // ===== UTILS =====
+  const MOIS_NOMS = ['Janvier','Février','Mars','Avril','Mai','Juin',
+    'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  function fmt(m){ return Number(m||0).toLocaleString('fr-FR') + ' HTG'; }
+
+  function getWeekRange(){
+    const now = new Date();
+    const day = now.getDay(); // 0=dim
+    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(now.setDate(diff));
+    monday.setHours(0,0,0,0);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23,59,59,999);
+    return { monday, sunday };
+  }
+
+  function dateInWeek(dateStr, monday, sunday){
+    if(!dateStr) return false;
+    const d = new Date(dateStr + 'T00:00:00');
+    return d >= monday && d <= sunday;
+  }
+
+  function dateMatchMoisAnnee(dateStr, mois, annee){
+    if(!dateStr) return false;
+    const [y, m] = dateStr.split('-');
+    return String(y) === String(annee) && m === mois;
+  }
+
+  function dateMatchAnnee(dateStr, annee){
+    if(!dateStr) return false;
+    return dateStr.startsWith(String(annee));
+  }
+
+  // ===== LOGIN =====
+  togglePw.addEventListener('click', () => {
+    const isPw = pwInput.type === 'password';
+    pwInput.type = isPw ? 'text' : 'password';
+    togglePw.textContent = isPw ? 'CACHER' : 'VOIR';
+  });
+
+  btnLogin.addEventListener('click', () => {
+    errorMsg.classList.remove('show');
+    if(pwInput.value === PASTEUR_PASSWORD){
+      sessionStorage.setItem('pasteurLoggedIn', 'true');
+      loginScreen.style.display = 'none';
+      pasteurScreen.style.display = 'flex';
+      document.body.style.background = 'var(--surface)';
+      initSelectors();
+      loadSemaine();
+    } else {
+      errorMsg.classList.add('show');
+      pwInput.value = '';
+    }
+  });
+
+  pwInput.addEventListener('keydown', e => { if(e.key==='Enter') btnLogin.click(); });
+
+  btnLogout.addEventListener('click', () => {
+    if(confirm('Quitter l\'espace pasteur ?')){
+      sessionStorage.removeItem('pasteurLoggedIn');
+      pasteurScreen.style.display = 'none';
+      loginScreen.style.display = 'flex';
+      document.body.style.background = 'var(--navy)';
+      pwInput.value = '';
+    }
+  });
+
+  if(sessionStorage.getItem('pasteurLoggedIn') === 'true'){
+    loginScreen.style.display = 'none';
+    pasteurScreen.style.display = 'flex';
+    document.body.style.background = 'var(--surface)';
+    initSelectors();
+    loadSemaine();
+  }
+
+  // ===== ONGLETS =====
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if(btn.dataset.tab === 'mois') loadMois();
+      if(btn.dataset.tab === 'annee') loadAnnee();
+    });
+  });
+
+  // ===== SÉLECTEURS =====
+  function initSelectors(){
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+
+    // Mois
+    const moisSel = document.getElementById('moisSelect');
+    MOIS_NOMS.forEach((nom, i) => {
+      const v = String(i+1).padStart(2,'0');
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = nom;
+      if(v === currentMonth) opt.selected = true;
+      moisSel.appendChild(opt);
+    });
+
+    // Années (mois et année)
+    const moisAnneeSel = document.getElementById('moisAnneeSelect');
+    const anneeSel = document.getElementById('anneeSelect');
+    for(let y = currentYear; y >= currentYear - 4; y--){
+      [moisAnneeSel, anneeSel].forEach(sel => {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        if(y === currentYear) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    }
+
+    moisSel.addEventListener('change', loadMois);
+    moisAnneeSel.addEventListener('change', loadMois);
+    anneeSel.addEventListener('change', loadAnnee);
+  }
+
+  // ===== SEMAINE =====
+  async function loadSemaine(){
+    document.getElementById('loadingSemaine').style.display = 'block';
+    document.getElementById('contentSemaine').style.display = 'none';
+
+    const { monday, sunday } = getWeekRange();
+    const fmt2d = d => d.toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit'});
+    document.getElementById('semaineLabel').textContent =
+      `Semaine du ${fmt2d(monday)} au ${fmt2d(sunday)}`;
+
+    let offTotal = 0, donTotal = 0, depTotal = 0;
+
+    // Offrandes semaine
+    try {
+      const snap = await getDocs(collection(db, 'offrandes'));
+      const offItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateInWeek(data.date, monday, sunday)) return;
+        const m = parseFloat(data.montant)||0;
+        if(data.type === 'Don') donTotal += m;
+        else offTotal += m;
+        offItems.push(data);
+      });
+      offItems.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const el = document.getElementById('sw-list-offrande');
+      if(offItems.length === 0){
+        el.innerHTML = '<p class="empty-state">Aucune offrande cette semaine.</p>';
+      } else {
+        el.innerHTML = offItems.map(o => `
+          <div class="detail-item ${o.type==='Don'?'gold':'green'}">
+            <div class="detail-info">
+              <div class="detail-name">${o.type}</div>
+              <div class="detail-sub">${o.date}${o.note?' · '+o.note:''}</div>
+            </div>
+            <div class="detail-amount ${o.type==='Don'?'gold':'green'}">${fmt(o.montant)}</div>
+          </div>`).join('');
+      }
+    } catch(e){ console.error(e); }
+
+    // Dépenses semaine
+    try {
+      const snap = await getDocs(collection(db, 'depenses'));
+      const depItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateInWeek(data.date, monday, sunday)) return;
+        depTotal += parseFloat(data.montant)||0;
+        depItems.push(data);
+      });
+      depItems.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const el = document.getElementById('sw-list-depense');
+      if(depItems.length === 0){
+        el.innerHTML = '<p class="empty-state">Aucune dépense cette semaine.</p>';
+      } else {
+        el.innerHTML = depItems.map(d => `
+          <div class="detail-item red">
+            <div class="detail-info">
+              <div class="detail-name">${d.type}</div>
+              <div class="detail-sub">${d.date}${d.note?' · '+d.note:''}</div>
+            </div>
+            <div class="detail-amount red">${fmt(d.montant)}</div>
+          </div>`).join('');
+      }
+    } catch(e){ console.error(e); }
+
+    const solde = offTotal + donTotal - depTotal;
+    document.getElementById('sw-offrande').textContent = fmt(offTotal);
+    document.getElementById('sw-don').textContent = fmt(donTotal);
+    document.getElementById('sw-depense').textContent = fmt(depTotal);
+    document.getElementById('sw-solde').textContent = fmt(Math.abs(solde));
+    document.getElementById('sw-solde').style.color = solde < 0 ? 'var(--red)' : 'var(--green)';
+
+    document.getElementById('loadingSemaine').style.display = 'none';
+    document.getElementById('contentSemaine').style.display = 'block';
+  }
+
+  // ===== MOIS =====
+  async function loadMois(){
+    document.getElementById('loadingMois').style.display = 'block';
+    document.getElementById('contentMois').style.display = 'none';
+
+    const mois = document.getElementById('moisSelect').value;
+    const annee = document.getElementById('moisAnneeSelect').value;
+    const moisKey = mois; // "01" à "12"
+
+    let dimeTotal = 0, offTotal = 0, donTotal = 0, depTotal = 0;
+
+    // Dîme
+    try {
+      const q = query(collection(db, 'dimes'), where('annee','==',parseInt(annee)));
+      const snap = await getDocs(q);
+      const dimeItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        const moisData = data.mois || {};
+        if(moisData[moisKey] !== undefined){
+          const m = parseFloat(moisData[moisKey])||0;
+          dimeTotal += m;
+          dimeItems.push({ nom:`${data.nom||''} ${data.prenom||''}`.trim(), montant:m });
+        }
+      });
+      dimeItems.sort((a,b)=>a.nom.localeCompare(b.nom));
+      const el = document.getElementById('mm-list-dime');
+      el.innerHTML = dimeItems.length === 0
+        ? '<p class="empty-state">Aucune dîme ce mois.</p>'
+        : dimeItems.map(d => `
+          <div class="detail-item gold">
+            <div class="detail-info"><div class="detail-name">${d.nom}</div></div>
+            <div class="detail-amount gold">${fmt(d.montant)}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    // Offrandes
+    try {
+      const snap = await getDocs(collection(db, 'offrandes'));
+      const offItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateMatchMoisAnnee(data.date, moisKey, annee)) return;
+        const m = parseFloat(data.montant)||0;
+        if(data.type === 'Don') donTotal += m;
+        else offTotal += m;
+        offItems.push(data);
+      });
+      offItems.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const el = document.getElementById('mm-list-offrande');
+      el.innerHTML = offItems.length === 0
+        ? '<p class="empty-state">Aucune offrande ce mois.</p>'
+        : offItems.map(o => `
+          <div class="detail-item ${o.type==='Don'?'gold':'green'}">
+            <div class="detail-info">
+              <div class="detail-name">${o.type}</div>
+              <div class="detail-sub">${o.date}${o.note?' · '+o.note:''}</div>
+            </div>
+            <div class="detail-amount ${o.type==='Don'?'gold':'green'}">${fmt(o.montant)}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    // Dépenses
+    try {
+      const snap = await getDocs(collection(db, 'depenses'));
+      const depItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateMatchMoisAnnee(data.date, moisKey, annee)) return;
+        depTotal += parseFloat(data.montant)||0;
+        depItems.push(data);
+      });
+      depItems.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const el = document.getElementById('mm-list-depense');
+      el.innerHTML = depItems.length === 0
+        ? '<p class="empty-state">Aucune dépense ce mois.</p>'
+        : depItems.map(d => `
+          <div class="detail-item red">
+            <div class="detail-info">
+              <div class="detail-name">${d.type}</div>
+              <div class="detail-sub">${d.date}${d.note?' · '+d.note:''}</div>
+            </div>
+            <div class="detail-amount red">${fmt(d.montant)}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    const totalEntree = dimeTotal + offTotal + donTotal;
+    const solde = offTotal + donTotal - depTotal;
+    const totalFinal = dimeTotal + solde;
+
+    document.getElementById('mm-dime').textContent = fmt(dimeTotal);
+    document.getElementById('mm-offrande').textContent = fmt(offTotal + donTotal);
+    document.getElementById('mm-depense').textContent = fmt(depTotal);
+    document.getElementById('mm-solde').textContent = fmt(Math.abs(solde));
+    document.getElementById('mm-solde').style.color = solde < 0 ? 'var(--red)' : 'var(--green)';
+    document.getElementById('mm-total').textContent = fmt(Math.abs(totalFinal));
+    document.getElementById('mm-total').className = 'total-global-amount' + (totalFinal < 0 ? ' deficit' : '');
+    document.getElementById('mm-total-entree').textContent = fmt(totalEntree);
+    document.getElementById('mm-total-depense-detail').textContent = fmt(depTotal);
+
+    document.getElementById('loadingMois').style.display = 'none';
+    document.getElementById('contentMois').style.display = 'block';
+  }
+
+  // ===== ANNÉE =====
+  async function loadAnnee(){
+    document.getElementById('loadingAnnee').style.display = 'block';
+    document.getElementById('contentAnnee').style.display = 'none';
+
+    const annee = document.getElementById('anneeSelect').value;
+    let dimeTotal = 0, offTotal = 0, donTotal = 0, depTotal = 0;
+
+    // Dîme par mois
+    try {
+      const q = query(collection(db, 'dimes'), where('annee','==',parseInt(annee)));
+      const snap = await getDocs(q);
+      const dimeParMois = {};
+      snap.forEach(d => {
+        const data = d.data();
+        const mois = data.mois || {};
+        Object.keys(mois).forEach(k => {
+          const m = parseFloat(mois[k])||0;
+          dimeTotal += m;
+          dimeParMois[k] = (dimeParMois[k]||0) + m;
+        });
+      });
+      const el = document.getElementById('aa-list-dime');
+      const moisAvecDime = Object.keys(dimeParMois).sort();
+      el.innerHTML = moisAvecDime.length === 0
+        ? '<p class="empty-state">Aucune dîme cette année.</p>'
+        : moisAvecDime.map(k => `
+          <div class="detail-item gold">
+            <div class="detail-info"><div class="detail-name">${MOIS_NOMS[parseInt(k)-1]}</div></div>
+            <div class="detail-amount gold">${fmt(dimeParMois[k])}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    // Offrandes par type
+    try {
+      const snap = await getDocs(collection(db, 'offrandes'));
+      const offParType = {};
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateMatchAnnee(data.date, annee)) return;
+        const m = parseFloat(data.montant)||0;
+        if(data.type === 'Don') donTotal += m;
+        else offTotal += m;
+        offParType[data.type] = (offParType[data.type]||0) + m;
+      });
+      const el = document.getElementById('aa-list-offrande');
+      const types = Object.keys(offParType).sort();
+      el.innerHTML = types.length === 0
+        ? '<p class="empty-state">Aucune offrande cette année.</p>'
+        : types.map(t => `
+          <div class="detail-item ${t==='Don'?'gold':'green'}">
+            <div class="detail-info"><div class="detail-name">${t}</div></div>
+            <div class="detail-amount ${t==='Don'?'gold':'green'}">${fmt(offParType[t])}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    // Dépenses par catégorie
+    try {
+      const snap = await getDocs(collection(db, 'depenses'));
+      const depParCat = {};
+      snap.forEach(d => {
+        const data = d.data();
+        if(!dateMatchAnnee(data.date, annee)) return;
+        const m = parseFloat(data.montant)||0;
+        depTotal += m;
+        depParCat[data.type] = (depParCat[data.type]||0) + m;
+      });
+      const el = document.getElementById('aa-list-depense');
+      const cats = Object.keys(depParCat).sort();
+      el.innerHTML = cats.length === 0
+        ? '<p class="empty-state">Aucune dépense cette année.</p>'
+        : cats.map(c => `
+          <div class="detail-item red">
+            <div class="detail-info"><div class="detail-name">${c}</div></div>
+            <div class="detail-amount red">${fmt(depParCat[c])}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    const totalEntree = dimeTotal + offTotal + donTotal;
+    const soldeKes = offTotal + donTotal - depTotal;
+    const totalFinal = dimeTotal + soldeKes;
+
+    document.getElementById('aa-dime').textContent = fmt(dimeTotal);
+    document.getElementById('aa-offrande').textContent = fmt(offTotal + donTotal);
+    document.getElementById('aa-depense').textContent = fmt(depTotal);
+    document.getElementById('aa-solde').textContent = fmt(Math.abs(soldeKes));
+    document.getElementById('aa-solde').style.color = soldeKes < 0 ? 'var(--red)' : 'var(--green)';
+    document.getElementById('aa-total').textContent = fmt(Math.abs(totalFinal));
+    document.getElementById('aa-total').className = 'total-global-amount' + (totalFinal < 0 ? ' deficit' : '');
+    document.getElementById('aa-total-entree').textContent = fmt(totalEntree);
+    document.getElementById('aa-total-depense').textContent = fmt(depTotal);
+
+    document.getElementById('loadingAnnee').style.display = 'none';
+    document.getElementById('contentAnnee').style.display = 'block';
+  }
+</script>
+
+<script>
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+  }
+</script>
+</body>
+</html>
