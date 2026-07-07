@@ -270,6 +270,51 @@
   border-bottom-width: 2px !important;
   filter: brightness(0.97);
 }
+
+/* Background vèt pâle pou paj Dîme a */
+body{
+  background: #F0F7F2 !important;
+}
+
+/* Bouton liste + réinitialiser */
+.btn-liste-dime{
+  width:100%;
+  padding:14px;
+  background:#fff;
+  border:2px solid #2E7D5B;
+  color:#2E7D5B;
+  border-radius:6px;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  box-shadow:0 2px 8px -4px rgba(46,125,91,0.2);
+  transition:transform 0.12s ease, box-shadow 0.2s ease;
+  margin-top:10px;
+}
+.btn-liste-dime:hover{
+  background:#F0F7F2;
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px -6px rgba(46,125,91,0.3);
+}
+
+/* Bouton réinitialiser (dans modal) */
+.btn-reinit{
+  width:100%;
+  margin-top:12px;
+  padding:13px;
+  background:#fff;
+  border:2px solid var(--error);
+  color:var(--error);
+  border-radius:6px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background 0.2s ease;
+}
+.btn-reinit:hover{background:#FBEDE8;}
 </style>
 </head>
 <body>
@@ -286,6 +331,7 @@
 
 <div class="add-btn-wrap">
   <button class="btn-add-dime" id="btnAddDime">+ Enregistrer une nouvelle dîme</button>
+  <button class="btn-liste-dime" id="btnListeDime">📋 Afficher tous ceux qui ont payé la dîme</button>
 </div>
 
 <div class="year-selector">
@@ -322,7 +368,9 @@
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    updateDoc,
+    doc
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -370,7 +418,6 @@
 
     const people = [];
     let total = 0;
-
     allDimesCache.forEach((data) => {
       const mois = data.mois || {};
       if (mois[key] !== undefined && mois[key] !== null) {
@@ -399,6 +446,7 @@
           <span>Total du mois</span>
           <span>${formatMontant(total)}</span>
         </div>
+        <button class="btn-reinit" id="btnReinit">🗑 Réinitialiser ce mois</button>
       `;
 
       monthModalBody.querySelectorAll('.month-person-row').forEach((row) => {
@@ -408,6 +456,31 @@
             window.location.href = `dime-ajouter.html?membreId=${encodeURIComponent(membreId)}`;
           }
         });
+      });
+
+      document.getElementById('btnReinit').addEventListener('click', async () => {
+        const confirmed = confirm(`Réinitialiser TOUTES les dîmes de ${nomMois} ${currentYear} ? Cette action est irréversible.`);
+        if (!confirmed) return;
+
+        try {
+          const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+          const snap = await getDocs(q);
+          const promises = [];
+          snap.forEach(docSnap => {
+            const data = docSnap.data();
+            const mois = { ...(data.mois || {}) };
+            if (mois[key] !== undefined) {
+              delete mois[key];
+              promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois }));
+            }
+          });
+          await Promise.all(promises);
+          monthModalOverlay.classList.remove('show');
+          renderMonths();
+          alert(`Dîmes de ${nomMois} ${currentYear} réinitialisées.`);
+        } catch(err) {
+          alert('Erreur : ' + err.message);
+        }
       });
     }
 
@@ -498,6 +571,10 @@
 
   btnAddDime.addEventListener('click', () => {
     window.location.href = 'dime-ajouter.html';
+  });
+
+  document.getElementById('btnListeDime').addEventListener('click', () => {
+    window.location.href = 'dime-liste.html';
   });
 
   renderMonths();
