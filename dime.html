@@ -360,6 +360,93 @@ body{
   font-size:16.5px !important;
   font-weight:600 !important;
 }
+
+/* Modal de confirmation personnalisé (réinitialisation) */
+.confirm-modal-overlay{
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(10,31,68,0.6);
+  z-index:300;
+  align-items:center; justify-content:center;
+  padding:24px;
+}
+.confirm-modal-overlay.show{ display:flex; }
+
+.confirm-modal-box{
+  background:#fff;
+  border-radius:20px;
+  width:100%;
+  max-width:360px;
+  padding:28px 24px 24px;
+  text-align:center;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.4);
+  border-top:5px solid var(--error);
+  animation:confirmPop 0.2s ease-out;
+}
+
+@keyframes confirmPop{
+  from{ transform:scale(0.92); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
+}
+
+.confirm-modal-icon{
+  width:64px; height:64px;
+  border-radius:50%;
+  background:#FBEDE8;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px;
+  margin:0 auto 14px;
+}
+
+.confirm-modal-title{
+  font-family:'Fraunces',serif;
+  font-weight:800;
+  font-size:20px;
+  color:var(--navy-deep);
+  margin-bottom:8px;
+}
+
+.confirm-modal-text{
+  font-size:15px;
+  font-weight:500;
+  color:#6B6457;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+.confirm-modal-text strong{
+  color:var(--error);
+  font-weight:700;
+}
+
+.confirm-modal-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-size:15.5px;
+  font-weight:800;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:transform 0.1s ease;
+}
+.confirm-modal-btn:active{ transform:translateY(2px); }
+
+.confirm-modal-btn.danger{
+  background:linear-gradient(180deg, #D4553A, #A5281B);
+  color:#fff;
+  border-bottom:4px solid #6E170F;
+  text-transform:uppercase;
+}
+
+.confirm-modal-btn.cancel{
+  background:none;
+  color:#6B6457;
+  font-weight:700;
+  margin-bottom:0;
+  padding:10px;
+}
 </style>
 </head>
 <body>
@@ -411,6 +498,17 @@ body{
   </div>
 </div>
 
+<!-- Modal de confirmation personnalisé pour les réinitialisations -->
+<div class="confirm-modal-overlay" id="confirmModalOverlay">
+  <div class="confirm-modal-box">
+    <div class="confirm-modal-icon">⚠️</div>
+    <p class="confirm-modal-title" id="confirmModalTitle">Attention</p>
+    <p class="confirm-modal-text" id="confirmModalText">Cette action est irréversible.</p>
+    <button type="button" class="confirm-modal-btn danger" id="confirmModalYes">🗑️ Oui, réinitialiser</button>
+    <button type="button" class="confirm-modal-btn cancel" id="confirmModalNo">Annuler</button>
+  </div>
+</div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -453,6 +551,34 @@ body{
   const prevYearBtn = document.getElementById('prevYear');
   const nextYearBtn = document.getElementById('nextYear');
   const btnAddDime = document.getElementById('btnAddDime');
+
+  // --- Modal de confirmation personnalisé (remplace confirm() du téléphone) ---
+  const confirmModalOverlay = document.getElementById('confirmModalOverlay');
+  const confirmModalTitle = document.getElementById('confirmModalTitle');
+  const confirmModalText = document.getElementById('confirmModalText');
+  const confirmModalYes = document.getElementById('confirmModalYes');
+  const confirmModalNo = document.getElementById('confirmModalNo');
+
+  function showConfirmModal(title, html, onConfirm){
+    confirmModalTitle.textContent = title;
+    confirmModalText.innerHTML = html;
+    confirmModalOverlay.classList.add('show');
+
+    const cleanup = () => {
+      confirmModalOverlay.classList.remove('show');
+      confirmModalYes.removeEventListener('click', yesHandler);
+      confirmModalNo.removeEventListener('click', noHandler);
+    };
+    const yesHandler = () => { cleanup(); onConfirm(); };
+    const noHandler = () => { cleanup(); };
+
+    confirmModalYes.addEventListener('click', yesHandler);
+    confirmModalNo.addEventListener('click', noHandler);
+  }
+
+  confirmModalOverlay.addEventListener('click', (e) => {
+    if (e.target === confirmModalOverlay) confirmModalOverlay.classList.remove('show');
+  });
 
   function formatMontant(montant){
     return montant.toLocaleString('fr-FR') + ' HTG';
@@ -628,54 +754,60 @@ body{
   });
 
   // Réinitialiser le mois actuel affiché
-  document.getElementById('btnReinitMois').addEventListener('click', async () => {
+  document.getElementById('btnReinitMois').addEventListener('click', () => {
     const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin',
       'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
     const moisActuel = new Date().getMonth();
     const moisKey = String(moisActuel + 1).padStart(2, '0');
     const moisNom = moisNoms[moisActuel];
 
-    const confirmed = confirm(`Réinitialiser toutes les dîmes de ${moisNom} ${currentYear} ? Cette action est irréversible.`);
-    if (!confirmed) return;
-
-    try {
-      const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
-      const snap = await getDocs(q);
-      const promises = [];
-      snap.forEach(docSnap => {
-        const data = docSnap.data();
-        const mois = { ...(data.mois || {}) };
-        if (mois[moisKey] !== undefined) {
-          delete mois[moisKey];
-          promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois }));
+    showConfirmModal(
+      'Réinitialiser ce mois ?',
+      `Vous êtes sur le point d'effacer <strong>toutes les dîmes de ${moisNom} ${currentYear}</strong>. Cette action est irréversible.`,
+      async () => {
+        try {
+          const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+          const snap = await getDocs(q);
+          const promises = [];
+          snap.forEach(docSnap => {
+            const data = docSnap.data();
+            const mois = { ...(data.mois || {}) };
+            if (mois[moisKey] !== undefined) {
+              delete mois[moisKey];
+              promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois }));
+            }
+          });
+          await Promise.all(promises);
+          renderMonths();
+          alert(`✅ Dîmes de ${moisNom} ${currentYear} réinitialisées.`);
+        } catch(err) {
+          alert('❌ Erreur : ' + err.message);
         }
-      });
-      await Promise.all(promises);
-      renderMonths();
-      alert(`Dîmes de ${moisNom} ${currentYear} réinitialisées.`);
-    } catch(err) {
-      alert('Erreur : ' + err.message);
-    }
+      }
+    );
   });
 
   // Réinitialiser toute l'année affichée
-  document.getElementById('btnReinitAnnee').addEventListener('click', async () => {
-    const confirmed = confirm(`Réinitialiser TOUTES les dîmes de l'année ${currentYear} ? Cette action est irréversible.`);
-    if (!confirmed) return;
-
-    try {
-      const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
-      const snap = await getDocs(q);
-      const promises = [];
-      snap.forEach(docSnap => {
-        promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois: {} }));
-      });
-      await Promise.all(promises);
-      renderMonths();
-      alert(`Toutes les dîmes de ${currentYear} ont été réinitialisées.`);
-    } catch(err) {
-      alert('Erreur : ' + err.message);
-    }
+  document.getElementById('btnReinitAnnee').addEventListener('click', () => {
+    showConfirmModal(
+      'Réinitialiser toute l\'année ?',
+      `Vous êtes sur le point d'effacer <strong>TOUTES les dîmes de l'année ${currentYear}</strong>, pour tous les membres. Cette action est irréversible.`,
+      async () => {
+        try {
+          const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+          const snap = await getDocs(q);
+          const promises = [];
+          snap.forEach(docSnap => {
+            promises.push(updateDoc(doc(db, 'dimes', docSnap.id), { mois: {} }));
+          });
+          await Promise.all(promises);
+          renderMonths();
+          alert(`✅ Toutes les dîmes de ${currentYear} ont été réinitialisées.`);
+        } catch(err) {
+          alert('❌ Erreur : ' + err.message);
+        }
+      }
+    );
   });
 
   renderMonths();
