@@ -296,22 +296,83 @@
   }
   .reset-modal-title {
     font-family: 'Fraunces', serif;
-    font-weight: 700; font-size: 20px;
-    color: #3A1848; margin-bottom: 6px;
+    font-weight: 800; font-size: 20px;
+    color: #2A1038; margin-bottom: 6px;
   }
   .reset-modal-text {
-    font-size: 14.5px; color: #6A557A; margin-bottom: 18px; line-height: 1.4;
+    font-size: 14.5px; font-weight:700; color: #4A3358; margin-bottom: 18px; line-height: 1.4;
   }
   .reset-modal-btn {
     width: 100%; padding: 14px; margin-bottom: 10px;
     border: none; border-radius: 10px;
-    font-size: 15.5px; font-weight: 700;
+    font-size: 15.5px; font-weight: 800;
     cursor: pointer; transition: transform 0.1s ease;
   }
   .reset-modal-btn:active { transform: scale(0.98); }
-  .reset-modal-btn.month { background: #F5EEFC; color: #6B2EA0; border:2px solid #E3D8ED; }
-  .reset-modal-btn.year { background: linear-gradient(180deg,#D4553A,#A5281B); color:#fff; }
-  .reset-modal-btn.cancel { background: none; color: #6A557A; margin-bottom: 0; font-weight: 600; }
+  .reset-modal-btn.month { background: #ECE0F5; color: #5A1F8A; border:2px solid #D3B8EC; }
+  .reset-modal-btn.year { background: linear-gradient(180deg,#C24730,#8E1F0F); color:#fff; }
+  .reset-modal-btn.cancel { background: none; color: #4A3358; margin-bottom: 0; font-weight: 700; }
+
+  /* Modal de confirmation finale (avec icône d'alerte) */
+  .confirm-modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(20,10,29,0.62);
+    z-index:400;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .confirm-modal-overlay.open{ display:flex; }
+  .confirm-modal-box{
+    background:#fff;
+    border-radius:20px;
+    width:100%; max-width:360px;
+    padding:28px 24px 24px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.45);
+    border-top:5px solid #8E1F0F;
+    animation:confirmPopO 0.2s ease-out;
+  }
+  @keyframes confirmPopO{
+    from{ transform:scale(0.92); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+  }
+  .confirm-modal-icon{
+    width:64px; height:64px;
+    border-radius:50%;
+    background:#FBEAE6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px;
+    margin:0 auto 14px;
+  }
+  .confirm-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:800;
+    font-size:19px;
+    color:#2A1038;
+    margin-bottom:8px;
+  }
+  .confirm-modal-text{
+    font-size:14.5px;
+    font-weight:700;
+    color:#4A3358;
+    line-height:1.5;
+    margin-bottom:22px;
+  }
+  .confirm-modal-text strong{ color:#8E1F0F; font-weight:800; }
+  .confirm-modal-btn{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    font-size:15.5px; font-weight:800; letter-spacing:0.02em;
+    cursor:pointer; margin-bottom:10px; transition:transform 0.1s ease;
+  }
+  .confirm-modal-btn:active{ transform:translateY(2px); }
+  .confirm-modal-btn.danger{
+    background:linear-gradient(180deg,#C24730,#8E1F0F);
+    color:#fff; border-bottom:4px solid #5E1409; text-transform:uppercase;
+  }
+  .confirm-modal-btn.cancel{
+    background:none; color:#4A3358; font-weight:700; margin-bottom:0; padding:10px;
+  }
 
   .filter-row {
     display:grid;
@@ -504,6 +565,17 @@
       <button type="button" class="reset-modal-btn month" id="btnResetMonth">Supprimer les offrandes de ce mois</button>
       <button type="button" class="reset-modal-btn year" id="btnResetYear">Supprimer les offrandes de toute l'année</button>
       <button type="button" class="reset-modal-btn cancel" id="btnResetCancel">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation finale (avec icône d'alerte) -->
+  <div class="confirm-modal-overlay" id="confirmModalOverlay">
+    <div class="confirm-modal-box">
+      <div class="confirm-modal-icon">⚠️</div>
+      <p class="confirm-modal-title" id="confirmModalTitle">Attention</p>
+      <p class="confirm-modal-text" id="confirmModalText">Cette action est irréversible.</p>
+      <button type="button" class="confirm-modal-btn danger" id="confirmModalYes">🗑️ Oui, supprimer</button>
+      <button type="button" class="confirm-modal-btn cancel" id="confirmModalNo">Annuler</button>
     </div>
   </div>
   
@@ -810,31 +882,63 @@
   btnResetCancel.addEventListener('click', closeResetModal);
   resetModal.addEventListener('click', (e) => { if (e.target === resetModal) closeResetModal(); });
 
+  // --- Modal de confirmation finale personnalisé (remplace confirm() du téléphone) ---
+  const confirmModalOverlay = document.getElementById('confirmModalOverlay');
+  const confirmModalTitle = document.getElementById('confirmModalTitle');
+  const confirmModalText = document.getElementById('confirmModalText');
+  const confirmModalYes = document.getElementById('confirmModalYes');
+  const confirmModalNo = document.getElementById('confirmModalNo');
+
+  function showConfirmModal(title, html, onConfirm){
+    confirmModalTitle.textContent = title;
+    confirmModalText.innerHTML = html;
+    confirmModalOverlay.classList.add('open');
+
+    const cleanup = () => {
+      confirmModalOverlay.classList.remove('open');
+      confirmModalYes.removeEventListener('click', yesHandler);
+      confirmModalNo.removeEventListener('click', noHandler);
+    };
+    const yesHandler = () => { cleanup(); onConfirm(); };
+    const noHandler = () => { cleanup(); };
+
+    confirmModalYes.addEventListener('click', yesHandler);
+    confirmModalNo.addEventListener('click', noHandler);
+  }
+
+  confirmModalOverlay.addEventListener('click', (e) => {
+    if (e.target === confirmModalOverlay) confirmModalOverlay.classList.remove('open');
+  });
+
   async function deleteBatch(list, label){
     if (list.length === 0) {
       showStatus(`Aucune offrande pour ${label}.`, 'info');
       return;
     }
-    const confirmed = confirm(`Voulez-vous vraiment supprimer définitivement ${list.length} offrande(s) pour ${label} ? Cette action est irréversible.`);
-    if (!confirmed) return;
 
-    closeResetModal();
-    btnReset.disabled = true;
-    showStatus(`Suppression en cours pour ${label}...`, 'info');
+    showConfirmModal(
+      'Supprimer ces offrandes ?',
+      `Vous êtes sur le point de supprimer définitivement <strong>${list.length} offrande(s)</strong> pour ${label}. Cette action est irréversible.`,
+      async () => {
+        closeResetModal();
+        btnReset.disabled = true;
+        showStatus(`Suppression en cours pour ${label}...`, 'info');
 
-    try {
-      for (const o of list) {
-        await deleteDoc(doc(db, 'offrandes', o.id));
+        try {
+          for (const o of list) {
+            await deleteDoc(doc(db, 'offrandes', o.id));
+          }
+          const idsRemoved = new Set(list.map(o => o.id));
+          allOffrandes = allOffrandes.filter(o => !idsRemoved.has(o.id));
+          renderList();
+          showStatus(`${list.length} offrande(s) supprimée(s) pour ${label}.`, 'ok');
+        } catch (err) {
+          showStatus('Erreur lors de la suppression : ' + err.message, 'err');
+        } finally {
+          btnReset.disabled = false;
+        }
       }
-      const idsRemoved = new Set(list.map(o => o.id));
-      allOffrandes = allOffrandes.filter(o => !idsRemoved.has(o.id));
-      renderList();
-      showStatus(`${list.length} offrande(s) supprimée(s) pour ${label}.`, 'ok');
-    } catch (err) {
-      showStatus('Erreur lors de la suppression : ' + err.message, 'err');
-    } finally {
-      btnReset.disabled = false;
-    }
+    );
   }
 
   btnResetMonth.addEventListener('click', () => {
