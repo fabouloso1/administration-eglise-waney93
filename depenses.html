@@ -361,6 +361,73 @@
   .toast-notif.err .toast-notif-icon{ background:#FBEDE8; }
   .toast-notif-text{ font-size:14.5px; font-weight:800; color:#5E2316; line-height:1.35; }
 
+  /* --- Listes personnalisées (Catégorie / Filtres) --- */
+  .custom-select-wrapper{ position:relative; user-select:none; }
+
+  .custom-select-trigger{
+    width:100%;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:13px 16px;
+    font-size:16.5px;
+    font-weight:700;
+    color:var(--ink);
+    background-color:#FBF7F4;
+    border:2px solid #E3C4AE;
+    border-radius:12px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .custom-select-trigger.placeholder{ color:#A8968E; font-weight:600; }
+  .custom-select-trigger:after{
+    content:""; width:0; height:0; flex-shrink:0; margin-left:8px;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:6px solid #8E3522;
+    transition:transform 0.2s ease;
+  }
+  .custom-select-wrapper.open .custom-select-trigger{
+    border-color:#8E3522;
+    box-shadow:0 0 0 4px rgba(142,53,34,0.14);
+  }
+  .custom-select-wrapper.open .custom-select-trigger:after{ transform:rotate(180deg); }
+
+  .custom-options{
+    position:absolute; top:calc(100% + 6px);
+    width:240px;
+    max-width:calc(100vw - 56px);
+    background:#fff;
+    border:2px solid #8E3522;
+    border-radius:12px;
+    max-height:280px;
+    overflow-y:auto;
+    z-index:120;
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:all 0.15s ease;
+    box-shadow:0 12px 28px rgba(142,53,34,0.2);
+  }
+  .custom-select-wrapper.open .custom-options{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .custom-option{
+    padding:13px 16px;
+    font-size:16px;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    transition:background 0.1s ease;
+  }
+  .custom-option:hover{ background:#F5E3D8; color:#8E3522; }
+
+  /* Champ "Catégorie" du formulaire (colonne DROITE) : le panneau s'ouvre vers la GAUCHE */
+  #dpTypeWrapper .custom-options{ right:0; left:auto; }
+
+  /* Filtre "catégorie" (colonne GAUCHE du filtre) : le panneau s'ouvre vers la DROITE */
+  #filterTypeWrapper .custom-options{ left:0; right:auto; }
+
+  /* Filtre "mois" (colonne DROITE du filtre) : le panneau s'ouvre vers la GAUCHE */
+  #filterMonthWrapper .custom-options{ right:0; left:auto; }
+
 /* --- Effet 3D (relief) ajoute automatiquement --- */
 .btn-enregistrer{
   border-bottom: 4px solid rgba(0,0,0,0.28) !important;
@@ -395,16 +462,19 @@
         <input type="date" id="dpDate" required>
       </div>
       <div class="field-group">
-        <label class="field-label" for="dpType">Catégorie</label>
-        <select id="dpType" required>
-          <option value="" disabled selected>Choisir...</option>
-          <option value="Carburant pour groupe électrogène">Carburant pour groupe électrogène</option>
-          <option value="Eau">Eau</option>
-          <option value="Boisson">Boisson</option>
-          <option value="Livres École du dimanche">Livres École du dimanche</option>
-          <option value="Veuf(ve)">Veuf(ve)</option>
-          <option value="Autre dépense">Autre dépense</option>
-        </select>
+        <label class="field-label">Catégorie</label>
+        <div class="custom-select-wrapper" id="dpTypeWrapper">
+          <div class="custom-select-trigger placeholder" id="dpTypeTrigger">Choisir...</div>
+          <div class="custom-options">
+            <span class="custom-option" data-value="Carburant pour groupe électrogène">Carburant pour groupe électrogène</span>
+            <span class="custom-option" data-value="Eau">Eau</span>
+            <span class="custom-option" data-value="Boisson">Boisson</span>
+            <span class="custom-option" data-value="Livres École du dimanche">Livres École du dimanche</span>
+            <span class="custom-option" data-value="Veuf(ve)">Veuf(ve)</span>
+            <span class="custom-option" data-value="Autre dépense">Autre dépense</span>
+          </div>
+        </div>
+        <input type="hidden" id="dpType" value="">
       </div>
     </div>
 
@@ -459,30 +529,44 @@
   </div>
 
   <div class="filter-row">
-    <select id="filterType">
-      <option value="">Toutes les catégories</option>
-      <option value="Carburant pour groupe électrogène">Carburant pour groupe électrogène</option>
-      <option value="Eau">Eau</option>
-      <option value="Boisson">Boisson</option>
-      <option value="Livres École du dimanche">Livres École du dimanche</option>
-      <option value="Veuf(ve)">Veuf(ve)</option>
-      <option value="Autre dépense">Autre dépense</option>
-    </select>
-    <select id="filterMonth">
-      <option value="">Tous les mois</option>
-      <option value="01">Janvier</option>
-      <option value="02">Février</option>
-      <option value="03">Mars</option>
-      <option value="04">Avril</option>
-      <option value="05">Mai</option>
-      <option value="06">Juin</option>
-      <option value="07">Juillet</option>
-      <option value="08">Août</option>
-      <option value="09">Septembre</option>
-      <option value="10">Octobre</option>
-      <option value="11">Novembre</option>
-      <option value="12">Décembre</option>
-    </select>
+    <div class="field-group">
+      <div class="custom-select-wrapper" id="filterTypeWrapper">
+        <div class="custom-select-trigger" id="filterTypeTrigger">Toutes les catégories</div>
+        <div class="custom-options">
+          <span class="custom-option" data-value="">Toutes les catégories</span>
+          <span class="custom-option" data-value="Carburant pour groupe électrogène">Carburant pour groupe électrogène</span>
+          <span class="custom-option" data-value="Eau">Eau</span>
+          <span class="custom-option" data-value="Boisson">Boisson</span>
+          <span class="custom-option" data-value="Livres École du dimanche">Livres École du dimanche</span>
+          <span class="custom-option" data-value="Veuf(ve)">Veuf(ve)</span>
+          <span class="custom-option" data-value="Autre dépense">Autre dépense</span>
+        </div>
+      </div>
+      <input type="hidden" id="filterType" value="">
+    </div>
+
+    <div class="field-group">
+      <div class="custom-select-wrapper" id="filterMonthWrapper">
+        <div class="custom-select-trigger" id="filterMonthTrigger">Tous les mois</div>
+        <div class="custom-options">
+          <span class="custom-option" data-value="">Tous les mois</span>
+          <span class="custom-option" data-value="01">Janvier</span>
+          <span class="custom-option" data-value="02">Février</span>
+          <span class="custom-option" data-value="03">Mars</span>
+          <span class="custom-option" data-value="04">Avril</span>
+          <span class="custom-option" data-value="05">Mai</span>
+          <span class="custom-option" data-value="06">Juin</span>
+          <span class="custom-option" data-value="07">Juillet</span>
+          <span class="custom-option" data-value="08">Août</span>
+          <span class="custom-option" data-value="09">Septembre</span>
+          <span class="custom-option" data-value="10">Octobre</span>
+          <span class="custom-option" data-value="11">Novembre</span>
+          <span class="custom-option" data-value="12">Décembre</span>
+        </div>
+      </div>
+      <input type="hidden" id="filterMonth" value="">
+    </div>
+  </div>
   </div>
   <div id="listWrap"></div>
 </div>
@@ -534,7 +618,48 @@
   const filterType = document.getElementById('filterType');
   const filterMonth = document.getElementById('filterMonth');
 
+  // GESTION DES LISTES PERSONNALISÉES (Catégorie, Filtre catégorie, Filtre mois)
+  const allDropdownWrappers = [];
+
+  function setupCustomSelect(wrapperId, triggerId, hiddenInputId, onSelect){
+    const wrapperEl = document.getElementById(wrapperId);
+    const triggerEl = document.getElementById(triggerId);
+    const hiddenEl = document.getElementById(hiddenInputId);
+    allDropdownWrappers.push(wrapperEl);
+
+    triggerEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = wrapperEl.classList.contains('open');
+      allDropdownWrappers.forEach(w => w.classList.remove('open'));
+      if (!isOpen) wrapperEl.classList.add('open');
+    });
+
+    wrapperEl.querySelectorAll('.custom-option').forEach(option => {
+      option.addEventListener('click', function(){
+        const val = this.getAttribute('data-value');
+        triggerEl.textContent = val || this.textContent.trim();
+        triggerEl.classList.remove('placeholder');
+        hiddenEl.value = val;
+        wrapperEl.classList.remove('open');
+        if (onSelect) onSelect(val);
+      });
+    });
+
+    return { wrapperEl, triggerEl, hiddenEl };
+  }
+
+  setupCustomSelect('dpTypeWrapper', 'dpTypeTrigger', 'dpType');
+  const filterTypeDD = setupCustomSelect('filterTypeWrapper', 'filterTypeTrigger', 'filterType', () => renderList());
+  const filterMonthDD = setupCustomSelect('filterMonthWrapper', 'filterMonthTrigger', 'filterMonth', () => renderList());
+
+  window.addEventListener('click', () => {
+    allDropdownWrappers.forEach(w => w.classList.remove('open'));
+  });
+
+  // Initialise le filtre mois sur le mois actuel (valeur + texte affiché)
+  const moisNomsComplets = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
+  filterMonthDD.triggerEl.textContent = moisNomsComplets[new Date().getMonth()];
 
   let allDepenses = [];
 
@@ -733,6 +858,12 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    if (!document.getElementById('dpType').value) {
+      showStatus('Veuillez choisir une catégorie avant d\'enregistrer.', 'err');
+      return;
+    }
+
     btnSave.disabled = true;
     showStatus('Enregistrement en cours...', 'info');
 
@@ -759,8 +890,7 @@
     }
   });
 
-  filterType.addEventListener('change', renderList);
-  filterMonth.addEventListener('change', renderList);
+  // (Le filtrage se déclenche déjà directement depuis les listes personnalisées ci-dessus)
 
   loadDepenses();
 </script>
