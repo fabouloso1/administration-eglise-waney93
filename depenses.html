@@ -13,6 +13,28 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
+  /* Fond de page plus chaleureux et légèrement plus foncé (thème Dépenses) */
+  body{
+    background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
+  }
+
+  .section-title{
+    font-size:26px !important;
+    font-weight:800 !important;
+  }
+  .section-sub{
+    font-size:16.5px !important;
+    font-weight:700 !important;
+  }
+
+  .field-label{
+    font-weight:800 !important;
+  }
+
+  input[type="text"], input[type="number"], input[type="date"], select{
+    font-weight:700 !important;
+  }
+
   .form-card{
     width:100%;
     max-width:520px;
@@ -21,7 +43,7 @@
 
   .form-card form{
     background:#fff;
-    border-radius:10px;
+    border-radius:14px;
     padding:22px 20px 24px;
     box-shadow:0 10px 30px -16px rgba(10,31,68,0.22), 0 0 0 1px rgba(0,0,0,0.03);
   }
@@ -35,13 +57,13 @@
   .btn-enregistrer{
     width:100%;
     margin-top:18px;
-    padding:15px;
+    padding:17px;
     background:linear-gradient(165deg, #C9543A 0%, var(--error) 100%);
     color:#fff;
     border:none;
-    border-radius:6px;
-    font-size:15.5px;
-    font-weight:700;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:800;
     letter-spacing:0.03em;
     text-transform:uppercase;
     cursor:pointer;
@@ -61,13 +83,38 @@
 
   .list-title{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:17px;
+    font-weight:800;
+    font-size:19px;
     color:var(--navy-deep);
     letter-spacing:0.03em;
     text-transform:uppercase;
-    margin-bottom:12px;
+    margin-bottom:0;
   }
+
+  .list-header-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+
+  .btn-reset-depenses{
+    background: linear-gradient(180deg, #D4553A, #8E1F0F) !important;
+    color: #fff !important;
+    border: none !important;
+    border-bottom: 4px solid #5E1409 !important;
+    border-radius: 20px !important;
+    padding: 9px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 0 6px 0 -2px #5E1409, 0 8px 18px -6px rgba(142,31,15,0.5);
+  }
+  .btn-reset-depenses:hover{ transform: translateY(-2px); }
+  .btn-reset-depenses:active{ transform: translateY(3px); border-bottom-width: 2px !important; }
+  .btn-reset-depenses:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
 
   .filter-row{
     display:grid;
@@ -103,15 +150,15 @@
   }
 
   .depense-type{
-    font-size:15px;
-    font-weight:700;
+    font-size:16px;
+    font-weight:800;
     color:var(--navy-deep);
   }
 
   .depense-montant{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:16px;
+    font-weight:800;
+    font-size:17px;
     color:var(--error);
     white-space:nowrap;
   }
@@ -121,13 +168,14 @@
   }
 
   .depense-date{
-    font-size:13px;
-    font-weight:500;
-    color:#9A9182;
+    font-size:13.5px;
+    font-weight:700;
+    color:#8A7A6A;
   }
 
   .depense-note{
-    font-size:13.5px;
+    font-size:14px;
+    font-weight:600;
     color:#6B6457;
     font-style:italic;
   }
@@ -167,17 +215,17 @@
   }
 
   .total-label{
-    font-size:14.5px;
-    font-weight:600;
-    color:rgba(255,255,255,0.75);
+    font-size:15.5px;
+    font-weight:700;
+    color:rgba(255,255,255,0.8);
     letter-spacing:0.04em;
     text-transform:uppercase;
   }
 
   .total-amount{
     font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:24.5px;
+    font-weight:800;
+    font-size:26px;
     color:#fff;
   }
 
@@ -186,6 +234,7 @@
     padding:28px 16px;
     color:#9A9182;
     font-size:15px;
+    font-weight:600;
   }
 
   .status-msg{
@@ -194,12 +243,123 @@
     padding:12px 14px;
     border-radius:6px;
     font-size:14.5px;
-    font-weight:500;
+    font-weight:700;
   }
   .status-msg.show{display:block;}
   .status-msg.ok{background:#F2F9F5;border-left:3px solid var(--success);color:var(--success);}
   .status-msg.err{background:#FBEDE8;border-left:3px solid var(--error);color:var(--error);}
   .status-msg.info{background:#F2F5FA;border-left:3px solid var(--navy-mid);color:var(--navy-mid);}
+
+  /* Modal de choix pour la réinitialisation (mois / année) */
+  .reset-modal{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(30,15,10,0.55);
+    align-items:center; justify-content:center;
+    z-index:200;
+    padding:24px;
+  }
+  .reset-modal.open{ display:flex; }
+  .reset-modal-box{
+    background:#fff;
+    border-radius:18px;
+    padding:24px 22px;
+    width:100%; max-width:360px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.4);
+  }
+  .reset-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:800; font-size:20px;
+    color:#5E2316; margin-bottom:6px;
+  }
+  .reset-modal-text{
+    font-size:14.5px; font-weight:700; color:#7A5C4E; margin-bottom:18px; line-height:1.4;
+  }
+  .reset-modal-btn{
+    width:100%; padding:14px; margin-bottom:10px;
+    border:none; border-radius:10px;
+    font-size:15.5px; font-weight:800;
+    cursor:pointer; transition:transform 0.1s ease;
+  }
+  .reset-modal-btn:active{ transform:scale(0.98); }
+  .reset-modal-btn.month{ background:#F5E3D8; color:#8E3522; border:2px solid #E3C4AE; }
+  .reset-modal-btn.year{ background:linear-gradient(180deg,#D4553A,#8E1F0F); color:#fff; }
+  .reset-modal-btn.cancel{ background:none; color:#7A5C4E; margin-bottom:0; font-weight:700; }
+
+  /* Modal de confirmation finale (avec icône d'alerte) */
+  .confirm-modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(30,15,10,0.62);
+    z-index:400;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .confirm-modal-overlay.open{ display:flex; }
+  .confirm-modal-box{
+    background:#fff;
+    border-radius:20px;
+    width:100%; max-width:360px;
+    padding:28px 24px 24px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.45);
+    border-top:5px solid #8E1F0F;
+    animation:confirmPopD 0.2s ease-out;
+  }
+  @keyframes confirmPopD{
+    from{ transform:scale(0.92); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+  }
+  .confirm-modal-icon{
+    width:64px; height:64px;
+    border-radius:50%;
+    background:#FBEAE6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px;
+    margin:0 auto 14px;
+  }
+  .confirm-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:800; font-size:19px;
+    color:#5E2316; margin-bottom:8px;
+  }
+  .confirm-modal-text{
+    font-size:14.5px; font-weight:700; color:#7A5C4E;
+    line-height:1.5; margin-bottom:22px;
+  }
+  .confirm-modal-text strong{ color:#8E1F0F; font-weight:800; }
+  .confirm-modal-btn{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    font-size:15.5px; font-weight:800; letter-spacing:0.02em;
+    cursor:pointer; margin-bottom:10px; transition:transform 0.1s ease;
+  }
+  .confirm-modal-btn:active{ transform:translateY(2px); }
+  .confirm-modal-btn.danger{
+    background:linear-gradient(180deg,#D4553A,#8E1F0F);
+    color:#fff; border-bottom:4px solid #5E1409; text-transform:uppercase;
+  }
+  .confirm-modal-btn.cancel{
+    background:none; color:#7A5C4E; font-weight:700; margin-bottom:0; padding:10px;
+  }
+
+  /* Toast de notification personnalisé */
+  .toast-notif{
+    position:fixed; top:-100px; left:50%; transform:translateX(-50%);
+    max-width:90vw; width:400px; background:#fff; border-radius:14px;
+    padding:16px 18px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 16px 36px -10px rgba(0,0,0,0.35);
+    z-index:500; transition:top 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .toast-notif.show{ top:18px; }
+  .toast-notif.ok{ border-left:5px solid var(--success); }
+  .toast-notif.err{ border-left:5px solid var(--error); }
+  .toast-notif-icon{
+    width:34px; height:34px; flex-shrink:0; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:17px;
+  }
+  .toast-notif.ok .toast-notif-icon{ background:#E8F5EE; }
+  .toast-notif.err .toast-notif-icon{ background:#FBEDE8; }
+  .toast-notif-text{ font-size:14.5px; font-weight:800; color:#5E2316; line-height:1.35; }
 
 /* --- Effet 3D (relief) ajoute automatiquement --- */
 .btn-enregistrer{
@@ -265,7 +425,39 @@
 
 <!-- Filtres + liste -->
 <div class="list-section">
-  <p class="list-title">Historique</p>
+  <div class="list-header-box">
+    <p class="list-title">Historique</p>
+    <button type="button" class="btn-reset-depenses" id="btnReset">🗑️ Réinitialiser</button>
+  </div>
+
+  <!-- Modal de choix pour la réinitialisation -->
+  <div class="reset-modal" id="resetModal">
+    <div class="reset-modal-box">
+      <p class="reset-modal-title">Supprimer les dépenses</p>
+      <p class="reset-modal-text">Choisissez les dépenses à supprimer définitivement. Cette action est irréversible.</p>
+      <button type="button" class="reset-modal-btn month" id="btnResetMonth">Supprimer les dépenses de ce mois</button>
+      <button type="button" class="reset-modal-btn year" id="btnResetYear">Supprimer les dépenses de toute l'année</button>
+      <button type="button" class="reset-modal-btn cancel" id="btnResetCancel">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation finale (avec icône d'alerte) -->
+  <div class="confirm-modal-overlay" id="confirmModalOverlay">
+    <div class="confirm-modal-box">
+      <div class="confirm-modal-icon">⚠️</div>
+      <p class="confirm-modal-title" id="confirmModalTitle">Attention</p>
+      <p class="confirm-modal-text" id="confirmModalText">Cette action est irréversible.</p>
+      <button type="button" class="confirm-modal-btn danger" id="confirmModalYes">🗑️ Oui, supprimer</button>
+      <button type="button" class="confirm-modal-btn cancel" id="confirmModalNo">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Toast de notification -->
+  <div class="toast-notif" id="toastNotif">
+    <span class="toast-notif-icon" id="toastNotifIcon">✅</span>
+    <span class="toast-notif-text" id="toastNotifText">Message</span>
+  </div>
+
   <div class="filter-row">
     <select id="filterType">
       <option value="">Toutes les catégories</option>
@@ -345,6 +537,113 @@
   filterMonth.value = String(new Date().getMonth() + 1).padStart(2, '0');
 
   let allDepenses = [];
+
+  // --- Toast de notification personnalisé ---
+  const toastNotif = document.getElementById('toastNotif');
+  const toastNotifIcon = document.getElementById('toastNotifIcon');
+  const toastNotifText = document.getElementById('toastNotifText');
+  let toastTimeout;
+
+  function showToast(message, type){
+    clearTimeout(toastTimeout);
+    toastNotif.className = 'toast-notif show ' + type;
+    toastNotifIcon.textContent = type === 'ok' ? '✅' : '❌';
+    toastNotifText.textContent = message;
+    toastTimeout = setTimeout(() => { toastNotif.classList.remove('show'); }, 3200);
+  }
+
+  // --- Modal de confirmation finale personnalisé ---
+  const confirmModalOverlay = document.getElementById('confirmModalOverlay');
+  const confirmModalTitle = document.getElementById('confirmModalTitle');
+  const confirmModalText = document.getElementById('confirmModalText');
+  const confirmModalYes = document.getElementById('confirmModalYes');
+  const confirmModalNo = document.getElementById('confirmModalNo');
+
+  function showConfirmModal(title, html, onConfirm){
+    confirmModalTitle.textContent = title;
+    confirmModalText.innerHTML = html;
+    confirmModalOverlay.classList.add('open');
+
+    const cleanup = () => {
+      confirmModalOverlay.classList.remove('open');
+      confirmModalYes.removeEventListener('click', yesHandler);
+      confirmModalNo.removeEventListener('click', noHandler);
+    };
+    const yesHandler = () => { cleanup(); onConfirm(); };
+    const noHandler = () => { cleanup(); };
+
+    confirmModalYes.addEventListener('click', yesHandler);
+    confirmModalNo.addEventListener('click', noHandler);
+  }
+
+  confirmModalOverlay.addEventListener('click', (e) => {
+    if (e.target === confirmModalOverlay) confirmModalOverlay.classList.remove('open');
+  });
+
+  // --- Modal de choix (mois / année) + bouton Réinitialiser ---
+  const btnReset = document.getElementById('btnReset');
+  const resetModal = document.getElementById('resetModal');
+  const btnResetMonth = document.getElementById('btnResetMonth');
+  const btnResetYear = document.getElementById('btnResetYear');
+  const btnResetCancel = document.getElementById('btnResetCancel');
+
+  function openResetModal(){
+    if (allDepenses.length === 0) {
+      showStatus('Aucune dépense à supprimer.', 'info');
+      return;
+    }
+    resetModal.classList.add('open');
+  }
+  function closeResetModal(){ resetModal.classList.remove('open'); }
+
+  btnReset.addEventListener('click', openResetModal);
+  btnResetCancel.addEventListener('click', closeResetModal);
+  resetModal.addEventListener('click', (e) => { if (e.target === resetModal) closeResetModal(); });
+
+  async function deleteBatchDepenses(list, label){
+    if (list.length === 0) {
+      showStatus(`Aucune dépense pour ${label}.`, 'info');
+      return;
+    }
+
+    showConfirmModal(
+      'Supprimer ces dépenses ?',
+      `Vous êtes sur le point de supprimer définitivement <strong>${list.length} dépense(s)</strong> pour ${label}. Cette action est irréversible.`,
+      async () => {
+        closeResetModal();
+        btnReset.disabled = true;
+        showStatus(`Suppression en cours pour ${label}...`, 'info');
+
+        try {
+          for (const d of list) {
+            await deleteDoc(doc(db, 'depenses', d.id));
+          }
+          const idsRemoved = new Set(list.map(d => d.id));
+          allDepenses = allDepenses.filter(d => !idsRemoved.has(d.id));
+          renderList();
+          showToast(`${list.length} dépense(s) supprimée(s) pour ${label}.`, 'ok');
+        } catch (err) {
+          showToast('Erreur : ' + err.message, 'err');
+        } finally {
+          btnReset.disabled = false;
+        }
+      }
+    );
+  }
+
+  btnResetMonth.addEventListener('click', () => {
+    const now = new Date();
+    const y = String(now.getFullYear());
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const list = allDepenses.filter(d => d.date && d.date.slice(0, 4) === y && d.date.slice(5, 7) === m);
+    deleteBatchDepenses(list, `ce mois (${m}/${y})`);
+  });
+
+  btnResetYear.addEventListener('click', () => {
+    const y = String(new Date().getFullYear());
+    const list = allDepenses.filter(d => d.date && d.date.slice(0, 4) === y);
+    deleteBatchDepenses(list, `l'année ${y}`);
+  });
 
   function showStatus(msg, type){
     statusMsg.textContent = msg;
