@@ -17,6 +17,8 @@
     width:100%;
     max-width:480px;
     padding:24px 24px 32px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .fiche-card{
@@ -27,18 +29,19 @@
   }
 
   .fiche-photo-band{
-    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    background:linear-gradient(155deg, #0A1F44 0%, #1E3A8A 100%);
     padding:28px 20px 22px;
     display:flex;
     flex-direction:column;
     align-items:center;
   }
 
+  /* MODIFIKASYON FOTO POU L PARÈT PI LAJ */
   .fiche-photo{
-    width:104px;
-    height:104px;
+    width:140px;
+    height:140px;
     border-radius:50%;
-    border:3px solid var(--gold);
+    border:4px solid #C9543A;
     background:#F2F0E8;
     display:flex;
     align-items:center;
@@ -49,7 +52,7 @@
   }
 
   .fiche-photo img{width:100%;height:100%;object-fit:cover;}
-  .fiche-photo span{font-size:47px;color:#B8AE94;}
+  .fiche-photo span{font-size:60px;color:#B8AE94;}
 
   .fiche-name{
     font-family:'Fraunces',serif;
@@ -64,11 +67,12 @@
     display:inline-block;
     font-size:13px;
     font-weight:600;
-    color:var(--navy-deep);
-    background:var(--gold);
+    color:#0A1F44;
+    background:#E2E8F0;
     border-radius:14px;
     padding:4px 14px;
     letter-spacing:0.02em;
+    margin-top: 4px;
   }
 
   .fiche-detail-list{
@@ -97,7 +101,7 @@
   .fiche-value{
     font-size:15.5px;
     font-weight:600;
-    color:var(--navy-deep);
+    color:#0A1F44;
     text-align:right;
   }
 
@@ -121,14 +125,14 @@
   }
 
   .btn-fiche.edit{
-    background:linear-gradient(165deg, #D6B468 0%, var(--gold) 100%);
-    color:var(--navy-deep);
+    background:linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color:white;
   }
 
   .btn-fiche.search{
     background:#fff;
     border:1.5px solid #D8D2C2;
-    color:var(--navy-deep);
+    color:#0A1F44;
   }
 
   .empty-state{
@@ -138,16 +142,15 @@
     font-size:15.5px;
   }
 
-/* --- Effet 3D (relief) ajoute automatiquement --- */
-.btn-fiche{
-  border-bottom: 4px solid rgba(0,0,0,0.28) !important;
-  transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
-}
-.btn-fiche:active{
-  transform: translateY(3px) !important;
-  border-bottom-width: 2px !important;
-  filter: brightness(0.97);
-}
+  .btn-fiche{
+    border-bottom: 4px solid rgba(0,0,0,0.28) !important;
+    transition: transform .1s ease, box-shadow .1s ease, filter .1s ease !important;
+  }
+  .btn-fiche:active{
+    transform: translateY(3px) !important;
+    border-bottom-width: 2px !important;
+    filter: brightness(0.97);
+  }
 </style>
 </head>
 <body>
@@ -186,7 +189,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Sécurité : on vérifie que l'utilisateur est bien connecté
   if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
     window.location.href = 'index.html';
   }
@@ -205,18 +207,23 @@
       ? `<img src="${data.photo}" alt="Photo de ${data.nom || ''}">`
       : `<span>👤</span>`;
 
-    const fonctionBadge = data.fonction
-      ? `<span class="fiche-fonction-badge">${data.fonction}</span>`
+    // Afiche fonksyon / gwoup manm lan si l genyen
+    const fonctionBadge = data.fonctions
+      ? `<span class="fiche-fonction-badge">${data.fonctions}</span>`
       : '';
 
+    // KOUNYEYA TOUT INFO YO KOWÒDONE AK FÒMILÈ MEMBRES-AJOUTER A EKZAKTEMAN
     const rows = [
       { label: 'Date de naissance', value: formatDate(data.dateNaissance) },
       { label: 'Sexe', value: data.sexe },
-      { label: 'Date convention', value: formatDate(data.dateConvention) },
-      { label: 'Date du baptême', value: formatDate(data.dateBapteme) },
-      { label: 'Téléphone', value: data.telephone },
       { label: 'Condition matrimoniale', value: data.conditionMatrimoniale },
-      { label: 'NIF/CIN', value: data.nifCin }
+      { label: 'Téléphone 1', value: data.telephone1 },
+      { label: 'Téléphone 2', value: data.telephone2 },
+      { label: 'Adresse Résidentielle', value: data.adresse },
+      { label: 'Date du baptême', value: formatDate(data.dateBapteme) },
+      { label: 'Statut Actuel', value: data.statut },
+      { label: 'Numéro NIF / CIN', value: data.carte },
+      { label: 'Cotisation Mensuelle (HTG)', value: data.cotisation ? data.cotisation + ' HTG' : null }
     ].filter(row => row.value);
 
     const rowsHtml = rows.map(row => `
@@ -243,8 +250,9 @@
       </div>
     `;
 
+    // Redireksyon an ranje pou l mache byen ak paramet fòmilè a espere (?id=...)
     document.getElementById('btnEditMember').addEventListener('click', () => {
-      window.location.href = `membres-ajouter.html?membreId=${encodeURIComponent(id)}`;
+      window.location.href = `membres-ajouter.html?id=${encodeURIComponent(id)}`;
     });
 
     document.getElementById('btnBackSearch').addEventListener('click', () => {
