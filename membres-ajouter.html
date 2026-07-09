@@ -13,7 +13,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  /* Koulè background chanje pou match tèm Dépenses lan */
+  /* Koulè background degrade tèm Dépenses lan */
   body {
     background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
     font-family: 'Inter', sans-serif !important;
@@ -31,24 +31,6 @@
     position: relative;
     border-bottom: 5px solid #C9543A;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  }
-
-  .back-link {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #E2E8F0 !important;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 6px 12px;
-    border-radius: 20px;
-    transition: background 0.2s;
-  }
-
-  .back-link:hover {
-    background: rgba(255, 255, 255, 0.2);
   }
 
   .seal {
@@ -114,7 +96,7 @@
     box-shadow: 0 10px 25px rgba(10, 31, 68, 0.1), 0 0 0 1px rgba(0,0,0,0.02);
   }
 
-  /* BLÒK POU CHAK PATI (Enfo, Kontak, Kontribisyon, etc.) */
+  /* BLÒK POU CHAK PATI */
   .form-section-title {
     font-size: 15px;
     font-weight: 700;
@@ -168,7 +150,7 @@
     box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
   }
 
-  /* GESTION PHOTO PROFILE */
+  /* ZONE FOTO MODIFIE POU L KLIKAB AK ZEWO PWOBLEM */
   .photo-upload-wrapper {
     display: flex;
     flex-direction: column;
@@ -178,6 +160,7 @@
     padding: 16px;
     border-radius: 12px;
     border: 2px dashed #CBD5E1;
+    cursor: pointer;
   }
 
   .photo-preview {
@@ -221,7 +204,35 @@
     background: #CBD5E1;
   }
 
-  /* SELEKTÈ MATRIMONYAL PÈSONALIZE */
+  /* BOUTON SEXE PÈSONALIZE (H / F) */
+  .sexe-toggle-container {
+    display: flex;
+    background: #F1F5F9;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1.5px solid #D1D5DB;
+  }
+
+  .sexe-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #64748B;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sexe-btn.active {
+    background: #1E3A8A !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(30, 58, 138, 0.2);
+  }
+
+  /* MATRIMONYAL AK TOUT 6 OPSYON YO (2 liy x 3 bouton) */
   .custom-radio-group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -233,9 +244,9 @@
     background: #F3F4F6;
     border: 1.5px solid #D1D5DB;
     border-radius: 8px;
-    padding: 10px 4px;
+    padding: 10px 2px;
     text-align: center;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 700;
     color: #4B5563;
     cursor: pointer;
@@ -254,10 +265,16 @@
     box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
   }
 
-  /* BOUTON ENREGISTRER */
+  /* BOUTON ENREGISTRER AK BOUTON RETOUR ANBA */
+  .action-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .btn-enregistrer {
     width: 100%;
-    margin-top: 20px;
     padding: 15px;
     background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
     color: white;
@@ -270,10 +287,32 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
     border-bottom: 4px solid #061329;
-    transition: transform 0.1s, box-shadow 0.1s;
+    transition: transform 0.1s;
   }
 
   .btn-enregistrer:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+  }
+
+  .btn-cancel {
+    width: 100%;
+    padding: 14px;
+    background: #94A3B8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(148, 163, 184, 0.3);
+    border-bottom: 4px solid #475569;
+    transition: transform 0.1s;
+  }
+
+  .btn-cancel:active {
     transform: translateY(3px);
     border-bottom-width: 1px;
   }
@@ -302,7 +341,6 @@
 <body>
 
 <div class="page-header">
-  <a href="membres-liste.html" class="back-link">← Liste</a>
   <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu"></div>
   <h1>Église de Dieu de la Prophétie</h1>
   <p>Waney 93</p>
@@ -315,14 +353,16 @@
   <form id="membreForm" autocomplete="off">
     <input type="hidden" id="membreId" value="">
 
-    <div class="photo-upload-wrapper">
+    <!-- FOTO KLIKAB OBLIGATWA KI PA KA REYISI APRE SA -->
+    <div class="photo-upload-wrapper" onclick="document.getElementById('photoInput').click();">
       <div class="photo-preview" id="photoPreview">
         <svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
       </div>
-      <label for="photoInput" class="btn-upload-label">Choisir une photo</label>
+      <span class="btn-upload-label">Choisir une photo</span>
       <input type="file" id="photoInput" accept="image/*" style="display:none;">
     </div>
 
+    <!-- SECTION INFO -->
     <div class="form-section-title">Informations Personnelles</div>
 
     <div class="form-row-2">
@@ -337,13 +377,14 @@
     </div>
 
     <div class="form-row-2">
+      <!-- SEXE PÈSONALIZE AK TI BOUTON BEL FOUP -->
       <div class="field-group">
-        <label class="field-label" for="sexe">Sexe</label>
-        <select id="sexe" required>
-          <option value="" disabled selected>Choisir...</option>
-          <option value="Masculin">Masculin</option>
-          <option value="Féminin">Féminin</option>
-        </select>
+        <label class="field-label">Sexe</label>
+        <div class="sexe-toggle-container">
+          <button type="button" class="sexe-btn active" id="btnSexeM">H</button>
+          <button type="button" class="sexe-btn" id="btnSexeF">F</button>
+        </div>
+        <input type="hidden" id="sexe" value="Masculin">
       </div>
       <div class="field-group">
         <label class="field-label" for="dateNaissance">Date de naissance</label>
@@ -351,16 +392,21 @@
       </div>
     </div>
 
+    <!-- KONDISYON MATRIMONYAL AK TOUT 6 OPERASYON YO -->
     <div class="field-group">
       <label class="field-label">Condition Matrimoniale</label>
       <div class="custom-radio-group">
         <div class="custom-radio-btn" data-value="Célibataire">Célibataire</div>
         <div class="custom-radio-btn" data-value="Marié(e)">Marié(e)</div>
+        <div class="custom-radio-btn" data-value="Divorcé(e)">Divorcé(e)</div>
+        <div class="custom-radio-btn" data-value="Séparé(e)">Séparé(e)</div>
         <div class="custom-radio-btn" data-value="Veuf(ve)">Veuf(ve)</div>
+        <div class="custom-radio-btn" data-value="Union libre">Union libre</div>
       </div>
       <input type="hidden" id="conditionMatrimoniale" value="">
     </div>
 
+    <!-- SECTION CONTACT -->
     <div class="form-section-title">Contact & Adresse</div>
 
     <div class="form-row-2">
@@ -379,6 +425,7 @@
       <input type="text" id="adresse" required placeholder="Ex: Waney 93, impasse Bellevue #4">
     </div>
 
+    <!-- SECTION SPIRITUELLE -->
     <div class="form-section-title">Vie Spirituelle</div>
 
     <div class="form-row-2">
@@ -402,12 +449,13 @@
       <input type="text" id="fonctions" placeholder="Ex: Chorale d'hommes, Moniteur, Comité...">
     </div>
 
+    <!-- SECTION KONTRIBISYON / CARTE CHANJE POU NIF-CIN -->
     <div class="form-section-title">Engagement Financier</div>
 
     <div class="form-row-2">
       <div class="field-group">
-        <label class="field-label" for="carte">Numéro de Carte</label>
-        <input type="text" id="carte" placeholder="Ex: M-024">
+        <label class="field-label" for="carte">Numéro NIF / CIN</label>
+        <input type="text" id="carte" placeholder="Ex: 000-000-000-0">
       </div>
       <div class="field-group">
         <label class="field-label" for="cotisation">Cotisation Mensuelle (HTG)</label>
@@ -415,11 +463,17 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer le membre</button>
+    <!-- BOUTON ENREGISTRER AK RETOUR RANJE NAN PLAS YO NÈT -->
+    <div class="action-buttons">
+      <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer le membre</button>
+      <button type="button" class="btn-cancel" id="btnBack">Retour à la liste</button>
+    </div>
+
     <div class="status-msg" id="statusMsg"></div>
   </form>
 </div>
 
+<!-- Firebase SDK & Script logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -450,6 +504,7 @@
 
   const form = document.getElementById('membreForm');
   const btnSave = document.getElementById('btnSave');
+  const btnBack = document.getElementById('btnBack');
   const statusMsg = document.getElementById('statusMsg');
   const membreIdInput = document.getElementById('membreId');
   const pageTitle = document.getElementById('pageTitle');
@@ -457,6 +512,25 @@
   const photoInput = document.getElementById('photoInput');
   const photoPreview = document.getElementById('photoPreview');
   let photoBase64 = null;
+
+  // JERE TOGGLE SEXE PÈSONALIZE (H / F)
+  const btnSexeM = document.getElementById('btnSexeM');
+  const btnSexeF = document.getElementById('btnSexeF');
+  const sexeInput = document.getElementById('sexe');
+
+  btnSexeM.addEventListener('click', (e) => {
+    e.preventDefault();
+    btnSexeM.classList.add('active');
+    btnSexeF.classList.remove('active');
+    sexeInput.value = "Masculin";
+  });
+
+  btnSexeF.addEventListener('click', (e) => {
+    e.preventDefault();
+    btnSexeF.classList.add('active');
+    btnSexeM.classList.remove('active');
+    sexeInput.value = "Féminin";
+  });
 
   // Jere seleksyon radyo pou kondisyon matrimonyal
   const radioButtons = document.querySelectorAll('.custom-radio-btn');
@@ -477,7 +551,7 @@
     }
   }
 
-  // Jere konvèsyon foto an Base64 pou konpactaj
+  // JERE UPLOAD FOTO SANS OKENN BLOKAJ (KLIKE NENPÒT KOTE NAN KAT LA)
   photoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -489,7 +563,7 @@
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
-        const max_size = 240; // Ti rezolisyon pou optimize Firestore
+        const max_size = 240; 
 
         if (width > height) {
           if (width > max_size) { height *= max_size / width; width = max_size; }
@@ -521,6 +595,107 @@
     return {
       nom: document.getElementById('nom').value.trim().toUpperCase(),
       prenom: document.getElementById('prenom').value.trim(),
-      sexe: document.getElementById('sexe').value,
+      sexe: sexeInput.value,
       dateNaissance: document.getElementById('dateNaissance').value,
-      conditionMatrimoniale: hiddenConditionInput
+      conditionMatrimoniale: hiddenConditionInput.value || null,
+      telephone1: document.getElementById('telephone1').value.trim(),
+      telephone2: document.getElementById('telephone2').value.trim() || null,
+      adresse: document.getElementById('adresse').value.trim(),
+      dateBapteme: document.getElementById('dateBapteme').value || null,
+      statut: document.getElementById('statut').value,
+      fonctions: document.getElementById('fonctions').value.trim() || null,
+      carte: document.getElementById('carte').value.trim() || null,
+      cotisation: document.getElementById('cotisation').value.trim() || null
+    };
+  }
+
+  async function loadMemberFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+
+    pageTitle.textContent = "Modifier un membre";
+    btnSave.textContent = "Enregistrer les modifications";
+    membreIdInput.value = id;
+
+    try {
+      const docSnap = await getDoc(doc(db, 'membres', id));
+      if (docSnap.exists()) {
+        const d = docSnap.data();
+        document.getElementById('nom').value = d.nom || '';
+        document.getElementById('prenom').value = d.prenom || '';
+        document.getElementById('dateNaissance').value = d.dateNaissance || '';
+        setConditionMatrimoniale(d.conditionMatrimoniale || '');
+        document.getElementById('telephone1').value = d.telephone1 || '';
+        document.getElementById('telephone2').value = d.telephone2 || '';
+        document.getElementById('adresse').value = d.adresse || '';
+        document.getElementById('dateBapteme').value = d.dateBapteme || '';
+        document.getElementById('statut').value = d.statut || 'Actif';
+        document.getElementById('fonctions').value = d.fonctions || '';
+        document.getElementById('carte').value = d.carte || '';
+        document.getElementById('cotisation').value = d.cotisation || '';
+
+        if (d.sexe === 'Féminin') {
+          btnSexeF.click();
+        } else {
+          btnSexeM.click();
+        }
+
+        if (d.photo) {
+          photoBase64 = d.photo;
+          photoPreview.innerHTML = `<img src="${d.photo}">`;
+        }
+      } else {
+        showStatus('Membre introuvable.', 'err');
+      }
+    } catch (err) {
+      console.error(err);
+      showStatus('Erreur chargement : ' + err.message, 'err');
+    }
+  }
+
+  loadMemberFromUrl();
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btnSave.disabled = true;
+    showStatus('Traitement en cours...', 'info');
+
+    const id = membreIdInput.value;
+    try {
+      const data = getFormData();
+      if (photoBase64) data.photo = photoBase64;
+
+      if (id) {
+        await updateDoc(doc(db, 'membres', id), data);
+        showStatus('Membre modifié avec succès.', 'ok');
+      } else {
+        data.creeLe = serverTimestamp();
+        await addDoc(collection(db, 'membres'), data);
+        showStatus('Membre enregistré avec succès.', 'ok');
+        form.reset();
+        setConditionMatrimoniale('');
+        photoPreview.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>`;
+        photoBase64 = null;
+        btnSexeM.click();
+      }
+    } catch (err) {
+      showStatus('Erreur : ' + err.message, 'err');
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  // BOUTON RETOUR KI AP DEPLASE AL SOU LIS LA REYÈLMAN
+  btnBack.addEventListener('click', () => {
+    window.location.href = 'membres-liste.html';
+  });
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
