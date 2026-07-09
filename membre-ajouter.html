@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Enregistrer un membre — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  /* Koulè background degrade tèm Dépenses lan */
+  body {
+    background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
+    font-family: 'Inter', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    color: #1E3A8A !important;
+  }
+
+  /* HEADER BLE MAREN AK LOGO WON */
+  .page-header {
+    background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color: white !important;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    border-bottom: 5px solid #C9543A;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .seal {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .seal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .page-header h1 {
+    font-size: 20px;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .page-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #93C5FD !important;
+    font-weight: 500;
+  }
+
+  /* TIT TILES */
+  .section-title {
+    text-align: center;
+    font-size: 24px;
+    color: #0A1F44 !important;
+    margin: 25px 0 5px 0;
+    font-weight: 700;
+  }
+
+  .section-sub {
+    text-align: center;
+    font-size: 15px;
+    color: #4B5563 !important;
+    margin: 0 0 25px 0;
+  }
+
+  /* KAT SOU FÒMILÈ A */
+  .form-card {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px 40px;
+    box-sizing: border-box;
+  }
+
+  .form-card form {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 20px;
+    box-shadow: 0 10px 25px rgba(10, 31, 68, 0.1), 0 0 0 1px rgba(0,0,0,0.02);
+  }
+
+  /* BLÒK POU CHAK PATI */
+  .form-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #C9543A;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 20px 0 12px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #F3F4F6;
+  }
+  .form-section-title:first-of-type {
+    margin-top: 0;
+  }
+
+  /* GRIDS AK INPUTS */
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field-group {
+    margin-bottom: 14px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], input[type="tel"], input[type="date"], select {
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1F2937;
+    background-color: #F9FAFB;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: #1E3A8A;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+  }
+
+  /* ZONE FOTO MODIFIE POU L KLIKAB AK ZEWO PWOBLEM */
+  .photo-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #F8FAFC;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px dashed #CBD5E1;
+    cursor: pointer;
+  }
+
+  .photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-preview svg {
+    width: 40px;
+    height: 40px;
+    fill: #94A3B8;
+  }
+
+  .btn-upload-label {
+    background: #E2E8F0;
+    color: #334155;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-upload-label:hover {
+    background: #CBD5E1;
+  }
+
+  /* BOUTON SEXE PÈSONALIZE (H / F) */
+  .sexe-toggle-container {
+    display: flex;
+    background: #F1F5F9;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1.5px solid #D1D5DB;
+  }
+
+  .sexe-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #64748B;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sexe-btn.active {
+    background: #1E3A8A !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(30, 58, 138, 0.2);
+  }
+
+  /* MATRIMONYAL AK TOUT 6 OPSYON YO (2 liy x 3 bouton) */
+  .custom-radio-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .custom-radio-btn {
+    background: #F3F4F6;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    padding: 10px 2px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4B5563;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  .custom-radio-btn:hover {
+    background: #E5E7EB;
+  }
+
+  .custom-radio-btn.selected {
+    background: #1E3A8A;
+    color: white;
+    border-color: #1E3A8A;
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+  }
+
+  /* BOUTON ENREGISTRER AK BOUTON RETOUR ANBA */
+  .action-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-enregistrer {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    border-bottom: 4px solid #061329;
+    transition: transform 0.1s;
+  }
+
+  .btn-enregistrer:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+  }
+
+  .btn-cancel {
+    width: 100%;
+    padding: 14px;
+    background: #94A3B8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(148, 163, 184, 0.3);
+    border-bottom: 4px solid #475569;
+    transition: transform 0.1s;
+  }
+
+  .btn-cancel:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+  }
+
+  .btn-enregistrer:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* STATUS MESSAGE */
+  .status-msg {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .status-msg.show { display: block; }
+  .status-msg.ok { background: #DEF7EC; color: #03543F; border-left: 4px solid #31C48D; }
+  .status-msg.err { background: #FDE8E8; color: #9B1C1C; border-left: 4px solid #F98080; }
+  .status-msg.info { background: #EBF5FF; color: #1E429F; border-left: 4px solid #3F83F8; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title" id="pageTitle">Enregistrer un membre</p>
+<p class="section-sub">Ajouter ou modifier les informations d'un fidèle</p>
+
+<div class="form-card">
+  <form id="membreForm" autocomplete="off">
+    <input type="hidden" id="membreId" value="">
+
+    <!-- FOTO KLIKAB OBLIGATWA KI PA KA REYISI APRE SA -->
+    <div class="photo-upload-wrapper" onclick="document.getElementById('photoInput').click();">
+      <div class="photo-preview" id="photoPreview">
+        <svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+      </div>
+      <span class="btn-upload-label">Choisir une photo</span>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;">
+    </div>
+
+    <!-- SECTION INFO -->
+    <div class="form-section-title">Informations Personnelles</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="nom">Nom</label>
+        <input type="text" id="nom" required placeholder="Nom">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="prenom">Prénom</label>
+        <input type="text" id="prenom" required placeholder="Prénom">
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <!-- SEXE PÈSONALIZE AK TI BOUTON BEL FOUP -->
+      <div class="field-group">
+        <label class="field-label">Sexe</label>
+        <div class="sexe-toggle-container">
+          <button type="button" class="sexe-btn active" id="btnSexeM">H</button>
+          <button type="button" class="sexe-btn" id="btnSexeF">F</button>
+        </div>
+        <input type="hidden" id="sexe" value="Masculin">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="dateNaissance">Date de naissance</label>
+        <input type="date" id="dateNaissance" required>
+      </div>
+    </div>
+
+    <!-- KONDISYON MATRIMONYAL AK TOUT 6 OPERASYON YO -->
+    <div class="field-group">
+      <label class="field-label">Condition Matrimoniale</label>
+      <div class="custom-radio-group">
+        <div class="custom-radio-btn" data-value="Célibataire">Célibataire</div>
+        <div class="custom-radio-btn" data-value="Marié(e)">Marié(e)</div>
+        <div class="custom-radio-btn" data-value="Divorcé(e)">Divorcé(e)</div>
+        <div class="custom-radio-btn" data-value="Séparé(e)">Séparé(e)</div>
+        <div class="custom-radio-btn" data-value="Veuf(ve)">Veuf(ve)</div>
+        <div class="custom-radio-btn" data-value="Union libre">Union libre</div>
+      </div>
+      <input type="hidden" id="conditionMatrimoniale" value="">
+    </div>
+
+    <!-- SECTION CONTACT -->
+    <div class="form-section-title">Contact & Adresse</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="telephone1">Téléphone 1</label>
+        <input type="tel" id="telephone1" required placeholder="Ex: 3711-2233">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="telephone2">Téléphone 2</label>
+        <input type="tel" id="telephone2" placeholder="Optionnel">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="adresse">Adresse Résidentielle</label>
+      <input type="text" id="adresse" required placeholder="Ex: Waney 93, impasse Bellevue #4">
+    </div>
+
+    <!-- SECTION SPIRITUELLE -->
+    <div class="form-section-title">Vie Spirituelle</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="dateBapteme">Date de Baptême</label>
+        <input type="date" id="dateBapteme">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="statut">Statut Actuel</label>
+        <select id="statut" required>
+          <option value="Actif" selected>Actif</option>
+          <option value="Inactif">Inactif</option>
+          <option value="Discipline">Discipline</option>
+          <option value="Transféré">Transféré</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="fonctions">Fonctions / Groupes</label>
+      <input type="text" id="fonctions" placeholder="Ex: Chorale d'hommes, Moniteur, Comité...">
+    </div>
+
+    <!-- SECTION KONTRIBISYON / CARTE CHANJE POU NIF-CIN -->
+    <div class="form-section-title">Engagement Financier</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="carte">Numéro NIF / CIN</label>
+        <input type="text" id="carte" placeholder="Ex: 000-000-000-0">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="cotisation">Cotisation Mensuelle (HTG)</label>
+        <input type="text" id="cotisation" placeholder="Ex: 250">
+      </div>
+    </div>
+
+    <!-- BOUTON ENREGISTRER AK RETOUR RANJE NAN PLAS YO NÈT -->
+    <div class="action-buttons">
+      <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer le membre</button>
+      <button type="button" class="btn-cancel" id="btnBack">Retour à la liste</button>
+    </div>
+
+    <div class="status-msg" id="statusMsg"></div>
+  </form>
+</div>
+
+<!-- Firebase SDK & Script logic -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    doc,
+    getDoc,
+    updateDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const form = document.getElementById('membreForm');
+  const btnSave = document.getElementById('btnSave');
+  const btnBack = document.getElementById('btnBack');
+  const statusMsg = document.getElementById('statusMsg');
+  const membreIdInput = document.getElementById('membreId');
+  const pageTitle = document.getElementById('pageTitle');
+
+  const photoInput = document.getElementById('photoInput');
+  const photoPreview = document.getElementById('photoPreview');
+  let photoBase64 = null;
+
+  // JERE TOGGLE SEXE PÈSONALIZE (H / F)
+  const btnSexeM = document.getElementById('btnSexeM');
+  const btnSexeF = document.getElementById('btnSexeF');
+  const sexeInput = document.getElementById('sexe');
+
+  btnSexeM.addEventListener('click', (e) => {
+    e.preventDefault();
+    btnSexeM.classList.add('active');
+    btnSexeF.classList.remove('active');
+    sexeInput.value = "Masculin";
+  });
+
+  btnSexeF.addEventListener('click', (e) => {
+    e.preventDefault();
+    btnSexeF.classList.add('active');
+    btnSexeM.classList.remove('active');
+    sexeInput.value = "Féminin";
+  });
+
+  // Jere seleksyon radyo pou kondisyon matrimonyal
+  const radioButtons = document.querySelectorAll('.custom-radio-btn');
+  const hiddenConditionInput = document.getElementById('conditionMatrimoniale');
+
+  radioButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setConditionMatrimoniale(btn.getAttribute('data-value'));
+    });
+  });
+
+  function setConditionMatrimoniale(val) {
+    radioButtons.forEach(b => b.classList.remove('selected'));
+    hiddenConditionInput.value = val;
+    if (val) {
+      const activeBtn = Array.from(radioButtons).find(b => b.getAttribute('data-value') === val);
+      if (activeBtn) activeBtn.classList.add('selected');
+    }
+  }
+
+  // JERE UPLOAD FOTO SANS OKENN BLOKAJ (KLIKE NENPÒT KOTE NAN KAT LA)
+  photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const max_size = 240; 
+
+        if (width > height) {
+          if (width > max_size) { height *= max_size / width; width = max_size; }
+        } else {
+          if (height > max_size) { width *= max_size / height; height = max_size; }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        photoBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        photoPreview.innerHTML = `<img src="${photoBase64}">`;
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function showStatus(msg, type) {
+    statusMsg.textContent = msg;
+    statusMsg.className = 'status-msg show ' + type;
+    if (type === 'ok') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function getFormData() {
+    return {
+      nom: document.getElementById('nom').value.trim().toUpperCase(),
+      prenom: document.getElementById('prenom').value.trim(),
+      sexe: sexeInput.value,
+      dateNaissance: document.getElementById('dateNaissance').value,
+      conditionMatrimoniale: hiddenConditionInput.value || null,
+      telephone1: document.getElementById('telephone1').value.trim(),
+      telephone2: document.getElementById('telephone2').value.trim() || null,
+      adresse: document.getElementById('adresse').value.trim(),
+      dateBapteme: document.getElementById('dateBapteme').value || null,
+      statut: document.getElementById('statut').value,
+      fonctions: document.getElementById('fonctions').value.trim() || null,
+      carte: document.getElementById('carte').value.trim() || null,
+      cotisation: document.getElementById('cotisation').value.trim() || null
+    };
+  }
+
+  async function loadMemberFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+
+    pageTitle.textContent = "Modifier un membre";
+    btnSave.textContent = "Enregistrer les modifications";
+    membreIdInput.value = id;
+
+    try {
+      const docSnap = await getDoc(doc(db, 'membres', id));
+      if (docSnap.exists()) {
+        const d = docSnap.data();
+        document.getElementById('nom').value = d.nom || '';
+        document.getElementById('prenom').value = d.prenom || '';
+        document.getElementById('dateNaissance').value = d.dateNaissance || '';
+        setConditionMatrimoniale(d.conditionMatrimoniale || '');
+        document.getElementById('telephone1').value = d.telephone1 || '';
+        document.getElementById('telephone2').value = d.telephone2 || '';
+        document.getElementById('adresse').value = d.adresse || '';
+        document.getElementById('dateBapteme').value = d.dateBapteme || '';
+        document.getElementById('statut').value = d.statut || 'Actif';
+        document.getElementById('fonctions').value = d.fonctions || '';
+        document.getElementById('carte').value = d.carte || '';
+        document.getElementById('cotisation').value = d.cotisation || '';
+
+        if (d.sexe === 'Féminin') {
+          btnSexeF.click();
+        } else {
+          btnSexeM.click();
+        }
+
+        if (d.photo) {
+          photoBase64 = d.photo;
+          photoPreview.innerHTML = `<img src="${d.photo}">`;
+        }
+      } else {
+        showStatus('Membre introuvable.', 'err');
+      }
+    } catch (err) {
+      console.error(err);
+      showStatus('Erreur chargement : ' + err.message, 'err');
+    }
+  }
+
+  loadMemberFromUrl();
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btnSave.disabled = true;
+    showStatus('Traitement en cours...', 'info');
+
+    const id = membreIdInput.value;
+    try {
+      const data = getFormData();
+      if (photoBase64) data.photo = photoBase64;
+
+      if (id) {
+        await updateDoc(doc(db, 'membres', id), data);
+        showStatus('Membre modifié avec succès.', 'ok');
+      } else {
+        data.creeLe = serverTimestamp();
+        await addDoc(collection(db, 'membres'), data);
+        showStatus('Membre enregistré avec succès.', 'ok');
+        form.reset();
+        setConditionMatrimoniale('');
+        photoPreview.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>`;
+        photoBase64 = null;
+        btnSexeM.click();
+      }
+    } catch (err) {
+      showStatus('Erreur : ' + err.message, 'err');
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  // BOUTON RETOUR KI AP DEPLASE AL SOU LIS LA REYÈLMAN
+  btnBack.addEventListener('click', () => {
+    window.location.href = 'membres-liste.html';
+  });
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
