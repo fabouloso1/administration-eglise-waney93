@@ -13,460 +13,423 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  /* STYLING DIWÈK SOU MODÈL IMAJ 1000024286.PNG */
+  /* Koulè background chanje pou match tèm Dépenses lan */
   body {
-    background: linear-gradient(160deg, #FFF9EE 0%, #FBEFD8 100%) !important;
+    background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
     font-family: 'Inter', sans-serif !important;
     margin: 0;
     padding: 0;
     color: #1E3A8A !important;
   }
 
-  /* HEADER BLE MAREN AK LOGO WONN LAN */
-  .custom-header {
-    background-color: #0B2240 !important;
-    padding: 24px 16px;
+  /* HEADER BLE MAREN AK LOGO WON */
+  .page-header {
+    background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color: white !important;
+    padding: 30px 20px;
     text-align: center;
     position: relative;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
+    border-bottom: 5px solid #C9543A;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
 
-  .custom-header .back-arrow {
+  .back-link {
     position: absolute;
+    top: 20px;
     left: 20px;
-    top: 28px;
-    color: #ffffff !important;
+    color: #E2E8F0 !important;
     text-decoration: none;
-    font-size: 22px;
+    font-weight: 600;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.2s;
   }
 
-  .custom-header .logo-container {
-    width: 65px;
-    height: 65px;
-    background: #ffffff;
+  .back-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .seal {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 12px;
     border-radius: 50%;
-    margin: 0 auto 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     overflow: hidden;
+    background: white;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
-  .custom-header .logo-container img {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-  }
-
-  .custom-header h1 {
-    color: #ffffff !important;
-    font-size: 20px !important;
-    font-weight: 600 !important;
-    margin: 0;
-  }
-
-  /* KAT BLAN KI GEN FÒM NAN */
-  .form-container {
-    background: #ffffff !important;
-    border-radius: 24px !important;
-    margin: -15px 16px 30px;
-    padding: 24px 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
-    box-sizing: border-box;
-  }
-
-  /* SEKSYON FOTO AK TI PWEN LÒ YO */
-  .photo-section {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
-  }
-
-  .photo-clickable-zone {
-    width: 110px;
-    height: 110px;
-    border: 2px dashed #D4AF37 !important; /* Ti pwen lò yo */
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: #F8FAFC;
-    overflow: hidden;
-  }
-
-  .photo-clickable-zone img {
+  .seal img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .photo-clickable-zone svg {
-    width: 28px;
-    height: 28px;
-    fill: #718096;
-    margin-bottom: 4px;
+  .page-header h1 {
+    font-size: 20px;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
   }
 
-  .photo-clickable-zone span {
-    font-size: 12px;
-    color: #718096;
+  .page-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #93C5FD !important;
     font-weight: 500;
   }
 
-  /* KIJAN INPUT AK LABELS YO RANJE (DE PAR DE OUBYEN TOUT SÈL) */
-  .form-row {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
+  /* TIT TILES */
+  .section-title {
+    text-align: center;
+    font-size: 24px;
+    color: #0A1F44 !important;
+    margin: 25px 0 5px 0;
+    font-weight: 700;
   }
 
-  .form-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  .section-sub {
+    text-align: center;
+    font-size: 15px;
+    color: #4B5563 !important;
+    margin: 0 0 25px 0;
   }
 
-  .form-group.full-width {
+  /* KAT SOU FÒMILÈ A */
+  .form-card {
     width: 100%;
-  }
-
-  .form-label {
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: #1E3A8A !important;
-    margin-bottom: 6px;
-  }
-
-  /* STYLING ENTRÉE TEXTE AK SELECT YO */
-  .form-input, .form-select {
-    width: 100%;
-    padding: 12px 16px !important;
-    font-size: 16px !important;
-    font-weight: 500;
-    color: #334155 !important;
-    background-color: #ffffff !important;
-    border: 1.5px solid #E2E8F0 !important;
-    border-radius: 14px !important;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px 40px;
     box-sizing: border-box;
-    transition: all 0.2s ease;
   }
 
-  .form-input:focus, .form-select:focus {
-    outline: none !important;
-    border-color: #1E3A8A !important;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1) !important;
+  .form-card form {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 20px;
+    box-shadow: 0 10px 25px rgba(10, 31, 68, 0.1), 0 0 0 1px rgba(0,0,0,0.02);
   }
 
-  /* Diferansye bwat kote yo mande Lieu de naissance lan */
-  .gold-border {
-    border: 2.5px solid #D4AF37 !important;
+  /* BLÒK POU CHAK PATI (Enfo, Kontak, Kontribisyon, etc.) */
+  .form-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #C9543A;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 20px 0 12px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #F3F4F6;
+  }
+  .form-section-title:first-of-type {
+    margin-top: 0;
   }
 
-  /* BOUTON SEKS (H / F) TOUT WONN YO */
-  .sexe-toggle-container {
-    display: flex;
-    background: #F1F5F9;
-    border-radius: 14px;
-    padding: 4px;
+  /* GRIDS AK INPUTS */
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
-  .sexe-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 10px 0;
-    font-size: 16px;
+  .field-group {
+    margin-bottom: 14px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], input[type="tel"], input[type="date"], select {
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 15px;
     font-weight: 600;
-    color: #64748B;
-    border-radius: 10px;
-    cursor: pointer;
+    color: #1F2937;
+    background-color: #F9FAFB;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    box-sizing: border-box;
     transition: all 0.2s;
   }
 
-  .sexe-btn.active {
-    background: #1E3A8A !important;
-    color: #ffffff !important;
+  input:focus, select:focus {
+    outline: none;
+    border-color: #1E3A8A;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
   }
 
-  /* BOUTON AKSYON GRADIENT AK LONBRAJ BÈL YO */
-  .action-buttons {
-    margin-top: 28px;
+  /* GESTION PHOTO PROFILE */
+  .photo-upload-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #F8FAFC;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px dashed #CBD5E1;
   }
 
-  .btn-submit {
+  .photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .photo-preview img {
     width: 100%;
-    background: linear-gradient(180deg, #10B981 0%, #047857 100%) !important;
-    color: white !important;
-    padding: 16px;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    border: none;
-    border-radius: 18px !important;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-preview svg {
+    width: 40px;
+    height: 40px;
+    fill: #94A3B8;
+  }
+
+  .btn-upload-label {
+    background: #E2E8F0;
+    color: #334155;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 20px;
     cursor: pointer;
-    box-shadow: 0 8px 16px rgba(4, 120, 87, 0.3) !important;
+    transition: background 0.2s;
+  }
+
+  .btn-upload-label:hover {
+    background: #CBD5E1;
+  }
+
+  /* SELEKTÈ MATRIMONYAL PÈSONALIZE */
+  .custom-radio-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .custom-radio-btn {
+    background: #F3F4F6;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #4B5563;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  .custom-radio-btn:hover {
+    background: #E5E7EB;
+  }
+
+  .custom-radio-btn.selected {
+    background: #1E3A8A;
+    color: white;
+    border-color: #1E3A8A;
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+  }
+
+  /* BOUTON ENREGISTRER */
+  .btn-enregistrer {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    border-bottom: 4px solid #061329;
     transition: transform 0.1s, box-shadow 0.1s;
   }
 
-  .btn-submit:active {
-    transform: scale(0.98);
-    box-shadow: 0 4px 8px rgba(4, 120, 87, 0.2) !important;
+  .btn-enregistrer:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
   }
 
-  .btn-cancel {
-    width: 100%;
-    background: linear-gradient(180deg, #94A3B8 0%, #475569 100%) !important;
-    color: white !important;
-    padding: 16px;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    border: none;
-    border-radius: 18px !important;
-    cursor: pointer;
-    box-shadow: 0 8px 16px rgba(71, 85, 105, 0.3) !important;
-    transition: transform 0.1s, box-shadow 0.1s;
+  .btn-enregistrer:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
-  .btn-cancel:active {
-    transform: scale(0.98);
-    box-shadow: 0 4px 8px rgba(71, 85, 105, 0.2) !important;
-  }
-
+  /* STATUS MESSAGE */
   .status-msg {
     display: none;
-    margin-top: 14px;
+    margin-top: 15px;
     padding: 12px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: 700;
     text-align: center;
   }
   .status-msg.show { display: block; }
-  .status-msg.ok { background: #DCFCE7; color: #15803D; }
-  .status-msg.err { background: #FEE2E2; color: #B91C1C; }
-  .status-msg.info { background: #DBEAFE; color: #1D4ED8; }
-
-  /* --- Liste "Condition matrimoniale" personnalisée --- */
-  .custom-select-wrapper{
-    position: relative;
-    user-select: none;
-  }
-  .custom-select-trigger{
-    width: 100%;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px !important;
-    font-size: 16px !important;
-    font-weight: 500;
-    color: #334155 !important;
-    background-color: #ffffff !important;
-    border: 1.5px solid #E2E8F0 !important;
-    border-radius: 14px !important;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .custom-select-trigger.placeholder{ color: #94A3B8 !important; }
-  .custom-select-trigger:after{
-    content: "";
-    width: 0; height: 0; flex-shrink: 0; margin-left: 8px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #D4AF37;
-    transition: transform 0.2s ease;
-  }
-  .custom-select-wrapper.open .custom-select-trigger{
-    border-color: #1E3A8A !important;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1) !important;
-  }
-  .custom-select-wrapper.open .custom-select-trigger:after{ transform: rotate(180deg); }
-
-  .custom-options{
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    width: 240px;
-    max-width: calc(100vw - 64px);
-    background: #ffffff;
-    border: 1.5px solid #D4AF37;
-    border-radius: 14px;
-    max-height: 260px;
-    overflow-y: auto;
-    z-index: 200;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.15s ease;
-    box-shadow: 0 12px 28px rgba(30,58,138,0.15);
-  }
-  .custom-select-wrapper.open .custom-options{
-    opacity: 1; visibility: visible; transform: translateY(0);
-  }
-  .custom-option{
-    padding: 12px 16px;
-    font-size: 15.5px;
-    font-weight: 500;
-    color: #334155;
-    cursor: pointer;
-    transition: background 0.1s ease;
-  }
-  .custom-option:hover{ background: #FBEFD8; color: #1E3A8A; }
+  .status-msg.ok { background: #DEF7EC; color: #03543F; border-left: 4px solid #31C48D; }
+  .status-msg.err { background: #FDE8E8; color: #9B1C1C; border-left: 4px solid #F98080; }
+  .status-msg.info { background: #EBF5FF; color: #1E429F; border-left: 4px solid #3F83F8; }
 </style>
 </head>
 <body>
 
-<!-- HEADER TOUT BLE LAN AK TI FLÈCH RETOU -->
-<div class="custom-header">
-  <a href="membres.html" class="back-arrow">←</a>
-  <div class="logo-container">
-    <img src="images.jpeg" alt="Logo">
-  </div>
-  <h1 id="modeIndicator">Nouveau membre</h1>
+<div class="page-header">
+  <a href="membres-liste.html" class="back-link">← Liste</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
 </div>
 
-<!-- KAT BLAN FÒM NAN -->
-<div class="form-container">
-  
-  <!-- SÈK FOTO TI PWEN LÒ -->
-  <div class="photo-section">
-    <label for="photoInput" class="photo-clickable-zone" id="photoPreview">
-      <svg viewBox="0 0 24 24">
-        <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
-      </svg>
-      <span>Photo</span>
-    </label>
-    <input type="file" id="photoInput" accept="image/*" style="display: none;">
-  </div>
+<p class="section-title" id="pageTitle">Enregistrer un membre</p>
+<p class="section-sub">Ajouter ou modifier les informations d'un fidèle</p>
 
+<div class="form-card">
   <form id="membreForm" autocomplete="off">
-    
-    <!-- PRÉNOM / NOM -->
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Prénom *</label>
-        <input type="text" id="prenom" class="form-input" required>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nom *</label>
-        <input type="text" id="nom" class="form-input" required>
-      </div>
-    </div>
-
-    <!-- SEXE / DATE NAISSANCE -->
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Sexe</label>
-        <div class="sexe-toggle-container">
-          <button type="button" class="sexe-btn active" id="btnSexeM">H</button>
-          <button type="button" class="sexe-btn" id="btnSexeF">F</button>
-        </div>
-        <input type="hidden" id="sexeValue" value="M">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date Naissance</label>
-        <input type="date" id="dateNaissance" class="form-input">
-      </div>
-    </div>
-
-    <!-- LIEU DE NAISSANCE (KAD LÒ) -->
-    <div class="form-row">
-      <div class="form-group full-width">
-        <label class="form-label">Lieu de naissance</label>
-        <input type="text" id="lieuNaissance" class="form-input gold-border" placeholder="Ex: Port-au-Prince">
-      </div>
-    </div>
-
-    <!-- LÒT DAT YO (CONVENTION & BAPTÊME) -->
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Date Convention</label>
-        <input type="date" id="dateConvention" class="form-input">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date du baptême</label>
-        <input type="date" id="dateBapteme" class="form-input">
-      </div>
-    </div>
-
-    <!-- TÉLÉPHONE -->
-    <div class="form-row">
-      <div class="form-group full-width">
-        <label class="form-label">Téléphone</label>
-        <input type="text" id="telephone" class="form-input" placeholder="Ex. : 3712-3456">
-      </div>
-    </div>
-
-    <!-- ADRESSE -->
-    <div class="form-row">
-      <div class="form-group full-width">
-        <label class="form-label">Adresse</label>
-        <input type="text" id="adresse" class="form-input" placeholder="Ex: Waney 93, Carrefour">
-      </div>
-    </div>
-
-    <!-- FONCTION / DATE D'ADHÉSION -->
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Fonction</label>
-        <input type="text" id="fonction" class="form-input" placeholder="Ex. : Membre, Diacre, Pasteur...">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date d'adhésion</label>
-        <input type="date" id="dateAdhesion" class="form-input">
-      </div>
-    </div>
-
-    <!-- CONDITION MATRIMONIALE / NIF CIN -->
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Condition Matrimoniale</label>
-        <div class="custom-select-wrapper" id="condMatWrapper">
-          <div class="custom-select-trigger placeholder" id="condMatTrigger">Sélectionner...</div>
-          <div class="custom-options">
-            <span class="custom-option" data-value="Marié(e)">Marié(e)</span>
-            <span class="custom-option" data-value="Divorcé(e)">Divorcé(e)</span>
-            <span class="custom-option" data-value="Séparé(e)">Séparé(e)</span>
-            <span class="custom-option" data-value="Célibataire">Célibataire</span>
-            <span class="custom-option" data-value="Veuf(ve)">Veuf(ve)</span>
-            <span class="custom-option" data-value="Union libre">Union libre</span>
-          </div>
-        </div>
-        <input type="hidden" id="conditionMatrimoniale" value="">
-      </div>
-      <div class="form-group">
-        <label class="form-label">NIF/CIN</label>
-        <input type="text" id="nifCin" class="form-input" placeholder="Numéro">
-      </div>
-    </div>
-
     <input type="hidden" id="membreId" value="">
 
-    <!-- BOUTON YO KRAZE REKÒ KRAZE PLANÈT -->
-    <div class="action-buttons">
-      <button type="submit" class="btn-submit" id="btnSave">Enregistrer le membre</button>
-      <button type="button" class="btn-cancel" id="btnBack">Annuler</button>
+    <div class="photo-upload-wrapper">
+      <div class="photo-preview" id="photoPreview">
+        <svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+      </div>
+      <label for="photoInput" class="btn-upload-label">Choisir une photo</label>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;">
     </div>
 
+    <div class="form-section-title">Informations Personnelles</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="nom">Nom</label>
+        <input type="text" id="nom" required placeholder="Nom">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="prenom">Prénom</label>
+        <input type="text" id="prenom" required placeholder="Prénom">
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="sexe">Sexe</label>
+        <select id="sexe" required>
+          <option value="" disabled selected>Choisir...</option>
+          <option value="Masculin">Masculin</option>
+          <option value="Féminin">Féminin</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="dateNaissance">Date de naissance</label>
+        <input type="date" id="dateNaissance" required>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Condition Matrimoniale</label>
+      <div class="custom-radio-group">
+        <div class="custom-radio-btn" data-value="Célibataire">Célibataire</div>
+        <div class="custom-radio-btn" data-value="Marié(e)">Marié(e)</div>
+        <div class="custom-radio-btn" data-value="Veuf(ve)">Veuf(ve)</div>
+      </div>
+      <input type="hidden" id="conditionMatrimoniale" value="">
+    </div>
+
+    <div class="form-section-title">Contact & Adresse</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="telephone1">Téléphone 1</label>
+        <input type="tel" id="telephone1" required placeholder="Ex: 3711-2233">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="telephone2">Téléphone 2</label>
+        <input type="tel" id="telephone2" placeholder="Optionnel">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="adresse">Adresse Résidentielle</label>
+      <input type="text" id="adresse" required placeholder="Ex: Waney 93, impasse Bellevue #4">
+    </div>
+
+    <div class="form-section-title">Vie Spirituelle</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="dateBapteme">Date de Baptême</label>
+        <input type="date" id="dateBapteme">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="statut">Statut Actuel</label>
+        <select id="statut" required>
+          <option value="Actif" selected>Actif</option>
+          <option value="Inactif">Inactif</option>
+          <option value="Discipline">Discipline</option>
+          <option value="Transféré">Transféré</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="fonctions">Fonctions / Groupes</label>
+      <input type="text" id="fonctions" placeholder="Ex: Chorale d'hommes, Moniteur, Comité...">
+    </div>
+
+    <div class="form-section-title">Engagement Financier</div>
+
+    <div class="form-row-2">
+      <div class="field-group">
+        <label class="field-label" for="carte">Numéro de Carte</label>
+        <input type="text" id="carte" placeholder="Ex: M-024">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="cotisation">Cotisation Mensuelle (HTG)</label>
+        <input type="text" id="cotisation" placeholder="Ex: 250">
+      </div>
+    </div>
+
+    <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer le membre</button>
     <div class="status-msg" id="statusMsg"></div>
   </form>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
     getFirestore,
     collection,
     addDoc,
-    updateDoc,
     doc,
-    serverTimestamp,
-    getDoc
+    getDoc,
+    updateDoc,
+    serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -487,224 +450,77 @@
 
   const form = document.getElementById('membreForm');
   const btnSave = document.getElementById('btnSave');
-  const btnBack = document.getElementById('btnBack');
   const statusMsg = document.getElementById('statusMsg');
   const membreIdInput = document.getElementById('membreId');
-  const modeIndicator = document.getElementById('modeIndicator');
+  const pageTitle = document.getElementById('pageTitle');
+
   const photoInput = document.getElementById('photoInput');
   const photoPreview = document.getElementById('photoPreview');
-
-  // GERE TOGGLE SEKS H / F LAN
-  const btnSexeM = document.getElementById('btnSexeM');
-  const btnSexeF = document.getElementById('btnSexeF');
-  const sexeValue = document.getElementById('sexeValue');
-
-  btnSexeM.addEventListener('click', () => {
-    btnSexeM.classList.add('active');
-    btnSexeF.classList.remove('active');
-    sexeValue.value = "M";
-  });
-
-  btnSexeF.addEventListener('click', () => {
-    btnSexeF.classList.add('active');
-    btnSexeM.classList.remove('active');
-    sexeValue.value = "F";
-  });
-
-  // Mete dat jodi a otomatikman nan "Date d'adhésion" si l vid
-  const dateAdhesionInput = document.getElementById('dateAdhesion');
-  if(!dateAdhesionInput.value) {
-    const today = new Date().toISOString().split('T')[0];
-    dateAdhesionInput.value = today;
-  }
-
   let photoBase64 = null;
 
-  // --- Liste "Condition matrimoniale" personnalisée ---
-  const condMatWrapper = document.getElementById('condMatWrapper');
-  const condMatTrigger = document.getElementById('condMatTrigger');
-  const condMatHidden = document.getElementById('conditionMatrimoniale');
+  // Jere seleksyon radyo pou kondisyon matrimonyal
+  const radioButtons = document.querySelectorAll('.custom-radio-btn');
+  const hiddenConditionInput = document.getElementById('conditionMatrimoniale');
 
-  condMatTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    condMatWrapper.classList.toggle('open');
-  });
-
-  condMatWrapper.querySelectorAll('.custom-option').forEach(option => {
-    option.addEventListener('click', function(){
-      const val = this.getAttribute('data-value');
-      condMatTrigger.textContent = val;
-      condMatTrigger.classList.remove('placeholder');
-      condMatHidden.value = val;
-      condMatWrapper.classList.remove('open');
+  radioButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setConditionMatrimoniale(btn.getAttribute('data-value'));
     });
   });
 
-  window.addEventListener('click', (e) => {
-    if (!condMatWrapper.contains(e.target)) condMatWrapper.classList.remove('open');
-  });
-
-  function setConditionMatrimoniale(val){
+  function setConditionMatrimoniale(val) {
+    radioButtons.forEach(b => b.classList.remove('selected'));
+    hiddenConditionInput.value = val;
     if (val) {
-      condMatHidden.value = val;
-      condMatTrigger.textContent = val;
-      condMatTrigger.classList.remove('placeholder');
-    } else {
-      condMatHidden.value = '';
-      condMatTrigger.textContent = 'Sélectionner...';
-      condMatTrigger.classList.add('placeholder');
+      const activeBtn = Array.from(radioButtons).find(b => b.getAttribute('data-value') === val);
+      if (activeBtn) activeBtn.classList.add('selected');
     }
   }
 
-  function compressImage(file, maxSize = 300, quality = 0.7){
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          let { width, height } = img;
-          if (width > height && width > maxSize) {
-            height = Math.round(height * (maxSize / width));
-            width = maxSize;
-          } else if (height > maxSize) {
-            width = Math.round(width * (maxSize / height));
-            height = maxSize;
-          }
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
-        };
-        img.onerror = reject;
-        img.src = e.target.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  photoInput.addEventListener('change', async () => {
-    const file = photoInput.files[0];
+  // Jere konvèsyon foto an Base64 pou konpactaj
+  photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
     if (!file) return;
-    try {
-      photoBase64 = await compressImage(file);
-      photoPreview.innerHTML = `<img src="${photoBase64}" alt="Photo">`;
-    } catch (err) {
-      console.error(err);
-      showStatus("Erreur photo : " + err.message, 'err');
-    }
-  });
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const max_size = 240; // Ti rezolisyon pou optimize Firestore
 
-  function showStatus(message, type){
-    statusMsg.textContent = message;
-    statusMsg.className = 'status-msg show ' + type;
-  }
-
-  function getFormData(){
-    return {
-      nom: document.getElementById('nom').value.trim(),
-      prenom: document.getElementById('prenom').value.trim(),
-      dateNaissance: document.getElementById('dateNaissance').value || null,
-      sexe: sexeValue.value,
-      lieuNaissance: document.getElementById('lieuNaissance').value.trim() || null,
-      dateConvention: document.getElementById('dateConvention').value || null,
-      dateBapteme: document.getElementById('dateBapteme').value || null,
-      telephone: document.getElementById('telephone').value.trim() || null,
-      adresse: document.getElementById('adresse').value.trim() || null,
-      fonction: document.getElementById('fonction').value,
-      dateAdhesion: dateAdhesionInput.value || null,
-      conditionMatrimoniale: document.getElementById('conditionMatrimoniale').value,
-      nifCin: document.getElementById('nifCin').value.trim() || null
+        if (width > height) {
+          if (width > max_size) { height *= max_size / width; width = max_size; }
+        } else {
+          if (height > max_size) { width *= max_size / height; height = max_size; }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        photoBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        photoPreview.innerHTML = `<img src="${photoBase64}">`;
+      };
+      img.src = event.target.result;
     };
-  }
+    reader.readAsDataURL(file);
+  });
 
-  async function loadMemberFromUrl(){
-    const params = new URLSearchParams(window.location.search);
-    const membreId = params.get('membreId');
-    if (!membreId) return;
-
-    try {
-      const snap = await getDoc(doc(db, 'membres', membreId));
-      if (!snap.exists()) return;
-      const data = snap.data();
-
-      document.getElementById('nom').value = data.nom || '';
-      document.getElementById('prenom').value = data.prenom || '';
-      document.getElementById('dateNaissance').value = data.dateNaissance || '';
-      document.getElementById('lieuNaissance').value = data.lieuNaissance || '';
-      document.getElementById('dateConvention').value = data.dateConvention || '';
-      document.getElementById('dateBapteme').value = data.dateBapteme || '';
-      document.getElementById('telephone').value = data.telephone || '';
-      document.getElementById('adresse').value = data.adresse || '';
-      document.getElementById('fonction').value = data.fonction || 'Membre';
-      document.getElementById('dateAdhesion').value = data.dateAdhesion || '';
-      setConditionMatrimoniale(data.conditionMatrimoniale || '');
-      document.getElementById('nifCin').value = data.nifCin || '';
-
-      if (data.sexe === 'F') {
-        btnSexeF.click();
-      } else {
-        btnSexeM.click();
-      }
-
-      if (data.photo) {
-        photoPreview.innerHTML = `<img src="${data.photo}" alt="Photo">`;
-      }
-
-      membreIdInput.value = membreId;
-      btnSave.textContent = "Modifier le membre";
-      modeIndicator.textContent = `Modifier le membre`;
-    } catch (err) {
-      console.error(err);
-      showStatus('Erreur chargement : ' + err.message, 'err');
+  function showStatus(msg, type) {
+    statusMsg.textContent = msg;
+    statusMsg.className = 'status-msg show ' + type;
+    if (type === 'ok') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
-  loadMemberFromUrl();
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    btnSave.disabled = true;
-    showStatus('Traitement en cours...', 'info');
-
-    const id = membreIdInput.value;
-    try {
-      const data = getFormData();
-      if (photoBase64) data.photo = photoBase64;
-
-      if (id) {
-        // MÒD MODIFIKASYON
-        await updateDoc(doc(db, 'membres', id), data);
-        showStatus('Membre modifié avec succès.', 'ok');
-      } else {
-        // MÒD NOUVO ENREGISTREMENT
-        data.creeLe = serverTimestamp();
-        await addDoc(collection(db, 'membres'), data);
-        showStatus('Membre enregistré avec succès.', 'ok');
-        form.reset();
-        setConditionMatrimoniale('');
-        photoPreview.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg><span>Photo</span>`;
-        btnSexeM.click();
-      }
-    } catch (err) {
-      console.error(err);
-      showStatus("Erreur : " + err.message, 'err');
-    } finally {
-      btnSave.disabled = false;
-    }
-  });
-
-  btnBack.addEventListener('click', () => {
-    window.location.href = 'membres.html';
-  });
-</script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  }
-</script>
-</body>
-</html>
+  function getFormData() {
+    return {
+      nom: document.getElementById('nom').value.trim().toUpperCase(),
+      prenom: document.getElementById('prenom').value.trim(),
+      sexe: document.getElementById('sexe').value,
+      dateNaissance: document.getElementById('dateNaissance').value,
+      conditionMatrimoniale: hiddenConditionInput
