@@ -13,6 +13,15 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
+  /* Koulè background degrade tèm Dépenses lan */
+  body {
+    background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
+    font-family: 'Inter', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    color: #1E3A8A !important;
+  }
+
   .list-wrap{
     width:100%;
     max-width:680px;
@@ -20,6 +29,8 @@
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:14px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .member-card{
@@ -44,7 +55,7 @@
     width:84px;
     height:84px;
     border-radius:50%;
-    border:2.5px solid var(--gold-soft);
+    border:2.5px solid #C9543A;
     background:#F2F0E8;
     display:flex;
     align-items:center;
@@ -67,7 +78,7 @@
   .member-name{
     font-size:16px;
     font-weight:700;
-    color:var(--navy-deep);
+    color:#0A1F44;
     margin-bottom:4px;
     line-height:1.3;
   }
@@ -76,9 +87,9 @@
     display:inline-block;
     font-size:12.5px;
     font-weight:600;
-    color:var(--gold);
+    color:#C9543A;
     background:#FBF8EF;
-    border:1px solid var(--gold-soft);
+    border:1px solid #E3DDC9;
     border-radius:12px;
     padding:2px 10px;
     margin-bottom:8px;
@@ -95,6 +106,8 @@
     width:100%;
     max-width:680px;
     padding:0 24px 4px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .search-wrap input{
@@ -104,9 +117,10 @@
     border-radius:3px;
     font-size:15.5px;
     font-family:'Inter',sans-serif;
+    background-color: white;
   }
 
-  .search-wrap input:focus{outline:none;border-color:var(--navy-mid);}
+  .search-wrap input:focus{outline:none;border-color:#1E3A8A;}
 
   .count-indicator{
     width:100%;
@@ -165,7 +179,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Sécurité : on vérifie que l'utilisateur est bien connecté
   if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
     window.location.href = 'index.html';
   }
@@ -189,12 +202,16 @@
       ? `<img src="${data.photo}" alt="Photo de ${data.nom || ''}">`
       : `<span class="photo-placeholder">👤</span>`;
 
-    const fonctionHtml = data.fonction
-      ? `<span class="member-fonction">${data.fonction}</span>`
-      : '';
+    // Si fonksyon an vid, li otomatikman afiche "Membre"
+    const fonctionText = data.fonctions || data.fonction || 'Membre';
+    const fonctionHtml = `<span class="member-fonction">${fonctionText}</span>`;
 
-    const nifLine = data.nifCin ? `NIF/CIN : ${data.nifCin}<br>` : '';
-    const telLine = data.telephone ? `Tél. : ${data.telephone}` : '';
+    // Si NIF/CIN oswa telefòn pa la, li afiche "Non spécifié" pou evite espas vid
+    const nifValue = data.carte || data.nifCin || 'Non spécifié';
+    const telValue = data.telephone1 || data.telephone || 'Non spécifié';
+
+    const nifLine = `NIF/CIN : ${nifValue}<br>`;
+    const telLine = `Tél. : ${telValue}`;
 
     card.innerHTML = `
       <div class="member-photo">${photoContent}</div>
@@ -255,7 +272,6 @@
         allMembers.push({ id: docSnap.id, data: docSnap.data() });
       });
 
-      // Tri alphabétique par nom
       allMembers.sort((a, b) => normalize(a.data.nom).localeCompare(normalize(b.data.nom)));
 
       renderList(allMembers);
