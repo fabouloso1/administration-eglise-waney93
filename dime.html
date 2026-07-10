@@ -573,20 +573,22 @@
     window.location.href = 'dime-liste.html';
   });
 
-  // Réinitialiser le mois actuel affiché
+  // Réinitialiser le mois actuel (mois ET année réels d'aujourd'hui, peu importe l'année affichée à l'écran)
   document.getElementById('btnReinitMois').addEventListener('click', () => {
     const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin',
       'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    const moisActuel = new Date().getMonth();
+    const aujourdhui = new Date();
+    const anneeReelle = aujourdhui.getFullYear();
+    const moisActuel = aujourdhui.getMonth();
     const moisKey = String(moisActuel + 1).padStart(2, '0');
     const moisNom = moisNoms[moisActuel];
 
     showConfirmModal(
       'Réinitialiser ce mois ?',
-      `Vous êtes sur le point d'effacer <strong>toutes les dîmes de ${moisNom} ${currentYear}</strong>. Cette action est irréversible.`,
+      `Vous êtes sur le point d'effacer <strong>toutes les dîmes de ${moisNom} ${anneeReelle}</strong>. Cette action est irréversible.`,
       async () => {
         try {
-          const q = query(collection(db, 'dimes'), where('annee', '==', currentYear));
+          const q = query(collection(db, 'dimes'), where('annee', '==', anneeReelle));
           const snap = await getDocs(q);
           const promises = [];
           snap.forEach(docSnap => {
@@ -598,8 +600,8 @@
             }
           });
           await Promise.all(promises);
-          renderMonths();
-          showToast(`Dîmes de ${moisNom} ${currentYear} réinitialisées.`, 'ok');
+          if (currentYear === anneeReelle) renderMonths();
+          showToast(`Dîmes de ${moisNom} ${anneeReelle} réinitialisées.`, 'ok');
         } catch(err) {
           showToast('Erreur : ' + err.message, 'err');
         }
