@@ -12,6 +12,68 @@
 <meta name="theme-color" content="#0A1F44">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  /* Modal de confirmation personnalisé pour "Fermer la session" */
+  .logout-modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(10,31,68,0.62);
+    z-index:400;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .logout-modal-overlay.show{ display:flex; }
+
+  .logout-modal-box{
+    background:#fff;
+    border-radius:20px;
+    width:100%; max-width:360px;
+    padding:28px 24px 24px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.45);
+    border-top:5px solid #C8A040;
+    animation:logoutModalPop 0.2s ease-out;
+  }
+  @keyframes logoutModalPop{
+    from{ transform:scale(0.92); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+  }
+
+  .logout-modal-icon{
+    width:64px; height:64px;
+    border-radius:50%;
+    background:#FBF3E0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px;
+    margin:0 auto 14px;
+  }
+
+  .logout-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:800; font-size:20px;
+    color:#0A1F44; margin-bottom:8px;
+  }
+
+  .logout-modal-text{
+    font-size:15px; font-weight:600; color:#5A5450;
+    line-height:1.5; margin-bottom:22px;
+  }
+
+  .logout-modal-btn{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    font-size:15.5px; font-weight:800; letter-spacing:0.02em;
+    cursor:pointer; margin-bottom:10px; transition:transform 0.1s ease;
+  }
+  .logout-modal-btn:active{ transform:translateY(2px); }
+
+  .logout-modal-btn.confirm{
+    background:linear-gradient(180deg,#0F2E5C,#0A1F44);
+    color:#E8CB80; border-bottom:4px solid #061128; text-transform:uppercase;
+  }
+  .logout-modal-btn.cancel{
+    background:none; color:#5A5450; font-weight:700; margin-bottom:0; padding:10px;
+  }
+</style>
 </head>
 <body class="has-login-bg">
 
@@ -92,6 +154,17 @@
   <p class="menu-footer">Connecté en tant qu'administrateur / trésorier</p>
 </div>
 
+<!-- Modal de confirmation personnalisé pour "Fermer la session" -->
+<div class="logout-modal-overlay" id="logoutModalOverlay">
+  <div class="logout-modal-box">
+    <div class="logout-modal-icon">🚪</div>
+    <p class="logout-modal-title">Fermer la session ?</p>
+    <p class="logout-modal-text">Vous allez être déconnecté(e) de l'application. Vous devrez ressaisir le mot de passe pour vous reconnecter.</p>
+    <button type="button" class="logout-modal-btn confirm" id="logoutModalYes">⏻ Oui, se déconnecter</button>
+    <button type="button" class="logout-modal-btn cancel" id="logoutModalNo">Annuler</button>
+  </div>
+</div>
+
 <script>
   // PLACEHOLDER : le mot de passe se trouve ici pour le moment.
   // Plus tard : déplacer cette vérification vers Firebase pour plus de sécurité.
@@ -147,12 +220,26 @@
   });
 
   // Bouton « Fermer l'application »
+  const logoutModalOverlay = document.getElementById('logoutModalOverlay');
+  const logoutModalYes = document.getElementById('logoutModalYes');
+  const logoutModalNo = document.getElementById('logoutModalNo');
+
   document.getElementById('closeAppBtn').addEventListener('click', () => {
-    const confirmed = confirm("Voulez-vous vraiment fermer l'application et vous déconnecter ?");
-    if (confirmed) {
-      sessionStorage.removeItem('trezoLoggedIn');
-      showLogin();
-    }
+    logoutModalOverlay.classList.add('show');
+  });
+
+  logoutModalYes.addEventListener('click', () => {
+    logoutModalOverlay.classList.remove('show');
+    sessionStorage.removeItem('trezoLoggedIn');
+    showLogin();
+  });
+
+  logoutModalNo.addEventListener('click', () => {
+    logoutModalOverlay.classList.remove('show');
+  });
+
+  logoutModalOverlay.addEventListener('click', (e) => {
+    if (e.target === logoutModalOverlay) logoutModalOverlay.classList.remove('show');
   });
 
   // Boutons de navigation (ces pages seront créées étape par étape)
