@@ -293,6 +293,7 @@ input:focus{
 .summary-card.gold{border-top-color:var(--gold);}
 .summary-card.purple{border-top-color:var(--purple);}
 .summary-card.red{border-top-color:var(--red);}
+.summary-card.wine{border-top-color:#7A2B44;}
 
 .summary-label{
   font-size:11.5px;font-weight:600;
@@ -341,6 +342,7 @@ input:focus{
 .detail-item.purple{border-left-color:var(--purple);}
 .detail-item.red{border-left-color:var(--red);}
 .detail-item.navy{border-left-color:var(--navy-light);}
+.detail-item.wine{border-left-color:#7A2B44;}
 
 .detail-info{flex:1;}
 .detail-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;}
@@ -355,6 +357,7 @@ input:focus{
 .detail-amount.green{color:var(--green);}
 .detail-amount.red{color:var(--red);}
 .detail-amount.purple{color:var(--purple);}
+.detail-amount.wine{color:#7A2B44;}
 
 /* Total global */
 .total-global{
@@ -530,10 +533,17 @@ input:focus{
           <div class="summary-label">Solde Caisse</div>
           <div class="summary-amount" id="mm-solde">0 HTG</div>
         </div>
+        <div class="summary-card wine">
+          <div class="summary-label">Sainte Cène</div>
+          <div class="summary-amount" id="mm-cene">0</div>
+        </div>
       </div>
 
       <div class="section-header"><h3>Dîme — par membre</h3></div>
       <div id="mm-list-dime"><p class="empty-state">Aucune dîme ce mois.</p></div>
+
+      <div class="section-header"><h3>Sainte Cène — participants</h3></div>
+      <div id="mm-list-cene"><p class="empty-state">Aucune présence ce mois.</p></div>
 
       <div class="section-header"><h3>Offrandes & Dons</h3></div>
       <div id="mm-list-offrande"><p class="empty-state">Aucune offrande ce mois.</p></div>
@@ -580,10 +590,17 @@ input:focus{
           <div class="summary-label">Solde Caisse</div>
           <div class="summary-amount" id="aa-solde">0 HTG</div>
         </div>
+        <div class="summary-card wine">
+          <div class="summary-label">Sainte Cène (année)</div>
+          <div class="summary-amount" id="aa-cene">0</div>
+        </div>
       </div>
 
       <div class="section-header"><h3>Dîme par mois</h3></div>
       <div id="aa-list-dime"></div>
+
+      <div class="section-header"><h3>Sainte Cène par mois</h3></div>
+      <div id="aa-list-cene"></div>
 
       <div class="section-header"><h3>Offrandes par type</h3></div>
       <div id="aa-list-offrande"></div>
@@ -872,6 +889,30 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
+    // Sainte Cène
+    try {
+      const q = query(collection(db, 'sainteCene'), where('annee','==',parseInt(annee)));
+      const snap = await getDocs(q);
+      const ceneItems = [];
+      snap.forEach(d => {
+        const data = d.data();
+        const moisData = data.mois || {};
+        if(moisData[moisKey]){
+          ceneItems.push({ nom:`${data.nom||''} ${data.prenom||''}`.trim() });
+        }
+      });
+      ceneItems.sort((a,b)=>a.nom.localeCompare(b.nom));
+      document.getElementById('mm-cene').textContent = ceneItems.length;
+      const el = document.getElementById('mm-list-cene');
+      el.innerHTML = ceneItems.length === 0
+        ? '<p class="empty-state">Aucune présence ce mois.</p>'
+        : ceneItems.map(c => `
+          <div class="detail-item wine">
+            <div class="detail-info"><div class="detail-name">${c.nom}</div></div>
+            <div class="detail-amount wine">✅</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
     // Offrandes
     try {
       const snap = await getDocs(collection(db, 'offrandes'));
@@ -970,6 +1011,34 @@ input:focus{
           <div class="detail-item gold">
             <div class="detail-info"><div class="detail-name">${MOIS_NOMS[parseInt(k)-1]}</div></div>
             <div class="detail-amount gold">${fmt(dimeParMois[k])}</div>
+          </div>`).join('');
+    } catch(e){ console.error(e); }
+
+    // Sainte Cène par mois
+    try {
+      const q = query(collection(db, 'sainteCene'), where('annee','==',parseInt(annee)));
+      const snap = await getDocs(q);
+      const ceneParMois = {};
+      let totalPresencesCene = 0;
+      snap.forEach(d => {
+        const data = d.data();
+        const mois = data.mois || {};
+        Object.keys(mois).forEach(k => {
+          if(mois[k]){
+            ceneParMois[k] = (ceneParMois[k]||0) + 1;
+            totalPresencesCene += 1;
+          }
+        });
+      });
+      document.getElementById('aa-cene').textContent = totalPresencesCene;
+      const el = document.getElementById('aa-list-cene');
+      const moisAvecCene = Object.keys(ceneParMois).sort();
+      el.innerHTML = moisAvecCene.length === 0
+        ? '<p class="empty-state">Aucune présence cette année.</p>'
+        : moisAvecCene.map(k => `
+          <div class="detail-item wine">
+            <div class="detail-info"><div class="detail-name">${MOIS_NOMS[parseInt(k)-1]}</div></div>
+            <div class="detail-amount wine">${ceneParMois[k]} membre${ceneParMois[k]>1?'s':''}</div>
           </div>`).join('');
     } catch(e){ console.error(e); }
 
