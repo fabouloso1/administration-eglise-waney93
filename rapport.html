@@ -101,6 +101,9 @@
   .row-dime{background:#FBF8EF;}
   .row-dime .rapport-row-amount{color:var(--gold);}
 
+  .row-cene{background:#F6E7EB;}
+  .row-cene .rapport-row-amount{color:#7A2B44;}
+
   .row-entree{background:#F2F9F5;}
   .row-entree .rapport-row-amount{color:var(--success);}
 
@@ -245,6 +248,17 @@
     </div>
   </div>
 
+  <!-- Seksyon 1bis : Sainte Cène (prezans, pa finansye) -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <div class="section-card-icon" style="background:#F6E7EB;color:#7A2B44;">🍷</div>
+      <span class="section-card-title">Sainte Cène</span>
+    </div>
+    <div class="section-card-body" id="ceneBody">
+      <p class="loading-state">Chargement...</p>
+    </div>
+  </div>
+
   <!-- Seksyon 2 : Kès Général -->
   <div class="section-card">
     <div class="section-card-header">
@@ -354,6 +368,29 @@
       <div class="rapport-row row-dime">
         <span class="rapport-row-label">Total dîme</span>
         <span class="rapport-row-amount">${fmt(totalDime)}</span>
+      </div>
+    `;
+
+    // ===== 1bis. SAINTE CÈNE (présences, pas financier) =====
+    let totalPresencesCene = 0;
+    try {
+      const q = query(collection(db, 'sainteCene'), where('annee', '==', parseInt(year)));
+      const snap = await getDocs(q);
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        const mois = data.mois || {};
+        Object.keys(mois).forEach(key => {
+          if (mois[key] && (!month || key === month)) {
+            totalPresencesCene += 1;
+          }
+        });
+      });
+    } catch (err) { console.error('Sainte Cène err:', err); }
+
+    document.getElementById('ceneBody').innerHTML = `
+      <div class="rapport-row row-cene">
+        <span class="rapport-row-label">Présences enregistrées</span>
+        <span class="rapport-row-amount">${totalPresencesCene} membre${totalPresencesCene > 1 ? 's' : ''}</span>
       </div>
     `;
 
