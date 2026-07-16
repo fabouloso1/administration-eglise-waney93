@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sainte Cène — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  /* ===== SAINTE CÈNE — thème bordeaux/or, design 3D ===== */
+
+  body{ background:#F6EDEE !important; }
+
+  .add-btn-wrap{
+    width:100%; max-width:560px;
+    padding:20px 20px 8px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+
+  /* Bouton Marquer une présence — 3D bordeaux */
+  .btn-add-dime{
+    width:100%; padding:18px;
+    background:linear-gradient(180deg, #A8455E 0%, #7A2B44 60%, #5E1F34 100%);
+    color:#fff; border:none; border-radius:12px;
+    font-size:17px; font-weight:800;
+    letter-spacing:0.04em; text-transform:uppercase; cursor:pointer;
+    box-shadow:0 6px 0 #3E1523, 0 8px 16px -4px rgba(62,21,35,0.5);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+    text-shadow:0 1px 2px rgba(0,0,0,0.25);
+  }
+  .btn-add-dime:hover{ filter:brightness(1.05); }
+  .btn-add-dime:active{
+    transform:translateY(5px);
+    box-shadow:0 1px 0 #3E1523, 0 2px 6px -4px rgba(62,21,35,0.4);
+  }
+
+  /* Bouton liste — 3D vèt */
+  .btn-liste-dime{
+    width:100%; padding:16px;
+    background:linear-gradient(180deg, #3EA870 0%, #2E7D5B 60%, #1E5A3E 100%);
+    color:#fff; border:none; border-radius:12px;
+    font-size:16px; font-weight:800; letter-spacing:0.03em; cursor:pointer;
+    box-shadow:0 5px 0 #154A2E, 0 8px 16px -4px rgba(21,74,46,0.45);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+    text-shadow:0 1px 2px rgba(0,0,0,0.2);
+  }
+  .btn-liste-dime:hover{ filter:brightness(1.05); }
+  .btn-liste-dime:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #154A2E, 0 2px 6px -4px rgba(21,74,46,0.35);
+  }
+
+  /* Boutons réinitialiser — 3D rouge */
+  .btn-reinit-page{
+    padding:15px 10px;
+    background:linear-gradient(180deg, #E05A46 0%, #C0392B 60%, #922B21 100%);
+    color:#fff; border:none; border-radius:12px;
+    font-size:14px; font-weight:800; letter-spacing:0.02em; cursor:pointer;
+    box-shadow:0 5px 0 #7B241C, 0 8px 14px -4px rgba(123,36,28,0.4);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+    text-shadow:0 1px 2px rgba(0,0,0,0.25);
+  }
+  .btn-reinit-page:hover{ filter:brightness(1.06); }
+  .btn-reinit-page:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #7B241C, 0 2px 6px -4px rgba(123,36,28,0.35);
+  }
+
+  /* Sélecteur année */
+  .year-selector{
+    width:100%; max-width:560px;
+    padding:18px 20px 8px;
+    display:flex; align-items:center; justify-content:center; gap:20px;
+  }
+
+  .year-arrow{
+    width:46px; height:46px; border-radius:50%; border:none;
+    background:linear-gradient(180deg,#fff 0%,#E8EBF2 100%);
+    color:#0B1F45; font-size:18px; font-weight:800; cursor:pointer;
+    box-shadow:0 4px 0 #B0B8CC, 0 6px 12px -4px rgba(11,31,69,0.2);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .year-arrow:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #B0B8CC;
+  }
+
+  .year-display{
+    font-family:'Fraunces',serif;
+    font-weight:800; font-size:30px;
+    color:#0B1F45; letter-spacing:0.03em;
+    min-width:90px; text-align:center;
+  }
+
+  /* Lignes mois */
+  .months-wrap{
+    width:100%; max-width:560px; padding:12px 20px 8px;
+  }
+
+  .month-row{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border:none; border-left:6px solid #7A2B44;
+    border-radius:12px; padding:17px 20px; margin-bottom:11px;
+    cursor:pointer;
+    box-shadow:0 5px 0 #EAD9DD, 0 8px 18px -6px rgba(11,31,69,0.15);
+    transition:transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .month-row:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 0 #EAD9DD, 0 14px 22px -8px rgba(11,31,69,0.22);
+  }
+  .month-row:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #EAD9DD;
+  }
+
+  .month-name{
+    font-size:19px; font-weight:800; color:#0B1F45; letter-spacing:0.01em;
+  }
+
+  .month-total{
+    font-size:17px; font-weight:800; color:#7A2B44; font-family:'Fraunces',serif;
+  }
+
+  /* Carte total */
+  .total-wrap{ width:100%; max-width:560px; padding:14px 20px 32px; }
+
+  .total-card{
+    background:linear-gradient(155deg, #0B1F45 0%, #1A3A72 100%);
+    border-radius:14px; padding:22px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 7px 0 #071440, 0 12px 28px -8px rgba(7,20,64,0.55);
+  }
+
+  .total-label{
+    font-size:15px; font-weight:700; color:#E8CB80;
+    letter-spacing:0.05em; text-transform:uppercase;
+  }
+
+  .total-amount{
+    font-family:'Fraunces',serif; font-weight:800; font-size:26px;
+    color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  /* ===== MODAL ===== */
+  .month-modal-overlay{
+    display:none; position:fixed; inset:0;
+    background:rgba(11,31,69,0.62); z-index:50;
+    align-items:flex-end; justify-content:center;
+  }
+  .month-modal-overlay.show{ display:flex; }
+
+  .month-modal{
+    background:#F6EDEE; width:100%; max-width:520px;
+    max-height:82vh; border-radius:20px 20px 0 0;
+    overflow-y:auto;
+    box-shadow:0 -20px 50px rgba(0,0,0,0.35);
+    animation:slideUp 0.25s ease-out;
+  }
+
+  @keyframes slideUp{
+    from{transform:translateY(100%);}
+    to{transform:translateY(0);}
+  }
+
+  .month-modal-header{
+    position:sticky; top:0;
+    background:linear-gradient(155deg, #0B1F45 0%, #1A3A72 100%);
+    padding:20px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:4px solid #7A2B44;
+  }
+
+  .month-modal-title{
+    font-family:'Fraunces',serif; font-weight:800; font-size:21px; color:#fff;
+  }
+
+  .month-modal-close{
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,0.18); color:#fff; border:none;
+    font-size:18px; font-weight:700; cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .month-modal-close:hover{ background:rgba(255,255,255,0.3); }
+
+  .month-modal-body{ padding:20px 20px 28px; }
+
+  .month-person-row{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border:none; border-left:5px solid #7A2B44;
+    border-radius:10px; padding:15px 18px; margin-bottom:10px;
+    cursor:pointer;
+    box-shadow:0 4px 0 #EAD9DD, 0 6px 14px -6px rgba(11,31,69,0.12);
+    transition:transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .month-person-row:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 0 #EAD9DD, 0 10px 18px -6px rgba(11,31,69,0.2);
+  }
+  .month-person-row:active{ transform:translateY(3px); box-shadow:0 1px 0 #EAD9DD; }
+
+  .month-person-name{ font-size:17px; font-weight:800; color:#0B1F45; }
+
+  .month-person-amount{
+    font-family:'Fraunces',serif; font-weight:800; font-size:17px; color:#7A2B44;
+  }
+
+  .month-modal-total{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 18px; margin-top:10px;
+    background:linear-gradient(155deg, #0B1F45 0%, #1A3A72 100%);
+    border-radius:12px;
+    box-shadow:0 5px 0 #071440;
+  }
+
+  .month-modal-total span:first-child{
+    font-size:14px; font-weight:700; color:#E8CB80;
+    text-transform:uppercase; letter-spacing:0.04em;
+  }
+
+  .month-modal-total span:last-child{
+    font-family:'Fraunces',serif; font-weight:800; font-size:20px; color:#fff;
+  }
+
+  /* Bouton réinitialiser dans modal — 3D rouge */
+  .btn-reinit{
+    width:100%; margin-top:14px; padding:15px;
+    background:linear-gradient(180deg, #E05A46 0%, #C0392B 60%, #922B21 100%);
+    color:#fff; border:none; border-radius:12px;
+    font-size:15px; font-weight:800; letter-spacing:0.04em; text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 5px 0 #7B241C, 0 8px 16px -4px rgba(123,36,28,0.4);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .btn-reinit:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #7B241C;
+  }
+
+  /* ===== MODAL DE CONFIRMATION (⚠️) ===== */
+  .confirm-modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(11,31,69,0.62);
+    z-index:400;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .confirm-modal-overlay.show{ display:flex; }
+
+  .confirm-modal-box{
+    background:#fff;
+    border-radius:20px;
+    width:100%; max-width:360px;
+    padding:28px 24px 24px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.45);
+    border-top:5px solid #922B21;
+    animation:confirmPop 0.2s ease-out;
+  }
+  @keyframes confirmPop{
+    from{ transform:scale(0.92); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+  }
+
+  .confirm-modal-icon{
+    width:64px; height:64px;
+    border-radius:50%;
+    background:#FBEAE6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px;
+    margin:0 auto 14px;
+  }
+
+  .confirm-modal-title{
+    font-family:'Fraunces',serif;
+    font-weight:800; font-size:20px;
+    color:#0B1F45; margin-bottom:8px;
+  }
+
+  .confirm-modal-text{
+    font-size:15px; font-weight:600; color:#5A5450;
+    line-height:1.5; margin-bottom:22px;
+  }
+  .confirm-modal-text strong{ color:#922B21; font-weight:800; }
+
+  .confirm-modal-btn{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    font-size:15.5px; font-weight:800; letter-spacing:0.02em;
+    cursor:pointer; margin-bottom:10px; transition:transform 0.1s ease;
+  }
+  .confirm-modal-btn:active{ transform:translateY(2px); }
+
+  .confirm-modal-btn.danger{
+    background:linear-gradient(180deg,#E05A46,#922B21);
+    color:#fff; border-bottom:4px solid #6B1F16; text-transform:uppercase;
+  }
+  .confirm-modal-btn.cancel{
+    background:none; color:#5A5450; font-weight:700; margin-bottom:0; padding:10px;
+  }
+
+  /* ===== TOAST DE NOTIFICATION ===== */
+  .toast-notif{
+    position:fixed; top:-100px; left:50%; transform:translateX(-50%);
+    max-width:90vw; width:400px; background:#fff; border-radius:14px;
+    padding:16px 18px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 16px 36px -10px rgba(0,0,0,0.35);
+    z-index:500; transition:top 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .toast-notif.show{ top:18px; }
+  .toast-notif.ok{ border-left:5px solid #2E7D5B; }
+  .toast-notif.err{ border-left:5px solid #922B21; }
+  .toast-notif-icon{
+    width:34px; height:34px; flex-shrink:0; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:17px;
+  }
+  .toast-notif.ok .toast-notif-icon{ background:#E8F5EE; }
+  .toast-notif.err .toast-notif-icon{ background:#FBEAE6; }
+  .toast-notif-text{ font-size:14.5px; font-weight:800; color:#0B1F45; line-height:1.35; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="index.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">🍷 Sainte Cène</p>
+<p class="section-sub">Présences par mois</p>
+
+<div class="add-btn-wrap">
+  <button class="btn-add-dime" id="btnAddDime">+ Marquer une présence</button>
+  <button class="btn-liste-dime" id="btnListeDime">📋 Afficher tous ceux qui ont participé</button>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+    <button class="btn-reinit-page" id="btnReinitMois">🗑 Réinitialiser le mois</button>
+    <button class="btn-reinit-page" id="btnReinitAnnee">🗑 Réinitialiser l'année</button>
+  </div>
+</div>
+
+<div class="year-selector">
+  <button class="year-arrow" id="prevYear">◀</button>
+  <span class="year-display" id="yearDisplay">2026</span>
+  <button class="year-arrow" id="nextYear">▶</button>
+</div>
+
+<div class="months-wrap" id="monthsWrap">
+  <!-- Les 12 lignes de mois sont générées par JavaScript -->
+</div>
+
+<div class="total-wrap">
+  <div class="total-card">
+    <span class="total-label">Total des présences (année)</span>
+    <span class="total-amount" id="totalAmount">0</span>
+  </div>
+</div>
+
+<div class="month-modal-overlay" id="monthModalOverlay">
+  <div class="month-modal">
+    <div class="month-modal-header">
+      <span class="month-modal-title" id="monthModalTitle">Mois</span>
+      <button class="month-modal-close" id="monthModalClose">✕</button>
+    </div>
+    <div class="month-modal-body" id="monthModalBody"></div>
+  </div>
+</div>
+
+<!-- Modal de confirmation personnalisé pour les réinitialisations -->
+<div class="confirm-modal-overlay" id="confirmModalOverlay">
+  <div class="confirm-modal-box">
+    <div class="confirm-modal-icon">⚠️</div>
+    <p class="confirm-modal-title" id="confirmModalTitle">Attention</p>
+    <p class="confirm-modal-text" id="confirmModalText">Cette action est irréversible.</p>
+    <button type="button" class="confirm-modal-btn danger" id="confirmModalYes">🗑️ Oui, réinitialiser</button>
+    <button type="button" class="confirm-modal-btn cancel" id="confirmModalNo">Annuler</button>
+  </div>
+</div>
+
+<!-- Toast de notification personnalisé -->
+<div class="toast-notif" id="toastNotif">
+  <span class="toast-notif-icon" id="toastNotifIcon">✅</span>
+  <span class="toast-notif-text" id="toastNotifText">Message</span>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    updateDoc,
+    doc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const MOIS = [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ];
+
+  let currentYear = new Date().getFullYear();
+
+  const yearDisplay = document.getElementById('yearDisplay');
+  const monthsWrap = document.getElementById('monthsWrap');
+  const totalAmount = document.getElementById('totalAmount');
+  const prevYearBtn = document.getElementById('prevYear');
+  const nextYearBtn = document.getElementById('nextYear');
+  const btnAddDime = document.getElementById('btnAddDime');
+
+  // --- Modal de confirmation personnalisé (remplace confirm() du téléphone) ---
+  const confirmModalOverlay = document.getElementById('confirmModalOverlay');
+  const confirmModalTitle = document.getElementById('confirmModalTitle');
+  const confirmModalText = document.getElementById('confirmModalText');
+  const confirmModalYes = document.getElementById('confirmModalYes');
+  const confirmModalNo = document.getElementById('confirmModalNo');
+
+  function showConfirmModal(title, html, onConfirm){
+    confirmModalTitle.textContent = title;
+    confirmModalText.innerHTML = html;
+    confirmModalOverlay.classList.add('show');
+
+    const cleanup = () => {
+      confirmModalOverlay.classList.remove('show');
+      confirmModalYes.removeEventListener('click', yesHandler);
+      confirmModalNo.removeEventListener('click', noHandler);
+    };
+    const yesHandler = () => { cleanup(); onConfirm(); };
+    const noHandler = () => { cleanup(); };
+
+    confirmModalYes.addEventListener('click', yesHandler);
+    confirmModalNo.addEventListener('click', noHandler);
+  }
+
+  confirmModalOverlay.addEventListener('click', (e) => {
+    if (e.target === confirmModalOverlay) confirmModalOverlay.classList.remove('show');
+  });
+
+  // --- Toast de notification personnalisé (remplace alert()) ---
+  const toastNotif = document.getElementById('toastNotif');
+  const toastNotifIcon = document.getElementById('toastNotifIcon');
+  const toastNotifText = document.getElementById('toastNotifText');
+  let toastTimeout;
+
+  function showToast(message, type){
+    clearTimeout(toastTimeout);
+    toastNotif.className = 'toast-notif show ' + type;
+    toastNotifIcon.textContent = type === 'ok' ? '✅' : '❌';
+    toastNotifText.textContent = message;
+    toastTimeout = setTimeout(() => {
+      toastNotif.classList.remove('show');
+    }, 3200);
+  }
+
+  const monthModalOverlay = document.getElementById('monthModalOverlay');
+  const monthModalTitle = document.getElementById('monthModalTitle');
+  const monthModalBody = document.getElementById('monthModalBody');
+  const monthModalClose = document.getElementById('monthModalClose');
+
+  function showMonthDetail(key, nomMois){
+    monthModalTitle.textContent = `${nomMois} ${currentYear}`;
+
+    const people = [];
+    allSainteCeneCache.forEach((data) => {
+      const mois = data.mois || {};
+      if (mois[key]) {
+        people.push({
+          nom: `${data.nom || ''} ${data.prenom || ''}`.trim(),
+          membreId: data.membreId || ''
+        });
+      }
+    });
+
+    people.sort((a, b) => a.nom.localeCompare(b.nom));
+
+    if (people.length === 0) {
+      monthModalBody.innerHTML = '<p style="text-align:center;color:#9A9182;font-size:15px;padding:20px;">Aucune présence enregistrée pour ce mois.</p>';
+    } else {
+      monthModalBody.innerHTML = people.map((p) => `
+        <div class="month-person-row" data-membre-id="${p.membreId}" style="cursor:pointer;">
+          <span class="month-person-name">${p.nom}</span>
+          <span class="month-person-amount">✅ Présent(e)</span>
+        </div>
+      `).join('') + `
+        <div class="month-modal-total">
+          <span>Total du mois</span>
+          <span>${people.length} membre(s)</span>
+        </div>
+        <button class="btn-reinit" id="btnReinit">🗑 Réinitialiser ce mois</button>
+      `;
+
+      monthModalBody.querySelectorAll('.month-person-row').forEach((row) => {
+        row.addEventListener('click', () => {
+          const membreId = row.dataset.membreId;
+          if (membreId) {
+            window.location.href = `sainte-cene-ajouter.html?membreId=${encodeURIComponent(membreId)}`;
+          }
+        });
+      });
+
+      document.getElementById('btnReinit').addEventListener('click', () => {
+        monthModalOverlay.classList.remove('show');
+        showConfirmModal(
+          'Réinitialiser ce mois ?',
+          `Vous êtes sur le point d'effacer <strong>toutes les présences de ${nomMois} ${currentYear}</strong>. Cette action est irréversible.`,
+          async () => {
+            try {
+              const q = query(collection(db, 'sainteCene'), where('annee', '==', currentYear));
+              const snap = await getDocs(q);
+              const promises = [];
+              snap.forEach(docSnap => {
+                const data = docSnap.data();
+                const mois = { ...(data.mois || {}) };
+                if (mois[key] !== undefined) {
+                  delete mois[key];
+                  promises.push(updateDoc(doc(db, 'sainteCene', docSnap.id), { mois }));
+                }
+              });
+              await Promise.all(promises);
+              renderMonths();
+              showToast(`Présences de ${nomMois} ${currentYear} réinitialisées.`, 'ok');
+            } catch(err) {
+              showToast('Erreur : ' + err.message, 'err');
+            }
+          }
+        );
+      });
+    }
+
+    monthModalOverlay.classList.add('show');
+  }
+
+  monthModalClose.addEventListener('click', () => {
+    monthModalOverlay.classList.remove('show');
+  });
+
+  monthModalOverlay.addEventListener('click', (e) => {
+    if (e.target === monthModalOverlay) {
+      monthModalOverlay.classList.remove('show');
+    }
+  });
+
+  let allSainteCeneCache = [];
+
+  async function getMonthlyTotals(){
+    // Initialise les 12 compteurs à 0
+    const totals = {};
+    for (let i = 1; i <= 12; i++) {
+      totals[String(i).padStart(2, '0')] = 0;
+    }
+
+    allSainteCeneCache = [];
+
+    try {
+      const q = query(collection(db, 'sainteCene'), where('annee', '==', currentYear));
+      const snapshot = await getDocs(q);
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        allSainteCeneCache.push(data);
+        const mois = data.mois || {};
+        Object.keys(mois).forEach((key) => {
+          if (totals[key] !== undefined && mois[key]) {
+            totals[key] += 1;
+          }
+        });
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
+    return totals;
+  }
+
+  async function renderMonths(){
+    yearDisplay.textContent = currentYear;
+    monthsWrap.innerHTML = '<p style="text-align:center;color:#9A9182;font-size:14.5px;padding:12px;">Chargement...</p>';
+
+    const totals = await getMonthlyTotals();
+    monthsWrap.innerHTML = '';
+
+    let totalGeneral = 0;
+
+    MOIS.forEach((nomMois, index) => {
+      const key = String(index + 1).padStart(2, '0');
+      const nbMois = totals[key] || 0;
+      totalGeneral += nbMois;
+
+      const row = document.createElement('div');
+      row.className = 'month-row';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <span class="month-name">${nomMois}</span>
+        <span class="month-total">${nbMois} membre${nbMois > 1 ? 's' : ''}</span>
+      `;
+      row.addEventListener('click', () => {
+        showMonthDetail(key, nomMois);
+      });
+      monthsWrap.appendChild(row);
+    });
+
+    totalAmount.textContent = totalGeneral;
+  }
+
+  prevYearBtn.addEventListener('click', () => {
+    currentYear -= 1;
+    renderMonths();
+  });
+
+  nextYearBtn.addEventListener('click', () => {
+    currentYear += 1;
+    renderMonths();
+  });
+
+  btnAddDime.addEventListener('click', () => {
+    window.location.href = 'sainte-cene-ajouter.html';
+  });
+
+  document.getElementById('btnListeDime').addEventListener('click', () => {
+    window.location.href = 'sainte-cene-liste.html';
+  });
+
+  // Réinitialiser le mois actuel (mois ET année réels d'aujourd'hui, peu importe l'année affichée à l'écran)
+  document.getElementById('btnReinitMois').addEventListener('click', () => {
+    const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin',
+      'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const aujourdhui = new Date();
+    const anneeReelle = aujourdhui.getFullYear();
+    const moisActuel = aujourdhui.getMonth();
+    const moisKey = String(moisActuel + 1).padStart(2, '0');
+    const moisNom = moisNoms[moisActuel];
+
+    showConfirmModal(
+      'Réinitialiser ce mois ?',
+      `Vous êtes sur le point d'effacer <strong>toutes les présences de ${moisNom} ${anneeReelle}</strong>. Cette action est irréversible.`,
+      async () => {
+        try {
+          const q = query(collection(db, 'sainteCene'), where('annee', '==', anneeReelle));
+          const snap = await getDocs(q);
+          const promises = [];
+          snap.forEach(docSnap => {
+            const data = docSnap.data();
+            const mois = { ...(data.mois || {}) };
+            if (mois[moisKey] !== undefined) {
+              delete mois[moisKey];
+              promises.push(updateDoc(doc(db, 'sainteCene', docSnap.id), { mois }));
+            }
+          });
+          await Promise.all(promises);
+          if (currentYear === anneeReelle) renderMonths();
+          showToast(`Présences de ${moisNom} ${anneeReelle} réinitialisées.`, 'ok');
+        } catch(err) {
+          showToast('Erreur : ' + err.message, 'err');
+        }
+      }
+    );
+  });
+
+  // Réinitialiser toute l'année affichée
+  document.getElementById('btnReinitAnnee').addEventListener('click', () => {
+    showConfirmModal(
+      'Réinitialiser toute l\'année ?',
+      `Vous êtes sur le point d'effacer <strong>TOUTES les présences de l'année ${currentYear}</strong>, pour tous les membres. Cette action est irréversible.`,
+      async () => {
+        try {
+          const q = query(collection(db, 'sainteCene'), where('annee', '==', currentYear));
+          const snap = await getDocs(q);
+          const promises = [];
+          snap.forEach(docSnap => {
+            promises.push(updateDoc(doc(db, 'sainteCene', docSnap.id), { mois: {} }));
+          });
+          await Promise.all(promises);
+          renderMonths();
+          showToast(`Toutes les présences de ${currentYear} ont été réinitialisées.`, 'ok');
+        } catch(err) {
+          showToast('Erreur : ' + err.message, 'err');
+        }
+      }
+    );
+  });
+
+  renderMonths();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>

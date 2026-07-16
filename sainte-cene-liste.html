@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Liste Sainte Cène — Église de Dieu de la Prophétie de Waney 93</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1F44">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  .year-selector{
+    width:100%;
+    max-width:560px;
+    padding:20px 24px 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+  }
+
+  .year-arrow{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1.5px solid #D8D2C2;
+    background:#fff;
+    color:var(--navy-deep);
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 2px 8px -3px rgba(0,0,0,0.12);
+  }
+
+  .year-display{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:24.5px;
+    color:var(--navy-deep);
+    min-width:80px;
+    text-align:center;
+  }
+
+  .list-wrap{
+    width:100%;
+    max-width:680px;
+    padding:8px 24px 16px;
+  }
+
+  .dime-card{
+    background:linear-gradient(165deg, #ffffff 0%, #fbfaf6 100%);
+    border:1.5px solid #E3DDC9;
+    border-left:4px solid #7A2B44;
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:12px;
+    box-shadow:0 4px 14px -8px rgba(10,31,68,0.18);
+    transition:transform 0.12s ease, box-shadow 0.2s ease;
+  }
+
+  .dime-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px -10px rgba(10,31,68,0.28);
+    border-color:#7A2B44;
+  }
+
+  .dime-card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+
+  .dime-name{
+    font-size:17px;
+    font-weight:700;
+    color:var(--navy-deep);
+  }
+
+  .dime-total{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:17px;
+    color:#7A2B44;
+  }
+
+  .dime-months{
+    font-size:13.5px;
+    color:#6B6457;
+    line-height:1.6;
+  }
+
+  .total-wrap{
+    width:100%;
+    max-width:680px;
+    padding:8px 24px 32px;
+  }
+
+  .total-card{
+    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border-radius:8px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 10px 24px -10px rgba(10,31,68,0.45);
+  }
+
+  .total-label{
+    font-size:14.5px;
+    font-weight:600;
+    color:#E8CB80;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+
+  .total-amount{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:24.5px;
+    color:#fff;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:32px 16px;
+    color:#9A9182;
+    font-size:15px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="sainte-cene.html" class="back-link">← Retour</a>
+  <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu de la Prophétie"></div>
+  <h1>Église de Dieu de la Prophétie</h1>
+  <p>Waney 93</p>
+</div>
+
+<p class="section-title">Liste Sainte Cène</p>
+<p class="section-sub">Tous ceux qui ont participé</p>
+
+<div class="year-selector">
+  <button class="year-arrow" id="prevYear">◀</button>
+  <span class="year-display" id="yearDisplay"></span>
+  <button class="year-arrow" id="nextYear">▶</button>
+</div>
+
+<div class="list-wrap" id="listWrap"></div>
+
+<div class="total-wrap">
+  <div class="total-card">
+    <span class="total-label">Total des présences (année)</span>
+    <span class="total-amount" id="totalAmount">0</span>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaNOl7j9xReumR69PIiyTPrwncJ7-ysG8",
+    authDomain: "tresor-de-l-eglise.firebaseapp.com",
+    projectId: "tresor-de-l-eglise",
+    storageBucket: "tresor-de-l-eglise.firebasestorage.app",
+    messagingSenderId: "702537717579",
+    appId: "1:702537717579:web:e1e8726ab66a89b355face"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Sécurité : on vérifie que l'utilisateur est bien connecté
+  if (sessionStorage.getItem('trezoLoggedIn') !== 'true') {
+    window.location.href = 'index.html';
+  }
+
+  const MOIS_ABBR = [
+    'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+    'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'
+  ];
+
+  let currentYear = new Date().getFullYear();
+
+  const yearDisplay = document.getElementById('yearDisplay');
+  const prevYearBtn = document.getElementById('prevYear');
+  const nextYearBtn = document.getElementById('nextYear');
+  const listWrap = document.getElementById('listWrap');
+  const totalAmount = document.getElementById('totalAmount');
+
+  async function loadPresences(){
+    yearDisplay.textContent = currentYear;
+    listWrap.innerHTML = '<p class="empty-state">Chargement...</p>';
+
+    try {
+      const q = query(collection(db, 'sainteCene'), where('annee', '==', currentYear));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        listWrap.innerHTML = '<p class="empty-state">Aucune présence enregistrée pour ' + currentYear + '.</p>';
+        totalAmount.textContent = '0';
+        return;
+      }
+
+      listWrap.innerHTML = '';
+      let totalGeneral = 0;
+      let cardsRendered = 0;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const mois = data.mois || {};
+        const moisPresents = Object.keys(mois).filter(k => mois[k]).sort();
+
+        // Si la personne n'a aucune présence enregistrée (ex. après une réinitialisation), on ne l'affiche pas
+        if (moisPresents.length === 0) return;
+
+        const moisLabels = moisPresents.map(key => MOIS_ABBR[parseInt(key, 10) - 1]);
+
+        totalGeneral += moisPresents.length;
+        cardsRendered++;
+
+        const card = document.createElement('div');
+        card.className = 'dime-card';
+        card.style.cursor = 'pointer';
+        card.innerHTML = `
+          <div class="dime-card-header">
+            <span class="dime-name">${data.nom || ''} ${data.prenom || ''}</span>
+            <span class="dime-total">${moisPresents.length} mois</span>
+          </div>
+          <div class="dime-months">${moisLabels.join(' &nbsp;·&nbsp; ')}</div>
+        `;
+        if (data.membreId) {
+          card.addEventListener('click', () => {
+            window.location.href = `sainte-cene-ajouter.html?membreId=${encodeURIComponent(data.membreId)}`;
+          });
+        }
+        listWrap.appendChild(card);
+      });
+
+      if (cardsRendered === 0) {
+        listWrap.innerHTML = '<p class="empty-state">Aucune présence enregistrée pour ' + currentYear + '.</p>';
+      }
+
+      totalAmount.textContent = totalGeneral;
+    } catch (err) {
+      console.error(err);
+      listWrap.innerHTML = '<p class="empty-state">Erreur lors du chargement : ' + err.message + '</p>';
+    }
+  }
+
+  prevYearBtn.addEventListener('click', () => {
+    currentYear -= 1;
+    loadPresences();
+  });
+
+  nextYearBtn.addEventListener('click', () => {
+    currentYear += 1;
+    loadPresences();
+  });
+
+  loadPresences();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>

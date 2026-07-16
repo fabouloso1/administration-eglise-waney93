@@ -388,6 +388,11 @@ body.has-login-bg::after{
 .menu-btn.c-offrande .menu-icon{ background:#fff; color:var(--purple); }
 .menu-btn.c-offrande .menu-label{ color:#5A1F8A; }
 
+.menu-btn.c-cene{ background:#F6E7EB; border-color:#E3B9C6; border-bottom-color:#C97D96; }
+.menu-btn.c-cene::before{ background:linear-gradient(90deg,#5E1F34,#7A2B44); }
+.menu-btn.c-cene .menu-icon{ background:#fff; color:#7A2B44; }
+.menu-btn.c-cene .menu-label{ color:#5E1F34; }
+
 .menu-btn.c-services{ background:#FDECEA; border-color:#F1C4A8; border-bottom-color:#E39F71; }
 .menu-btn.c-services::before{ background:linear-gradient(90deg,#B84020,#D4562A); }
 .menu-btn.c-services .menu-icon{ background:#fff; color:#B84020; }
