@@ -16,7 +16,7 @@
   --navy-light:#1A3A72;
   --gold:#C8A04A;
   --gold-light:#E8CB80;
-  --surface:#F8F9FC;
+  --surface: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%); /* Bèl degrade cho pou background lan */
   --card:#FFFFFF;
   --border:#E8EBF2;
   --ink:#0F172A;
@@ -33,7 +33,7 @@
 
 body{
   font-family:'Inter',sans-serif;
-  background:var(--navy);
+  background: var(--surface); /* Aplike degrade a sou tout kò paj la tou */
   min-height:100vh;
   font-size:16px;
 }
@@ -77,40 +77,46 @@ body::after{
 
 .login-logo img{
   width:76px;height:76px;object-fit:contain;
-  filter:drop-shadow(0 4px 16px rgba(200,160,74,0.4));
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,0.25)); /* Efè 3D sou logo a */
 }
 
 .login-logo-name{
   font-family:'Fraunces',serif;
   font-weight:700;font-size:19px;
-  color:#fff;text-align:center;line-height:1.3;
+  color:#0A1F44;text-align:center;line-height:1.3; /* Koulè tèks fonse pou vizibilite sou degrade a */
 }
 
 .login-logo-sub{
   font-size:11.5px;font-weight:600;
-  color:var(--gold-light);
+  color:#C8A04A;
   letter-spacing:0.1em;text-transform:uppercase;
 }
 
 .login-badge{
   display:inline-flex;align-items:center;gap:6px;
-  background:rgba(200,160,74,0.15);
-  border:1px solid rgba(200,160,74,0.3);
+  background:rgba(200,160,74,0.2);
+  border:1.5px solid rgba(200,160,74,0.4);
   border-radius:20px;padding:6px 16px;
   font-size:12.5px;font-weight:600;
-  color:var(--gold-light);letter-spacing:0.04em;
+  color:#0A1F44;letter-spacing:0.04em;
   text-transform:uppercase;margin-top:2px;
 }
 
+/* EFÈ 3D SOU KAT LOGIN LAN */
 .card{
   background:var(--card);
   width:100%;max-width:400px;
   border-radius:24px;
-  box-shadow:0 24px 64px -12px rgba(0,0,0,0.5);
+  /* Double lonbraj pou kreye yon efè pwofondè 3D reyalis */
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 20px 40px -10px rgba(10, 31, 68, 0.25),
+    inset 0 -6px 0px rgba(0, 0, 0, 0.08); 
   overflow:hidden;
   opacity:0;transform:translateY(24px);
   animation:rise 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
   position:relative;z-index:1;
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .card::before{
@@ -161,17 +167,30 @@ input:focus{
   letter-spacing:0.05em;padding:4px 8px;border-radius:6px;
 }
 
+/* EFÈ 3D SOU BOUTON ENTRER A */
 .submit-btn{
   width:100%;margin-top:18px;padding:17px;
   background:var(--navy);color:#fff;
   border:none;border-radius:12px;
   font-size:15px;font-weight:700;letter-spacing:0.04em;
   text-transform:uppercase;cursor:pointer;
-  box-shadow:0 6px 20px -6px rgba(11,31,69,0.55);
-  transition:transform 0.12s ease,box-shadow 0.2s ease;
+  box-shadow: 
+    0 6px 16px -4px rgba(11,31,69,0.55),
+    inset 0 -3px 0px rgba(0, 0, 0, 0.3); /* Ti soulèvman 3D anndan bouton an */
+  transition:transform 0.1s ease, box-shadow 0.1s ease;
 }
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(11,31,69,0.7);}
-.submit-btn:active{transform:scale(0.99);}
+.submit-btn:hover{
+  transform:translateY(-2px);
+  box-shadow: 
+    0 10px 24px -6px rgba(11,31,69,0.65),
+    inset 0 -3px 0px rgba(0, 0, 0, 0.3);
+}
+.submit-btn:active{
+  transform:translateY(1px);
+  box-shadow: 
+    0 2px 8px -2px rgba(11,31,69,0.5),
+    inset 0 -1px 0px rgba(0, 0, 0, 0.3);
+}
 
 .error-msg{
   display:none;margin-top:14px;padding:13px 16px;
@@ -185,7 +204,7 @@ input:focus{
   display:none;
   min-height:100vh;
   flex-direction:column;
-  background:var(--surface);
+  background:var(--surface); /* Kontni dèyè a gen menm degrade a tou kounye a */
 }
 
 .pasteur-header{
@@ -276,7 +295,7 @@ input:focus{
 .tab-content{display:none;padding:16px 20px 32px;}
 .tab-content.active{display:block;}
 
-/* Cartes de résumé */
+/* Cartes de résumé - EFÈ 3D REYALIS */
 .summary-grid{
   display:grid;grid-template-columns:1fr 1fr;
   gap:12px;margin-bottom:20px;
@@ -285,8 +304,20 @@ input:focus{
 .summary-card{
   background:var(--card);
   border-radius:14px;padding:16px 14px;
-  box-shadow:0 2px 8px -2px rgba(11,31,69,0.08);
-  border-top:4px solid;
+  /* Lonbraj 3D ak ti rebò nan fon pou bay pwofondè */
+  box-shadow: 
+    0 4px 10px rgba(10,31,68,0.12), 
+    inset 0 -3px 0px rgba(0,0,0,0.06); 
+  border-top: 4px solid;
+  border-left: 1px solid rgba(0,0,0,0.03);
+  border-right: 1px solid rgba(0,0,0,0.03);
+  transition: transform 0.2s ease;
+}
+.summary-card:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 5px rgba(10,31,68,0.1), 
+    inset 0 -1px 0px rgba(0,0,0,0.06);
 }
 
 .summary-card.green{border-top-color:var(--green);}
@@ -323,18 +354,21 @@ input:focus{
 
 .section-header::after{
   content:"";flex:1;height:1.5px;
-  background:linear-gradient(90deg,var(--border),transparent);
+  background:linear-gradient(90deg,rgba(0,0,0,0.1),transparent);
 }
 
-/* Items de liste */
+/* Items de liste ak yon bèl ti efè 3D dous */
 .detail-item{
   background:var(--card);
   border-radius:10px;padding:13px 16px;
   margin-bottom:9px;
-  box-shadow:0 2px 6px -2px rgba(11,31,69,0.06);
+  box-shadow: 
+    0 3px 8px rgba(10,31,68,0.06),
+    inset 0 -2px 0px rgba(0,0,0,0.04);
   display:flex;align-items:center;
   justify-content:space-between;gap:12px;
   border-left:4px solid;
+  border-top: 1px solid rgba(255,255,255,0.7);
 }
 
 .detail-item.gold{border-left-color:var(--gold);}
@@ -359,12 +393,15 @@ input:focus{
 .detail-amount.purple{color:var(--purple);}
 .detail-amount.wine{color:#7A2B44;}
 
-/* Total global */
+/* Total global 3D */
 .total-global{
   background:linear-gradient(155deg,var(--navy) 0%,var(--navy-light) 100%);
   border-radius:16px;padding:20px;
   margin-top:20px;
-  box-shadow:0 12px 28px -10px rgba(11,31,69,0.45);
+  box-shadow: 
+    0 12px 28px -10px rgba(11,31,69,0.5),
+    inset 0 -4px 0px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .total-global-label{
@@ -413,6 +450,7 @@ input:focus{
   border:2px solid var(--border);border-radius:10px;
   font-size:15px;font-family:'Inter',sans-serif;
   background:#FAFBFD;color:var(--ink);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
 }
 .periode-row select:focus{
   outline:none;border-color:var(--navy-light);
@@ -644,7 +682,7 @@ input:focus{
   const db = getFirestore(app);
 
   // ===== MODPAS PASTEUR =====
-  const PASTEUR_PASSWORD = "pasteur2026"; // Chanje sa jan ou vle
+  const PASTEUR_PASSWORD = "pasteur2026"; 
 
   const loginScreen = document.getElementById('loginScreen');
   const pasteurScreen = document.getElementById('pasteurScreen');
@@ -662,7 +700,7 @@ input:focus{
 
   function getWeekRange(){
     const now = new Date();
-    const day = now.getDay(); // 0=dim
+    const day = now.getDay(); 
     const diff = now.getDate() - day + (day === 0 ? -6 : 1);
     const monday = new Date(now.setDate(diff));
     monday.setHours(0,0,0,0);
@@ -702,7 +740,6 @@ input:focus{
       sessionStorage.setItem('pasteurLoggedIn', 'true');
       loginScreen.style.display = 'none';
       pasteurScreen.style.display = 'flex';
-      document.body.style.background = 'var(--surface)';
       initSelectors();
       loadSemaine();
     } else {
@@ -718,7 +755,6 @@ input:focus{
       sessionStorage.removeItem('pasteurLoggedIn');
       pasteurScreen.style.display = 'none';
       loginScreen.style.display = 'flex';
-      document.body.style.background = 'var(--navy)';
       pwInput.value = '';
     }
   });
@@ -726,7 +762,6 @@ input:focus{
   if(sessionStorage.getItem('pasteurLoggedIn') === 'true'){
     loginScreen.style.display = 'none';
     pasteurScreen.style.display = 'flex';
-    document.body.style.background = 'var(--surface)';
     initSelectors();
     loadSemaine();
   }
@@ -749,8 +784,8 @@ input:focus{
     const currentYear = now.getFullYear();
     const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
 
-    // Mois
     const moisSel = document.getElementById('moisSelect');
+    moisSel.innerHTML = "";
     MOIS_NOMS.forEach((nom, i) => {
       const v = String(i+1).padStart(2,'0');
       const opt = document.createElement('option');
@@ -759,9 +794,9 @@ input:focus{
       moisSel.appendChild(opt);
     });
 
-    // Années (mois et année)
     const moisAnneeSel = document.getElementById('moisAnneeSelect');
     const anneeSel = document.getElementById('anneeSelect');
+    [moisAnneeSel, anneeSel].forEach(sel => sel.innerHTML = "");
     for(let y = currentYear; y >= currentYear - 4; y--){
       [moisAnneeSel, anneeSel].forEach(sel => {
         const opt = document.createElement('option');
@@ -788,7 +823,6 @@ input:focus{
 
     let offTotal = 0, donTotal = 0, depTotal = 0;
 
-    // Offrandes semaine
     try {
       const snap = await getDocs(collection(db, 'offrandes'));
       const offItems = [];
@@ -816,7 +850,6 @@ input:focus{
       }
     } catch(e){ console.error(e); }
 
-    // Dépenses semaine
     try {
       const snap = await getDocs(collection(db, 'depenses'));
       const depItems = [];
@@ -860,11 +893,10 @@ input:focus{
 
     const mois = document.getElementById('moisSelect').value;
     const annee = document.getElementById('moisAnneeSelect').value;
-    const moisKey = mois; // "01" à "12"
+    const moisKey = mois; 
 
     let dimeTotal = 0, offTotal = 0, donTotal = 0, depTotal = 0;
 
-    // Dîme
     try {
       const q = query(collection(db, 'dimes'), where('annee','==',parseInt(annee)));
       const snap = await getDocs(q);
@@ -889,7 +921,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Sainte Cène
     try {
       const q = query(collection(db, 'sainteCene'), where('annee','==',parseInt(annee)));
       const snap = await getDocs(q);
@@ -913,7 +944,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Offrandes
     try {
       const snap = await getDocs(collection(db, 'offrandes'));
       const offItems = [];
@@ -939,7 +969,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Dépenses
     try {
       const snap = await getDocs(collection(db, 'depenses'));
       const depItems = [];
@@ -989,7 +1018,6 @@ input:focus{
     const annee = document.getElementById('anneeSelect').value;
     let dimeTotal = 0, offTotal = 0, donTotal = 0, depTotal = 0;
 
-    // Dîme par mois
     try {
       const q = query(collection(db, 'dimes'), where('annee','==',parseInt(annee)));
       const snap = await getDocs(q);
@@ -1014,7 +1042,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Sainte Cène par mois
     try {
       const q = query(collection(db, 'sainteCene'), where('annee','==',parseInt(annee)));
       const snap = await getDocs(q);
@@ -1042,7 +1069,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Offrandes par type
     try {
       const snap = await getDocs(collection(db, 'offrandes'));
       const offParType = {};
@@ -1065,7 +1091,6 @@ input:focus{
           </div>`).join('');
     } catch(e){ console.error(e); }
 
-    // Dépenses par catégorie
     try {
       const snap = await getDocs(collection(db, 'depenses'));
       const depParCat = {};
