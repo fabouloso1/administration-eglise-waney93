@@ -10,9 +10,18 @@
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0A1F44">
-<link rel="icon" href="icon-192.png">
+<link class="favicon" rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
+  /* BEL DEGRADE CHO SOU BACKGROUND LAN */
+  body {
+    background: linear-gradient(160deg, #F5E3D8 0%, #EAD0BF 55%, #E0C0AC 100%) !important;
+    font-family: 'Inter', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    color: #0A1F44 !important;
+  }
+
   .rapport-wrap{
     width:100%;
     max-width:560px;
@@ -20,6 +29,8 @@
     display:flex;
     flex-direction:column;
     gap:18px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
   /* Sélecteur période */
@@ -33,6 +44,15 @@
     font-size:15px;
     padding:11px 12px;
     border-radius:6px;
+    border: 1.5px solid #D8D2C2;
+    background-color: white;
+    color: #0A1F44;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+  }
+
+  .periode-selector select:focus {
+    border-color: #1E3A8A;
   }
 
   /* Section card */
@@ -40,15 +60,17 @@
     background:#fff;
     border-radius:12px;
     overflow:hidden;
-    box-shadow:0 8px 24px -12px rgba(10,31,68,0.2), 0 0 0 1px rgba(0,0,0,0.03);
+    box-shadow:0 10px 25px -12px rgba(10,31,68,0.25), 0 0 0 1px rgba(0,0,0,0.03);
+    border: 1.5px solid #E3DDC9;
   }
 
   .section-card-header{
     padding:16px 20px 14px;
-    border-bottom:1px solid #EFEAE0;
+    border-bottom:1.5px solid #EFEAE0;
     display:flex;
     align-items:center;
     gap:10px;
+    background: #FAF8F5;
   }
 
   .section-card-icon{
@@ -62,8 +84,8 @@
   .section-card-title{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:17px;
-    color:var(--navy-deep);
+    font-size:17.5px;
+    color:#0A1F44;
     letter-spacing:0.01em;
   }
 
@@ -97,50 +119,51 @@
     white-space:nowrap;
   }
 
-  /* Couleurs par type */
-  .row-dime{background:#FBF8EF;}
-  .row-dime .rapport-row-amount{color:var(--gold);}
+  /* Koulè solid ak bèl kontras pou chak ranje */
+  .row-dime{background:#FBF8EF; border: 1px solid #E3DDC9;}
+  .row-dime .rapport-row-amount{color:#C9543A;}
 
-  .row-cene{background:#F6E7EB;}
+  .row-cene{background:#F6E7EB; border: 1px solid #EAD0BF;}
   .row-cene .rapport-row-amount{color:#7A2B44;}
 
-  .row-entree{background:#F2F9F5;}
-  .row-entree .rapport-row-amount{color:var(--success);}
+  .row-entree{background:#F2F9F5; border: 1px solid #D1E7DD;}
+  .row-entree .rapport-row-amount{color:#10B981;}
 
-  .row-sortie{background:#FBEDE8;}
-  .row-sortie .rapport-row-amount{color:var(--error);}
+  .row-sortie{background:#FBEDE8; border: 1px solid #F8D7DA;}
+  .row-sortie .rapport-row-amount{color:#EF4444;}
   .row-sortie .rapport-row-amount::before{content:"− ";}
 
-  .row-solde-positif{background:linear-gradient(165deg,#E8F3EC,#F2F9F5);}
-  .row-solde-positif .rapport-row-label{color:var(--success);font-weight:700;}
-  .row-solde-positif .rapport-row-amount{color:var(--success);font-size:19px;}
+  .row-solde-positif{background:linear-gradient(165deg,#E8F3EC,#F2F9F5); border: 1.5px solid #10B981;}
+  .row-solde-positif .rapport-row-label{color:#10B981;font-weight:700;}
+  .row-solde-positif .rapport-row-amount{color:#10B981;font-size:19px;}
 
-  .row-solde-negatif{background:linear-gradient(165deg,#FBEAE4,#FDF6F4);}
-  .row-solde-negatif .rapport-row-label{color:var(--error);font-weight:700;}
-  .row-solde-negatif .rapport-row-amount{color:var(--error);font-size:19px;}
+  .row-solde-negatif{background:linear-gradient(165deg,#FBEAE4,#FDF6F4); border: 1.5px solid #EF4444;}
+  .row-solde-negatif .rapport-row-label{color:#EF4444;font-weight:700;}
+  .row-solde-negatif .rapport-row-amount{color:#EF4444;font-size:19px;}
   .row-solde-negatif .rapport-row-amount::before{content:"− ";}
 
   .divider{
-    height:1px;
+    height:1.5px;
     background:#EFEAE0;
     margin:4px 0;
   }
 
-  /* Carte total global */
+  /* Bèl kat ble fonse pou total global la */
   .total-global-card{
-    background:linear-gradient(155deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    background:linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
     border-radius:12px;
     padding:22px 20px;
     box-shadow:0 12px 28px -12px rgba(10,31,68,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
   }
 
   .total-global-title{
-    font-size:13.5px;
-    font-weight:600;
-    color:var(--gold-soft);
+    font-size:14px;
+    font-weight:700;
+    color:#F5E3D8;
     letter-spacing:0.06em;
     text-transform:uppercase;
-    margin-bottom:6px;
+    margin-bottom:12px;
   }
 
   .total-global-rows{
@@ -159,13 +182,13 @@
   .total-global-row span:first-child{
     font-size:14px;
     font-weight:500;
-    color:rgba(255,255,255,0.65);
+    color:rgba(255,255,255,0.7);
   }
 
   .total-global-row span:last-child{
     font-family:'Fraunces',serif;
     font-weight:700;
-    font-size:15.5px;
+    font-size:16px;
     color:#fff;
   }
 
@@ -178,7 +201,7 @@
   .total-global-solde-label{
     font-size:13.5px;
     font-weight:600;
-    color:var(--gold-soft);
+    color:#F5E3D8;
     letter-spacing:0.04em;
     text-transform:uppercase;
     margin-bottom:4px;
@@ -240,7 +263,7 @@
   <!-- Seksyon 1 : Dîme (apa) -->
   <div class="section-card">
     <div class="section-card-header">
-      <div class="section-card-icon" style="background:#FBF8EF;color:var(--gold);">✦</div>
+      <div class="section-card-icon" style="background:#FBF8EF;color:#C9543A;">✦</div>
       <span class="section-card-title">Dîme</span>
     </div>
     <div class="section-card-body" id="dimBody">
@@ -262,7 +285,7 @@
   <!-- Seksyon 2 : Kès Général -->
   <div class="section-card">
     <div class="section-card-header">
-      <div class="section-card-icon" style="background:#F2F9F5;color:var(--success);">⇄</div>
+      <div class="section-card-icon" style="background:#F2F9F5;color:#10B981;">⇄</div>
       <span class="section-card-title">Caisse générale</span>
     </div>
     <div class="section-card-body" id="kesBody">
@@ -317,7 +340,6 @@
   const filterYear = document.getElementById('filterYear');
   const periodeLabel = document.getElementById('periodeLabel');
 
-  // Génère les années disponibles (5 ans en arrière + année courante)
   const currentYear = new Date().getFullYear();
   for (let y = currentYear; y >= currentYear - 4; y--) {
     const opt = document.createElement('option');
@@ -344,7 +366,6 @@
     const year = filterYear.value;
     const month = filterMonth.value;
 
-    // Met à jour le label de période
     const moisLabel = month ? MOIS_NOMS[parseInt(month)] : 'Toute l\'année';
     periodeLabel.textContent = `${moisLabel} ${year}`;
 
@@ -371,7 +392,7 @@
       </div>
     `;
 
-    // ===== 1bis. SAINTE CÈNE (présences, pas financier) =====
+    // ===== 1bis. SAINTE CÈNE =====
     let totalPresencesCene = 0;
     try {
       const q = query(collection(db, 'sainteCene'), where('annee', '==', parseInt(year)));
@@ -394,7 +415,7 @@
       </div>
     `;
 
-    // ===== 2. KÈS JENERAL : OFFRANDE + DON =====
+    // ===== 2. KÈS JENERAL =====
     let totalOffrande = 0;
     let totalDon = 0;
     try {
@@ -428,9 +449,8 @@
     const soldeKesClass = soldeKes >= 0 ? 'row-solde-positif' : 'row-solde-negatif';
     const soldeKesAbs = Math.abs(soldeKes);
 
-    // Détail dépenses par catégorie
     const detailDep = Object.entries(depensesParCat).map(([cat, mt]) => `
-      <div class="rapport-row row-sortie" style="opacity:0.75;padding:7px 14px;">
+      <div class="rapport-row row-sortie" style="opacity:0.85;padding:7px 14px;">
         <span class="rapport-row-label" style="font-weight:500;">${cat}</span>
         <span class="rapport-row-amount" style="font-size:14.5px;">${fmt(mt)}</span>
       </div>
