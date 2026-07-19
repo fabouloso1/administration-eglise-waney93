@@ -341,6 +341,7 @@
 <body>
 
 <div class="page-header">
+  <a href="membres.html" class="back-link">← Retour</a>
   <div class="seal"><img src="images.jpeg" alt="Logo Église de Dieu"></div>
   <h1>Église de Dieu de la Prophétie</h1>
   <p>Waney 93</p>
@@ -463,10 +464,9 @@
       </div>
     </div>
 
-    <!-- BOUTON ENREGISTRER AK RETOUR RANJE NAN PLAS YO NÈT -->
+    <!-- BOUTON ENREGISTRER -->
     <div class="action-buttons">
       <button type="submit" class="btn-enregistrer" id="btnSave">Enregistrer le membre</button>
-      <button type="button" class="btn-cancel" id="btnBack">Retour à la liste</button>
     </div>
 
     <div class="status-msg" id="statusMsg"></div>
@@ -504,7 +504,6 @@
 
   const form = document.getElementById('membreForm');
   const btnSave = document.getElementById('btnSave');
-  const btnBack = document.getElementById('btnBack');
   const statusMsg = document.getElementById('statusMsg');
   const membreIdInput = document.getElementById('membreId');
   const pageTitle = document.getElementById('pageTitle');
@@ -684,11 +683,6 @@
     } finally {
       btnSave.disabled = false;
     }
-  });
-
-  // BOUTON RETOUR KI AP DEPLASE AL SOU LIS LA REYÈLMAN
-  btnBack.addEventListener('click', () => {
-    window.location.href = 'membres-liste.html';
   });
 </script>
 
