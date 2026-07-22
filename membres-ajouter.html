@@ -33,6 +33,13 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
 
+  /* Retire l bar an lò pataje a (style.css) ki te antre an konfli ak espas anlè paj sa a
+     e ki t ap pase dwat nan mitan bouton "Retour" la */
+  .page-header::before{
+    display: none;
+    content: none;
+  }
+
   .seal {
     width: 85px;
     height: 85px;
@@ -360,6 +367,15 @@
   .member-counter .counter-number {
     color: #93C5FD;
     font-weight: 800;
+  }
+
+  /* ===== AFFICHAGE PC / GRAND ÉCRAN ===== */
+  @media (min-width: 700px){
+    .form-card{ max-width: 640px; }
+    .member-counter{ max-width: 360px; }
+  }
+  @media (min-width: 1000px){
+    .form-card{ max-width: 720px; }
   }
 </style>
 </head>
