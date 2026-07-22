@@ -137,6 +137,71 @@
     color:#9A9182;
     font-size:15px;
   }
+
+  /* BOUTON RECHERCHER */
+  .search-row{
+    display:flex;
+    gap:10px;
+  }
+  .search-row input{ flex:1; }
+
+  .btn-search{
+    padding:0 20px;
+    background:linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color:#fff;
+    border:none;
+    border-radius:3px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(30,58,138,0.3);
+    border-bottom:3px solid #061329;
+    transition:transform 0.1s ease;
+    white-space:nowrap;
+  }
+  .btn-search:active{ transform:translateY(2px); border-bottom-width:1px; }
+
+  /* LIS LÈT ALFABÈ */
+  .alphabet-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    justify-content:center;
+    margin-top:14px;
+  }
+
+  .letter-btn{
+    min-width:32px;
+    height:32px;
+    padding:0 8px;
+    border-radius:16px;
+    border:1.5px solid #D8D2C2;
+    background:#fff;
+    color:#1E3A8A;
+    font-size:13.5px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .letter-btn:hover{ border-color:#1E3A8A; }
+  .letter-btn.active{
+    background:linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    color:#fff;
+    border-color:#1E3A8A;
+    box-shadow:0 3px 8px rgba(30,58,138,0.3);
+  }
+  .letter-btn.all-btn{ font-size:13px; }
+
+  /* ===== AFFICHAGE PC / GRAND ÉCRAN ===== */
+  @media (min-width: 700px){
+    .search-wrap, .list-wrap{ max-width: 920px; }
+    .list-wrap{ grid-template-columns: repeat(3, 1fr); }
+    .alphabet-row{ max-width: 640px; margin-left:auto; margin-right:auto; }
+  }
+  @media (min-width: 1000px){
+    .search-wrap, .list-wrap{ max-width: 1080px; }
+    .list-wrap{ grid-template-columns: repeat(4, 1fr); }
+  }
 </style>
 </head>
 <body>
@@ -152,7 +217,39 @@
 <p class="section-sub">Cliquez sur un membre pour voir sa fiche complète</p>
 
 <div class="search-wrap">
-  <input type="text" id="filterInput" placeholder="Rechercher par nom ou prénom...">
+  <div class="search-row">
+    <input type="text" id="filterInput" placeholder="Rechercher par nom ou prénom...">
+    <button type="button" id="btnSearch" class="btn-search">🔍 Rechercher</button>
+  </div>
+  <div class="alphabet-row" id="alphabetRow">
+    <button type="button" class="letter-btn all-btn active" data-letter="">Tous</button>
+    <button type="button" class="letter-btn" data-letter="A">A</button>
+    <button type="button" class="letter-btn" data-letter="B">B</button>
+    <button type="button" class="letter-btn" data-letter="C">C</button>
+    <button type="button" class="letter-btn" data-letter="D">D</button>
+    <button type="button" class="letter-btn" data-letter="E">E</button>
+    <button type="button" class="letter-btn" data-letter="F">F</button>
+    <button type="button" class="letter-btn" data-letter="G">G</button>
+    <button type="button" class="letter-btn" data-letter="H">H</button>
+    <button type="button" class="letter-btn" data-letter="I">I</button>
+    <button type="button" class="letter-btn" data-letter="J">J</button>
+    <button type="button" class="letter-btn" data-letter="K">K</button>
+    <button type="button" class="letter-btn" data-letter="L">L</button>
+    <button type="button" class="letter-btn" data-letter="M">M</button>
+    <button type="button" class="letter-btn" data-letter="N">N</button>
+    <button type="button" class="letter-btn" data-letter="O">O</button>
+    <button type="button" class="letter-btn" data-letter="P">P</button>
+    <button type="button" class="letter-btn" data-letter="Q">Q</button>
+    <button type="button" class="letter-btn" data-letter="R">R</button>
+    <button type="button" class="letter-btn" data-letter="S">S</button>
+    <button type="button" class="letter-btn" data-letter="T">T</button>
+    <button type="button" class="letter-btn" data-letter="U">U</button>
+    <button type="button" class="letter-btn" data-letter="V">V</button>
+    <button type="button" class="letter-btn" data-letter="W">W</button>
+    <button type="button" class="letter-btn" data-letter="X">X</button>
+    <button type="button" class="letter-btn" data-letter="Y">Y</button>
+    <button type="button" class="letter-btn" data-letter="Z">Z</button>
+  </div>
 </div>
 <p class="count-indicator" id="countIndicator">Chargement...</p>
 
@@ -188,9 +285,11 @@
   const filterInput = document.getElementById('filterInput');
 
   let allMembers = [];
+  let activeLetter = '';
 
   function normalize(str){
-    return (str || '').toString().toLowerCase().trim();
+    return (str || '').toString().toLowerCase().trim()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   function renderCard(id, data){
@@ -243,22 +342,35 @@
   function applyFilter(){
     const term = normalize(filterInput.value);
 
-    if (!term) {
-      renderList(allMembers);
+    let filtered;
+    if (term) {
+      // Rechèch pa mòso tèks — jwenn tout moun ki gen "term" nan non OSWA siyati yo,
+      // nenpòt kote li ye (egzanp "dinville" jwenn "Dinville Fabrice" AK "Dinville Berthony")
+      filtered = allMembers.filter(({ data }) => {
+        const nom = normalize(data.nom);
+        const prenom = normalize(data.prenom);
+        const nomPrenom = `${nom} ${prenom}`.trim();
+        const prenomNom = `${prenom} ${nom}`.trim();
+        return nom.includes(term) || prenom.includes(term) || nomPrenom.includes(term) || prenomNom.includes(term);
+      });
+      countIndicator.textContent = `${filtered.length} membre(s) trouvé(s) pour "${filterInput.value.trim()}"`;
+    } else if (activeLetter) {
+      // Filtraj rapid pa lèt — non ki KOMANSE ak lèt la
+      filtered = allMembers.filter(({ data }) => normalize(data.nom).startsWith(activeLetter.toLowerCase()));
+      countIndicator.textContent = `${filtered.length} membre(s) — lèt "${activeLetter}"`;
+    } else {
+      filtered = allMembers;
       countIndicator.textContent = `${allMembers.length} membre(s)`;
-      return;
     }
 
-    const filtered = allMembers.filter(({ data }) => {
-      const nom = normalize(data.nom);
-      const prenom = normalize(data.prenom);
-      const nomPrenom = `${nom} ${prenom}`.trim();
-      const prenomNom = `${prenom} ${nom}`.trim();
-      return nom.includes(term) || prenom.includes(term) || nomPrenom.includes(term) || prenomNom.includes(term);
-    });
-
     renderList(filtered);
-    countIndicator.textContent = `${filtered.length} membre(s) trouvé(s)`;
+  }
+
+  function setActiveLetter(letter){
+    activeLetter = letter;
+    document.querySelectorAll('.letter-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.letter === letter);
+    });
   }
 
   async function loadMembers(){
@@ -282,7 +394,20 @@
     }
   }
 
-  filterInput.addEventListener('input', applyFilter);
+  filterInput.addEventListener('input', () => {
+    if (filterInput.value.trim()) setActiveLetter('');
+    applyFilter();
+  });
+
+  document.getElementById('btnSearch').addEventListener('click', applyFilter);
+
+  document.querySelectorAll('.letter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterInput.value = '';
+      setActiveLetter(btn.dataset.letter);
+      applyFilter();
+    });
+  });
 
   loadMembers();
 </script>

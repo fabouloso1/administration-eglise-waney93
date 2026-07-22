@@ -336,6 +336,31 @@
   .status-msg.ok { background: #DEF7EC; color: #03543F; border-left: 4px solid #31C48D; }
   .status-msg.err { background: #FDE8E8; color: #9B1C1C; border-left: 4px solid #F98080; }
   .status-msg.info { background: #EBF5FF; color: #1E429F; border-left: 4px solid #3F83F8; }
+
+  /* COMPTEUR DE MEMBRES */
+  .member-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: 320px;
+    margin: 0 auto 18px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #0A1F44 0%, #1E3A8A 100%);
+    border-radius: 24px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+  }
+  .member-counter .counter-icon { font-size: 17px; }
+  .member-counter .counter-text {
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .member-counter .counter-number {
+    color: #93C5FD;
+    font-weight: 800;
+  }
 </style>
 </head>
 <body>
@@ -349,6 +374,11 @@
 
 <p class="section-title" id="pageTitle">Enregistrer un membre</p>
 <p class="section-sub">Ajouter ou modifier les informations d'un fidèle</p>
+
+<div class="member-counter" id="memberCounter">
+  <span class="counter-icon">👥</span>
+  <span class="counter-text"><span class="counter-number" id="counterNumber">…</span> membres enregistrés</span>
+</div>
 
 <div class="form-card">
   <form id="membreForm" autocomplete="off">
@@ -482,6 +512,7 @@
     addDoc,
     doc,
     getDoc,
+    getDocs,
     updateDoc,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -590,6 +621,19 @@
     }
   }
 
+  // COMPTEUR DE MEMBRES ENREGISTRÉS
+  const counterNumber = document.getElementById('counterNumber');
+  async function loadMemberCount() {
+    try {
+      const snap = await getDocs(collection(db, 'membres'));
+      counterNumber.textContent = snap.size;
+    } catch (err) {
+      counterNumber.textContent = '?';
+      console.error(err);
+    }
+  }
+  loadMemberCount();
+
   function getFormData() {
     return {
       nom: document.getElementById('nom').value.trim().toUpperCase(),
@@ -672,6 +716,7 @@
         data.creeLe = serverTimestamp();
         await addDoc(collection(db, 'membres'), data);
         showStatus('Membre enregistré avec succès.', 'ok');
+        loadMemberCount();
         form.reset();
         setConditionMatrimoniale('');
         photoPreview.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>`;
